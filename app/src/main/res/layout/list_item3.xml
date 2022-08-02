@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x240">
+        <ImageButton
+            android:id="@+id/ibtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00000000" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/x160"
+            android:layout_height="@dimen/x160"
+            android:layout_marginStart="@dimen/x110"
+            app:civ_border_width="@dimen/x7"
+            android:elevation="@dimen/x3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:civ_border_color="#FFFFFFFF"/>
+        <ImageView
+            android:id="@+id/avatar_ball"
+            android:layout_width="@dimen/x16"
+            android:layout_height="@dimen/x16"
+            android:background="@drawable/search_item_ball"
+            app:layout_constraintStart_toEndOf="@+id/avatar"
+            app:layout_constraintTop_toTopOf="@+id/avatar" />
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x100"
+            android:text="待定"
+            android:singleLine="true"
+            android:maxWidth="@dimen/x640"
+            android:textColor="#FF3b414c"
+            android:textSize="@dimen/x63"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/avatar"
+            app:layout_constraintTop_toTopOf="@+id/avatar"
+            app:layout_constraintBottom_toBottomOf="@+id/avatar"/>
+
+        <ImageButton
+            android:id="@+id/mark"
+            android:layout_width="@dimen/x64"
+            android:layout_height="@dimen/x54"
+            android:layout_marginEnd="@dimen/x140"
+            android:layout_marginBottom="@dimen/x84"
+            android:adjustViewBounds="true"
+            android:background="@drawable/mark"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+        <ImageView
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/divider"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

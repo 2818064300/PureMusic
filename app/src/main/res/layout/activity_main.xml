@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".activity.MainActivity">
+
+    <com.mxn.soul.flowingdrawer_core.FlowingDrawer
+        android:id="@+id/main_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:edPosition="1"
+        app:edMenuSize="@dimen/x1200"
+        app:edMenuBackground="#f7f7ff"
+        app:edTouchBezelSize="@dimen/x560">
+
+        <!--content-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottom_navigation"
+                android:layout_width="@dimen/x0"
+                android:layout_height="wrap_content"
+                android:theme="@style/footButton"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:menu="@menu/nav_menu" />
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/ViewPaper"
+                android:layout_width="@dimen/x0"
+                android:layout_height="@dimen/x0"
+                app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <www.linwg.org.lib.LCardView
+                android:id="@+id/Play_bar"
+                android:layout_width="@dimen/x1380"
+                android:layout_height="@dimen/x220"
+                android:layout_marginBottom="@dimen/x10"
+                app:cornerRadius="@dimen/x80"
+                app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:shadowColor="@color/material_blue_700"
+                app:shadowFluidShape="linear"
+                app:shadowSize="@dimen/x30">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white">
+                    </ImageView>
+
+                    <TextView
+                        android:id="@+id/Bar_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x300"
+                        android:maxEms="9"
+                        android:singleLine="true"
+                        android:textColor="#FF3b414c"
+                        android:textSize="@dimen/x63"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/avatar_ball"
+                        android:layout_width="@dimen/x16"
+                        android:layout_height="@dimen/x16"
+                        android:layout_marginStart="@dimen/x24"
+                        android:background="@drawable/search_item_ball"
+                        app:layout_constraintStart_toEndOf="@+id/Bar_name"
+                        app:layout_constraintTop_toTopOf="@+id/Bar_name" />
+
+                    <ImageButton
+                        android:id="@+id/Play_button"
+                        android:layout_width="@dimen/x140"
+                        android:layout_height="@dimen/x140"
+                        android:layout_marginEnd="@dimen/x120"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/play"
+                        android:scaleType="centerInside"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </www.linwg.org.lib.LCardView>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/Avatar"
+                android:layout_width="@dimen/x200"
+                android:layout_height="@dimen/x200"
+                android:layout_marginStart="@dimen/x20"
+                app:layout_constraintBottom_toBottomOf="@id/Play_bar"
+                app:layout_constraintStart_toStartOf="@id/Play_bar"
+                app:layout_constraintTop_toTopOf="@+id/Play_bar" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--menu-->
+        <com.mxn.soul.flowingdrawer_core.FlowingMenuLayout
+            android:id="@+id/menulayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FFf7f7ff">
+
+                    <ImageView
+                        android:id="@+id/tab_top"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/x520"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/tab_top"
+                        android:scaleType="centerInside"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/tab_top2"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/x316"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/tab_top2"
+                        android:scaleType="centerInside"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tab_top" />
+
+                    <ImageButton
+                        android:id="@+id/tab_item1"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/x145"
+                        android:layout_marginTop="@dimen/x60"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/tab_item1"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/button_add_pressed2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tab_top2" />
+
+                    <ImageButton
+                        android:id="@+id/tab_item2"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/x145"
+                        android:layout_marginTop="@dimen/x60"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/tab_item2"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/button_add_pressed2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tab_item1" />
+
+                    <ImageButton
+                        android:id="@+id/tab_item3"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/x145"
+                        android:layout_marginTop="@dimen/x60"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/tab_item3"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/button_add_pressed2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tab_item2" />
+
+                    <ImageButton
+                        android:id="@+id/tab_item4"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/x145"
+                        android:layout_marginTop="@dimen/x60"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/tab_item4"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/button_add_pressed2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tab_item3" />
+
+                    <ImageButton
+                        android:id="@+id/tab_item5"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/x145"
+                        android:layout_marginTop="@dimen/x60"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/tab_item5"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/button_add_pressed2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tab_item4" />
+
+                    <ImageButton
+                        android:id="@+id/tab_item6"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/x145"
+                        android:layout_marginTop="@dimen/x60"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/tab_item6"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/button_add_pressed2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tab_item5" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+        </com.mxn.soul.flowingdrawer_core.FlowingMenuLayout>
+    </com.mxn.soul.flowingdrawer_core.FlowingDrawer>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x100">
+
+            <ImageButton
+                android:id="@+id/Search"
+                android:layout_width="@dimen/x1271"
+                android:layout_height="@dimen/x144"
+                android:adjustViewBounds="true"
+                android:background="@drawable/search"
+                android:scaleType="centerInside"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/Search_item"
+                android:layout_width="@dimen/x55"
+                android:layout_height="@dimen/x58"
+                android:layout_marginStart="@dimen/x75"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/search_item"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/Search"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/Keywords"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x80"
+                android:text="搜索"
+                android:textColor="#FFd4d8db"
+                android:textSize="@dimen/x49"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/Search_item"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/Result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x120"
+                    android:layout_marginTop="@dimen/x72"
+                    android:layout_marginBottom="@dimen/x40"
+                    android:text="搜索结果"
+                    android:textColor="#FF011148"
+                    android:textSize="@dimen/x63"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/play_all1"
+                    android:layout_width="@dimen/x175"
+                    android:layout_height="@dimen/x60"
+                    android:layout_marginStart="@dimen/x44"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/playall"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/button_add_pressed"
+                    app:layout_constraintBottom_toBottomOf="@+id/Result"
+                    app:layout_constraintLeft_toRightOf="@+id/Result"
+                    app:layout_constraintTop_toTopOf="@+id/Result" />
+
+                <ImageButton
+                    android:layout_width="@dimen/x310"
+                    android:layout_height="@dimen/x40"
+                    android:layout_marginStart="@dimen/x1000"
+                    android:background="@drawable/viewall"
+                    app:layout_constraintBottom_toBottomOf="@+id/play_all1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/play_all1" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x160"
+                android:background="@drawable/search_item_tips1" />
+            <ImageView
+                android:layout_width="@dimen/x195"
+                android:layout_height="@dimen/x21"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:layout_gravity="center"
+                android:background="@drawable/favorite_bar2" />
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                android:id="@+id/Refresh_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.scwang.smart.refresh.header.MaterialHeader
+                    android:id="@+id/material_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/Search_rv"
+                    android:divider="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none">
+                </androidx.recyclerview.widget.RecyclerView>
+                <com.scwang.smart.refresh.footer.BallPulseFooter
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/FAB"
+            android:layout_width="@dimen/x180"
+            android:layout_height="@dimen/x180"
+            android:layout_marginEnd="@dimen/x150"
+            android:layout_marginBottom="@dimen/x240"
+            android:backgroundTint="@color/white"
+            app:elevation="@dimen/x7"
+            app:icon="@android:drawable/stat_notify_sync"
+            app:iconTint="@color/blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

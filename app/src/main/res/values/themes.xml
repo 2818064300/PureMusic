@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.PureMusic" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@android:color/white</item>
+
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+    <style name="Material3" parent="Theme.Material3.Light.NoActionBar">
+        <item name="backgroundColor">#ffffff</item>
+    </style>
+    <style name="footButton" parent="Theme.PureMusic">
+        <item name="colorPrimary">#FF377dff</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
+    <style name="Theme.PureMusic.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.PureMusic.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.PureMusic.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

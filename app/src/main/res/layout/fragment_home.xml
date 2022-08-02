@@ -1,0 +1,844 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragment.HomeFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/title"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/Avatar"
+                    android:layout_width="@dimen/x200"
+                    android:layout_height="@dimen/x200"
+                    android:layout_marginStart="@dimen/x1120"
+                    android:layout_marginTop="@dimen/x150"
+                    android:elevation="2dp"
+                    app:civ_border_color="#FFFFFFFF"
+                    app:civ_border_width="2dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/Search"
+                    android:layout_width="@dimen/x1271"
+                    android:layout_height="@dimen/x144"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/search"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/button_add_pressed2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/Search_item"
+                    android:layout_width="@dimen/x55"
+                    android:layout_height="@dimen/x58"
+                    android:layout_marginStart="@dimen/x75"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/search_item"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/Search"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x80"
+                    android:text="搜索"
+                    android:textColor="#FFd4d8db"
+                    android:textSize="14dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/Search_item"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                android:id="@+id/Refresh_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.scwang.smart.refresh.header.MaterialHeader
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/list_item1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/x90"
+                            android:layout_marginTop="@dimen/x90"
+                            android:text="歌单推荐"
+                            android:textColor="#FF011148"
+                            android:textSize="18dp"
+                            android:textStyle="normal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:id="@+id/Label"
+                            android:layout_width="@dimen/x160"
+                            android:layout_height="@dimen/x56"
+                            android:layout_marginStart="@dimen/x44"
+                            android:background="@drawable/home_item"
+                            app:layout_constraintBottom_toBottomOf="@+id/list_item1"
+                            app:layout_constraintStart_toEndOf="@+id/list_item1"
+                            app:layout_constraintTop_toTopOf="@+id/list_item1" />
+
+                        <ImageButton
+                            android:id="@+id/ViewAll"
+                            android:layout_width="@dimen/x310"
+                            android:layout_height="@dimen/x40"
+                            android:layout_marginEnd="@dimen/x90"
+                            android:background="@drawable/viewall"
+                            app:layout_constraintBottom_toBottomOf="@+id/list_item1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/list_item1" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/CardGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:divider="@null"
+                            android:scrollbars="none"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/divider" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/list_item2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/x90"
+                            android:layout_marginTop="@dimen/x72"
+                            android:text="热门歌手"
+                            android:textColor="#FF011148"
+                            android:textSize="18dp"
+                            android:textStyle="normal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:layout_width="@dimen/x310"
+                            android:layout_height="@dimen/x40"
+                            android:layout_marginEnd="@dimen/x90"
+                            android:background="@drawable/viewall"
+                            app:layout_constraintBottom_toBottomOf="@+id/list_item2"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/list_item2" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/x80">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/CircleImageView1"
+                            android:layout_width="@dimen/x200"
+                            android:layout_height="@dimen/x200"
+                            android:layout_marginTop="@dimen/x56"
+                            android:layout_marginEnd="@dimen/x64"
+                            android:elevation="2dp"
+                            app:civ_border_color="#FFFFFFFF"
+                            app:civ_border_width="2dp"
+                            app:layout_constraintEnd_toStartOf="@+id/CircleImageView2"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/CircleImageView1_TextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/x50"
+                            app:layout_constraintEnd_toEndOf="@+id/CircleImageView1"
+                            app:layout_constraintStart_toStartOf="@+id/CircleImageView1"
+                            app:layout_constraintTop_toBottomOf="@+id/CircleImageView1" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/CircleImageView2"
+                            android:layout_width="@dimen/x200"
+                            android:layout_height="@dimen/x200"
+                            android:layout_marginTop="@dimen/x56"
+                            android:layout_marginEnd="@dimen/x64"
+                            android:elevation="2dp"
+                            app:civ_border_color="#FFFFFFFF"
+                            app:civ_border_width="2dp"
+                            app:layout_constraintEnd_toStartOf="@+id/CircleImageView3"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/CircleImageView2_TextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/x50"
+                            app:layout_constraintEnd_toEndOf="@+id/CircleImageView2"
+                            app:layout_constraintStart_toStartOf="@+id/CircleImageView2"
+                            app:layout_constraintTop_toBottomOf="@+id/CircleImageView2" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/CircleImageView3"
+                            android:layout_width="@dimen/x200"
+                            android:layout_height="@dimen/x200"
+                            android:layout_marginTop="@dimen/x56"
+                            android:elevation="2dp"
+                            app:civ_border_color="#FFFFFFFF"
+                            app:civ_border_width="2dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/CircleImageView3_TextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/x50"
+                            app:layout_constraintEnd_toEndOf="@+id/CircleImageView3"
+                            app:layout_constraintStart_toStartOf="@+id/CircleImageView3"
+                            app:layout_constraintTop_toBottomOf="@+id/CircleImageView3" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/CircleImageView4"
+                            android:layout_width="@dimen/x200"
+                            android:layout_height="@dimen/x200"
+                            android:layout_marginStart="@dimen/x64"
+                            android:layout_marginTop="@dimen/x56"
+                            android:elevation="2dp"
+                            app:civ_border_color="#FFFFFFFF"
+                            app:civ_border_width="2dp"
+                            app:layout_constraintStart_toEndOf="@+id/CircleImageView3"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/CircleImageView4_TextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/x50"
+                            app:layout_constraintEnd_toEndOf="@+id/CircleImageView4"
+                            app:layout_constraintStart_toStartOf="@+id/CircleImageView4"
+                            app:layout_constraintTop_toBottomOf="@+id/CircleImageView4" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/CircleImageView5"
+                            android:layout_width="@dimen/x200"
+                            android:layout_height="@dimen/x200"
+                            android:layout_marginStart="@dimen/x64"
+                            android:layout_marginTop="@dimen/x56"
+                            android:elevation="2dp"
+                            app:civ_border_color="#FFFFFFFF"
+                            app:civ_border_width="2dp"
+                            app:layout_constraintStart_toEndOf="@+id/CircleImageView4"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/CircleImageView5_TextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/x50"
+                            app:layout_constraintEnd_toEndOf="@+id/CircleImageView5"
+                            app:layout_constraintStart_toStartOf="@+id/CircleImageView5"
+                            app:layout_constraintTop_toBottomOf="@+id/CircleImageView5" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/divider" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/list_item3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/x90"
+                            android:layout_marginTop="@dimen/x72"
+                            android:text="每日歌曲推荐"
+                            android:textColor="#FF011148"
+                            android:textSize="18dp"
+                            android:textStyle="normal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:id="@+id/play_all1"
+                            android:layout_width="@dimen/x175"
+                            android:layout_height="@dimen/x60"
+                            android:layout_marginStart="@dimen/x44"
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/playall"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/button_add_pressed"
+                            app:layout_constraintBottom_toBottomOf="@+id/list_item3"
+                            app:layout_constraintStart_toEndOf="@+id/list_item3"
+                            app:layout_constraintTop_toTopOf="@+id/list_item3" />
+
+                        <ImageButton
+                            android:layout_width="@dimen/x310"
+                            android:layout_height="@dimen/x40"
+                            android:layout_marginEnd="@dimen/x90"
+                            android:background="@drawable/viewall"
+                            app:layout_constraintBottom_toBottomOf="@+id/play_all1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/play_all1" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <www.linwg.org.lib.LCardView
+                            android:layout_width="@dimen/x680"
+                            android:layout_height="@dimen/x435"
+                            android:layout_marginStart="@dimen/x35"
+                            android:layout_marginTop="@dimen/x34"
+                            android:layout_marginBottom="@dimen/x50"
+                            app:cornerRadius="@dimen/x48"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shadowColor="@color/material_blue_700"
+                            app:shadowFluidShape="linear"
+                            app:shadowSize="@dimen/x30">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:id="@+id/Card7_iv"
+                                    android:layout_width="@dimen/x540"
+                                    android:layout_height="@dimen/x190"
+                                    android:layout_marginTop="@dimen/x40"
+                                    android:adjustViewBounds="true"
+                                    android:background="@drawable/item1_bg1"
+                                    android:scaleType="centerInside"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/Card7_tv1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/x67"
+                                    android:layout_marginTop="@dimen/x36"
+                                    android:text="反方向的钟"
+                                    android:textColor="#FF171837"
+                                    android:textSize="10dp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/Card7_iv" />
+
+                                <TextView
+                                    android:id="@+id/Card7_tv2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/x70"
+                                    android:layout_marginTop="@dimen/x6"
+                                    android:text="九三 (cover: 周杰伦)"
+                                    android:textColor="#FF8a8d9c"
+                                    android:textSize="8dp"
+                                    android:textStyle="normal"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/Card7_tv1" />
+
+                                <ImageButton
+                                    android:layout_width="@dimen/x100"
+                                    android:layout_height="@dimen/x100"
+                                    android:layout_marginEnd="@dimen/x56"
+                                    android:layout_marginBottom="@dimen/x30"
+                                    android:adjustViewBounds="true"
+                                    android:background="@drawable/play"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/button_add_pressed"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </www.linwg.org.lib.LCardView>
+
+                        <www.linwg.org.lib.LCardView
+                            android:layout_width="@dimen/x680"
+                            android:layout_height="@dimen/x435"
+                            android:layout_marginTop="@dimen/x34"
+                            android:layout_marginEnd="@dimen/x35"
+                            android:layout_marginBottom="@dimen/x50"
+                            app:cornerRadius="@dimen/x48"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shadowColor="@color/material_blue_700"
+                            app:shadowFluidShape="linear"
+                            app:shadowSize="@dimen/x30">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:id="@+id/Card8_iv"
+                                    android:layout_width="@dimen/x540"
+                                    android:layout_height="@dimen/x190"
+                                    android:layout_marginTop="@dimen/x40"
+                                    android:adjustViewBounds="true"
+                                    android:background="@drawable/item1_bg2"
+                                    android:scaleType="centerInside"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/Card8_tv1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/x67"
+                                    android:layout_marginTop="@dimen/x36"
+                                    android:text="关键词"
+                                    android:textColor="#FF171837"
+                                    android:textSize="10dp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/Card8_iv" />
+
+                                <TextView
+                                    android:id="@+id/Card8_tv2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/x70"
+                                    android:layout_marginTop="@dimen/x6"
+                                    android:text="王巨星 (cover: 林俊杰)"
+                                    android:textColor="#FF8a8d9c"
+                                    android:textSize="8dp"
+                                    android:textStyle="normal"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/Card8_tv1" />
+
+                                <ImageButton
+                                    android:layout_width="@dimen/x100"
+                                    android:layout_height="@dimen/x100"
+                                    android:layout_marginEnd="@dimen/x56"
+                                    android:layout_marginBottom="@dimen/x30"
+                                    android:adjustViewBounds="true"
+                                    android:background="@drawable/play"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/button_add_pressed"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </www.linwg.org.lib.LCardView>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/divider" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/list_item4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/x90"
+                            android:layout_marginTop="@dimen/x72"
+                            android:text="最新音乐"
+                            android:textColor="#FF011148"
+                            android:textSize="18dp"
+                            android:textStyle="normal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:id="@+id/play_all2"
+                            android:layout_width="@dimen/x175"
+                            android:layout_height="@dimen/x60"
+                            android:layout_marginStart="@dimen/x44"
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/playall"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/button_add_pressed"
+                            app:layout_constraintBottom_toBottomOf="@+id/list_item4"
+                            app:layout_constraintStart_toEndOf="@+id/list_item4"
+                            app:layout_constraintTop_toTopOf="@+id/list_item4" />
+
+                        <ImageButton
+                            android:layout_width="@dimen/x310"
+                            android:layout_height="@dimen/x40"
+                            android:layout_marginEnd="@dimen/x90"
+                            android:background="@drawable/viewall"
+                            app:layout_constraintBottom_toBottomOf="@+id/play_all2"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/play_all2" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <www.linwg.org.lib.LCardView
+                            android:layout_width="@dimen/x680"
+                            android:layout_height="@dimen/x435"
+                            android:layout_marginStart="@dimen/x35"
+                            android:layout_marginTop="@dimen/x34"
+                            android:layout_marginBottom="@dimen/x50"
+                            app:cornerRadius="@dimen/x48"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shadowColor="@color/material_blue_700"
+                            app:shadowFluidShape="linear"
+                            app:shadowSize="@dimen/x30">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:id="@+id/Card9_iv"
+                                    android:layout_width="@dimen/x540"
+                                    android:layout_height="@dimen/x190"
+                                    android:layout_marginTop="@dimen/x40"
+                                    android:adjustViewBounds="true"
+                                    android:background="@drawable/item1_bg3"
+                                    android:scaleType="centerInside"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/Card9_tv1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/x67"
+                                    android:layout_marginTop="@dimen/x36"
+                                    android:text="雨爱"
+                                    android:textColor="#FF171837"
+                                    android:textSize="10dp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/Card9_iv" />
+
+                                <TextView
+                                    android:id="@+id/Card9_tv2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/x70"
+                                    android:layout_marginTop="@dimen/x6"
+                                    android:text="不是花火呀"
+                                    android:textColor="#FF8a8d9c"
+                                    android:textSize="8dp"
+                                    android:textStyle="normal"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/Card9_tv1" />
+
+                                <ImageButton
+                                    android:layout_width="@dimen/x100"
+                                    android:layout_height="@dimen/x100"
+                                    android:layout_marginEnd="@dimen/x56"
+                                    android:layout_marginBottom="@dimen/x30"
+                                    android:adjustViewBounds="true"
+                                    android:background="@drawable/play"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/button_add_pressed"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </www.linwg.org.lib.LCardView>
+
+                        <www.linwg.org.lib.LCardView
+                            android:layout_width="@dimen/x680"
+                            android:layout_height="@dimen/x435"
+                            android:layout_marginTop="@dimen/x34"
+                            android:layout_marginEnd="@dimen/x35"
+                            android:layout_marginBottom="@dimen/x50"
+                            app:cornerRadius="@dimen/x48"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shadowColor="@color/material_blue_700"
+                            app:shadowFluidShape="linear"
+                            app:shadowSize="@dimen/x30">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:id="@+id/Card10_iv"
+                                    android:layout_width="@dimen/x540"
+                                    android:layout_height="@dimen/x190"
+                                    android:layout_marginTop="@dimen/x40"
+                                    android:adjustViewBounds="true"
+                                    android:background="@drawable/item1_bg4"
+                                    android:scaleType="centerInside"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/Card10_tv1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/x67"
+                                    android:layout_marginTop="@dimen/x36"
+                                    android:text="我的一个道姑朋友"
+                                    android:textColor="#FF171837"
+                                    android:textSize="10dp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/Card10_iv" />
+
+                                <TextView
+                                    android:id="@+id/Card10_tv2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/x70"
+                                    android:layout_marginTop="@dimen/x6"
+                                    android:text="九三 (cover: 双笙)"
+                                    android:textColor="#FF8a8d9c"
+                                    android:textSize="8dp"
+                                    android:textStyle="normal"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/Card10_tv1" />
+
+                                <ImageButton
+                                    android:layout_width="@dimen/x100"
+                                    android:layout_height="@dimen/x100"
+                                    android:layout_marginEnd="@dimen/x56"
+                                    android:layout_marginBottom="@dimen/x30"
+                                    android:adjustViewBounds="true"
+                                    android:background="@drawable/play"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/button_add_pressed"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </www.linwg.org.lib.LCardView>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/divider" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/list_item5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/x90"
+                            android:layout_marginTop="@dimen/x72"
+                            android:layout_marginBottom="@dimen/x40"
+                            android:text="热门视频"
+                            android:textColor="#FF011148"
+                            android:textSize="18dp"
+                            android:textStyle="normal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:id="@+id/play_all3"
+                            android:layout_width="@dimen/x175"
+                            android:layout_height="@dimen/x60"
+                            android:layout_marginStart="@dimen/x44"
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/playall"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/button_add_pressed"
+                            app:layout_constraintBottom_toBottomOf="@+id/list_item5"
+                            app:layout_constraintStart_toEndOf="@+id/list_item5"
+                            app:layout_constraintTop_toTopOf="@+id/list_item5" />
+
+                        <ImageButton
+                            android:layout_width="@dimen/x310"
+                            android:layout_height="@dimen/x40"
+                            android:layout_marginEnd="@dimen/x90"
+                            android:background="@drawable/viewall"
+                            app:layout_constraintBottom_toBottomOf="@+id/play_all3"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/play_all3" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/x20"
+                        android:layout_marginBottom="@dimen/x60">
+
+                        <ImageButton
+                            android:id="@+id/item5_ibtn1"
+                            android:layout_width="@dimen/x281"
+                            android:layout_height="@dimen/x366"
+                            android:layout_marginStart="@dimen/x93"
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/btn_pressed2"
+                            android:scaleType="centerInside"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:layout_width="@dimen/x100"
+                            android:layout_height="@dimen/x100"
+                            android:layout_marginEnd="@dimen/x20"
+                            android:layout_marginBottom="@dimen/x26"
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/play"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/button_add_pressed"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/item5_ibtn1" />
+
+                        <ImageButton
+                            android:id="@+id/item5_ibtn2"
+                            android:layout_width="@dimen/x281"
+                            android:layout_height="@dimen/x366"
+                            android:layout_marginStart="@dimen/x44"
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/btn_pressed2"
+                            android:scaleType="centerInside"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/item5_ibtn1"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:layout_width="@dimen/x100"
+                            android:layout_height="@dimen/x100"
+                            android:layout_marginEnd="@dimen/x20"
+                            android:layout_marginBottom="@dimen/x26"
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/play"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/button_add_pressed"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/item5_ibtn2" />
+
+                        <ImageButton
+                            android:id="@+id/item5_ibtn3"
+                            android:layout_width="@dimen/x281"
+                            android:layout_height="@dimen/x366"
+                            android:layout_marginStart="@dimen/x44"
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/btn_pressed2"
+                            android:scaleType="centerInside"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/item5_ibtn2"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:layout_width="@dimen/x100"
+                            android:layout_height="@dimen/x100"
+                            android:layout_marginEnd="@dimen/x20"
+                            android:layout_marginBottom="@dimen/x26"
+                            android:background="@drawable/play"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/item5_ibtn3" />
+
+                        <ImageButton
+                            android:id="@+id/item5_ibtn4"
+                            android:layout_width="@dimen/x281"
+                            android:layout_height="@dimen/x366"
+                            android:layout_marginStart="@dimen/x44"
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/btn_pressed2"
+                            android:scaleType="centerInside"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/item5_ibtn3"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:layout_width="@dimen/x100"
+                            android:layout_height="@dimen/x100"
+                            android:layout_marginEnd="@dimen/x20"
+                            android:layout_marginBottom="@dimen/x26"
+                            android:background="@drawable/play"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/item5_ibtn4" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/divider" />
+                </LinearLayout>
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

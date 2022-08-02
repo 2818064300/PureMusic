@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2525" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/drawable/button_add_pressed.xml" value="0.2685" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/drawable/button_add_pressed2.xml" value="0.2685" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2525" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/drawable/shape_radius.xml" value="0.2685" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/activity_info.xml" value="0.5296875" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/activity_intro.xml" value="0.22" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/activity_leaderboard.xml" value="0.5151041666666667" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/activity_loading.xml" value="0.22" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/activity_login.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/activity_player.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/activity_pre_search.xml" value="0.5296875" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/activity_search.xml" value="0.5151041666666667" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/activity_singer.xml" value="0.5151041666666667" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/activity_song_list.xml" value="0.22" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/activity_splash.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/activity_square.xml" value="0.5151041666666667" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/content_main.xml" value="0.5296875" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/fragment_first.xml" value="0.5296875" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/fragment_home.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/fragment_leaderboard.xml" value="0.22" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/fragment_music.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/fragment_square1.xml" value="0.5296875" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/fragment_square2.xml" value="0.5151041666666667" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/fragment_square3.xml" value="0.5151041666666667" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/fragment_square4.xml" value="0.5151041666666667" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/fragment_square5.xml" value="0.5151041666666667" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/fragment_video.xml" value="0.5151041666666667" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/list_item.xml" value="0.4546296296296296" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/list_item2.xml" value="0.5296875" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/list_item3.xml" value="0.5296875" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/list_item4.xml" value="0.5296875" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/list_item5.xml" value="0.5296875" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/layout/list_item6.xml" value="0.4546296296296296" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/menu/menu_main.xml" value="0.5296875" />
+        <entry key="..\:/Users/28180/AndroidStudioProjects/PureMusic/app/src/main/res/menu/nav_menu.xml" value="0.5296875" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+</project>

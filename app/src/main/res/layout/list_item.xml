@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x240">
+
+        <ImageButton
+            android:id="@+id/ibtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00000000" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/x160"
+            android:layout_height="@dimen/x160"
+            android:layout_marginStart="@dimen/x110"
+            app:civ_border_width="@dimen/x7"
+            android:elevation="@dimen/x3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:civ_border_color="#FFFFFFFF"/>
+        <ImageView
+            android:id="@+id/avatar_ball"
+            android:layout_width="@dimen/x16"
+            android:layout_height="@dimen/x16"
+            android:background="@drawable/search_item_ball"
+            app:layout_constraintStart_toEndOf="@+id/avatar"
+            app:layout_constraintTop_toTopOf="@+id/avatar" />
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x100"
+            android:layout_marginTop="@dimen/x50"
+            android:text="待定"
+            android:maxWidth="@dimen/x640"
+            android:singleLine="true"
+            android:textColor="#FF3b414c"
+            android:textSize="@dimen/x63"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/avatar"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x100"
+            android:layout_marginTop="@dimen/x10"
+            android:text="待定"
+            android:singleLine="true"
+            android:maxWidth="@dimen/x560"
+            android:textColor="#FFc1c1c3"
+            android:textSize="@dimen/x49"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/avatar"
+            app:layout_constraintTop_toBottomOf="@+id/tv1" />
+
+        <ImageButton
+            android:id="@+id/play"
+            android:layout_width="@dimen/x64"
+            android:layout_height="@dimen/x64"
+            android:layout_marginEnd="@dimen/x56"
+            android:adjustViewBounds="true"
+            android:background="@drawable/play2"
+            android:scaleType="centerInside"
+            app:layout_constraintTop_toTopOf="@+id/more"
+            app:layout_constraintBottom_toBottomOf="@+id/more"
+            app:layout_constraintEnd_toStartOf="@+id/mark" />
+
+        <ImageButton
+            android:id="@+id/mark"
+            android:layout_width="@dimen/x64"
+            android:layout_height="@dimen/x54"
+            android:layout_marginEnd="@dimen/x56"
+            android:adjustViewBounds="true"
+            android:background="@drawable/mark"
+            android:scaleType="centerInside"
+            app:layout_constraintTop_toTopOf="@+id/more"
+            app:layout_constraintBottom_toBottomOf="@+id/more"
+            app:layout_constraintEnd_toStartOf="@+id/more" />
+
+        <ImageView
+            android:id="@+id/more"
+            android:layout_width="@dimen/x12"
+            android:layout_height="@dimen/x54"
+            android:layout_marginEnd="@dimen/x140"
+            android:layout_marginBottom="@dimen/x84"
+            android:adjustViewBounds="true"
+            android:background="@drawable/more"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="@dimen/x180"
+            android:layout_height="@dimen/x10"
+            android:src="@drawable/search_item_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x80"
+            android:background="#00000000"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/comment"
+            android:layout_width="@dimen/x56"
+            android:layout_height="@dimen/x54"
+            android:layout_marginStart="@dimen/x140"
+            android:background="@drawable/comment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/fly"
+            android:layout_width="@dimen/x56"
+            android:layout_height="@dimen/x54"
+            android:layout_marginEnd="@dimen/x360"
+            android:background="@drawable/fly"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/pop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x30"
+            android:text="0"
+            android:textColor="#FFb0b6c6"
+            android:textSize="@dimen/x38"
+            app:layout_constraintStart_toEndOf="@+id/comment"
+            app:layout_constraintTop_toTopOf="@+id/comment" />
+
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x40"
+            android:text="网易云音乐"
+            android:textColor="#FFb0b6c6"
+            android:textSize="@dimen/x38"
+            app:layout_constraintStart_toEndOf="@+id/fly"
+            app:layout_constraintTop_toTopOf="@+id/comment" />
+
+        <ImageView
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/x100"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/divider"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
