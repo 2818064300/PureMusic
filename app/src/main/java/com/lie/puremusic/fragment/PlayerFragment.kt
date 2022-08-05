@@ -104,7 +104,9 @@ class PlayerFragment : Fragment(), View.OnClickListener{
                 }
             }
 
-            override fun onSingleTapUp() {}
+            override fun onSingleTapUp() {
+
+            }
         })
         initView()
         val path =
