@@ -8,6 +8,10 @@
 
 > [Pure Music](http://www.puremusic.com.cn/)
 
+## 环境要求
+
+- 需要 Android 10.0 以上 环境
+
 ## 🚀 特点功能
 
 - 极致简约的设计
@@ -26,6 +30,15 @@
 
 ## 📃更新日志
 
+- **2022/8/05**
+
+1. 采用异步请求方式,减少bug发生率
+2. 完善应用内版本更新检测
+3. 修复播放概率闪退bug
+4. 修复播放列表异常bug
+5. 改善页面跳转逻辑
+6. 优化App性能
+
 - **2022/8/02**
 
 1. 重新绘制侧滑栏
@@ -41,6 +54,11 @@
 5. 修复云端歌曲异常bug
 
 ## 🐛已知bug
+
+- **2022/8/05**
+
+1. 排行榜界面无法进入
+2. 界面跳转异常
 
 - **2022/7/16**
 
@@ -70,7 +88,7 @@
 
 [hdodenhof/CircleImageView](https://github.com/hdodenhof/CircleImageView)
 
-[GrenderG/Toasty)](https://github.com/GrenderG/Toasty)
+[GrenderG/Toasty](https://github.com/GrenderG/Toasty)
 
 [gyf-dev/ImmersionBar](https://github.com/gyf-dev/ImmersionBar)
 
@@ -93,3 +111,4 @@
 [mxn21/FlowingDrawer](https://github.com/mxn21/FlowingDrawer)
 
 [linwg1988/LCardView](https://github.com/linwg1988/LCardView)
+
