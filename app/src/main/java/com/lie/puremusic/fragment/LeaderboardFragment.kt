@@ -34,10 +34,6 @@ class LeaderboardFragment : Fragment() {
             startActivity(intent)
         })
         binding.HotSongs.setOnClickListener(View.OnClickListener {
-            StaticData.SongsList_ID = 62
-            StaticData.Style = "Leaderboard"
-            val intent: Intent
-            StaticData.Root = "网易云音乐"
 //            if (!StaticData.Containr.contains(
 //                    StaticData.Home.getSongsLists()?.get(StaticData.SongsList_ID)?.getId()
 //                )
@@ -50,10 +46,6 @@ class LeaderboardFragment : Fragment() {
 //            startActivity(intent)
         })
         binding.NewSongs1.setOnClickListener(View.OnClickListener {
-            StaticData.SongsList_ID = 61
-            StaticData.Style = "Leaderboard"
-            val intent: Intent
-            StaticData.Root = "网易云音乐"
 //            if (!StaticData.Containr.contains(
 //                    StaticData.Home.getSongsLists()?.get(StaticData.SongsList_ID)?.getId()
 //                )
@@ -66,10 +58,6 @@ class LeaderboardFragment : Fragment() {
 //            startActivity(intent)
         })
         binding.NewSongs2.setOnClickListener(View.OnClickListener {
-            StaticData.SongsList_ID = 61
-            StaticData.Style = "Leaderboard"
-            val intent: Intent
-            StaticData.Root = "网易云音乐"
 //            if (!StaticData.Containr.contains(
 //                    StaticData.Home.getSongsLists()?.get(StaticData.SongsList_ID)?.getId()
 //                )
@@ -82,10 +70,6 @@ class LeaderboardFragment : Fragment() {
 //            startActivity(intent)
         })
         binding.NewSongs3.setOnClickListener(View.OnClickListener {
-            StaticData.SongsList_ID = 61
-            StaticData.Style = "Leaderboard"
-            val intent: Intent
-            StaticData.Root = "网易云音乐"
 //            if (!StaticData.Containr.contains(
 //                    StaticData.Home.getSongsLists()?.get(StaticData.SongsList_ID)?.getId()
 //                )

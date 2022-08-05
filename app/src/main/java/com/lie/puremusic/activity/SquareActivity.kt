@@ -25,7 +25,6 @@ class SquareActivity : AppCompatActivity() {
     private val squareFragment3: SquareFragment3 = SquareFragment3()
     private val squareFragment4: SquareFragment4 = SquareFragment4()
     private val squareFragment5: SquareFragment5 = SquareFragment5()
-    private val homeFragment: HomeFragment = HomeFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

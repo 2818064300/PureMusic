@@ -20,8 +20,9 @@ class IntroActivity : AppCompatActivity() {
             statusBarDarkFont(true)
         }
         binding.introBtn.setOnClickListener {
-            StaticData.Style = "UserInfo"
-            startActivity(Intent(this@IntroActivity, LoadingActivity::class.java))
+            val intent = Intent(this@IntroActivity, LoadingActivity::class.java)
+            intent.putExtra("style","UserInfo")
+            startActivity(intent)
             this@IntroActivity.finish()
         }
     }

@@ -20,10 +20,11 @@ import com.lie.puremusic.listener.AppBarStateChangeListener
 import com.lie.puremusic.pojo.Singer
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
 import org.json.JSONObject
+import java.io.IOException
 import java.util.*
+import java.util.concurrent.Executors
 
 class SingerActivity : AppCompatActivity(){
     private var Singer: Singer? = null
@@ -31,6 +32,7 @@ class SingerActivity : AppCompatActivity(){
     private val btn_group: MutableList<ImageButton?> = ArrayList()
     private val tv_group: MutableList<TextView?> = ArrayList()
     private var last_SelectID = 0
+    private val pools = Executors.newCachedThreadPool()
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,14 +45,10 @@ class SingerActivity : AppCompatActivity(){
         }
 
         initbtn()
-        if (StaticData.Style.equals("SingerList")) {
-            Singer = StaticData.Home.getSingers()?.get(StaticData.Singer_ID)
-        }
-        if (StaticData.Style.equals("SearchSinger")) {
-            Singer = StaticData.Result.getSingers()?.get(StaticData.Singer_Result_ID)
-        }
-        if (StaticData.Style.equals("Singer_ID")) {
-            Singer = StaticData.Singer
+        when (intent.getStringExtra("style")) {
+            "SingerList" -> Singer = StaticData.Home.getSingers()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
+            "SearchSinger" -> Singer = StaticData.Result.getSingers()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
+            "Singer_ID" -> Singer = StaticData.Singer
         }
         if (StaticData.Containr.contains(Singer?.getId())) {
             binding.RefreshLayout.autoRefresh(200)
@@ -117,6 +115,56 @@ class SingerActivity : AppCompatActivity(){
         }
         binding.SingerName.setText(Singer?.getName())
         binding.SingerStyle.setText("华语歌手")
+
+        Thread {
+            for (j in 0 until StaticData.PlayList.size) {
+                pools.submit {
+                    var url =
+                        "http://www.puremusic.com.cn:3000/song/detail?ids=" + StaticData.PlayList
+                            ?.get(j)?.getId()
+                    val request: Request = Request.Builder()
+                        .url(url)
+                        .addHeader("cookie", StaticData.cookie)
+                        .method("GET", null)
+                        .build()
+
+                    OkHttpClient().newCall(request)
+                        .enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
+                            }
+
+                            override fun onResponse(call: Call, response: Response) {
+                                val songs = JSONObject(response.body?.string()).getJSONArray("songs")
+                                var Songs = StaticData.PlayList.get(j)
+                                Songs?.setName(songs.getJSONObject(0).getString("name"))
+                                for (i in 0 until songs.getJSONObject(0).getJSONArray("ar")
+                                    .length()) {
+                                    val singer = Singer(
+                                        songs.getJSONObject(0).getJSONArray("ar").getJSONObject(i)
+                                            .getString("id")
+                                    )
+                                    singer.setName(
+                                        songs.getJSONObject(0).getJSONArray("ar").getJSONObject(i)
+                                            .getString("name")
+                                    )
+                                    Songs?.getSingers()?.add(singer)
+                                }
+                                Songs?.setCover_url(
+                                    songs.getJSONObject(0).getJSONObject("al").getString("picUrl")
+                                )
+                                Songs?.setFee(songs.getJSONObject(0).getInt("fee"))
+                                Songs?.setPop(songs.getJSONObject(0).getInt("pop"))
+                                Songs?.setTime(songs.getJSONObject(0).getInt("dt"))
+                                Songs?.setStyle("NeteaseCloudMusic")
+                            }
+                        })
+
+                }
+            }
+            pools.shutdown()
+        }.start()
+
+
         val adapter = MyRecyclerAdapter(this, StaticData.PlayList)
         val alphaAdapter = AlphaInAnimationAdapter(adapter)
         binding.SingerRv.setAdapter(AlphaInAnimationAdapter(alphaAdapter))
@@ -140,16 +188,6 @@ class SingerActivity : AppCompatActivity(){
                     .load(R.drawable.avatar)
                     .into(binding.Avatar)
             }
-            Thread {
-                val request: Request = Request.Builder()
-                    .url("https://v1.hitokoto.cn")
-                    .build()
-                val response = OkHttpClient().newCall(request).execute()
-                val jsonObject = response.body?.string()?.let { JSONObject(it) }
-                StaticData.hitokoto.setHitokoto(jsonObject?.getString("hitokoto"))
-                StaticData.hitokoto.setFrom(jsonObject?.getString("from"))
-                StaticData.hitokoto.setFrom_who(jsonObject?.getString("from_who"))
-            }.start()
             refreshLayout.finishRefresh()
         })
     }
@@ -202,6 +240,7 @@ class SingerActivity : AppCompatActivity(){
 
     override fun finish() {
         super.finish()
+        pools.shutdown()
         overridePendingTransition(R.anim.bottom_in, R.anim.bottom_out)
     }
 }

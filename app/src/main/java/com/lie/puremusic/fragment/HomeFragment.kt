@@ -62,89 +62,90 @@ class HomeFragment : Fragment() {
             )
         }
         binding.CircleImageView1.setOnClickListener {
-            StaticData.Singer_ID = 0
-            StaticData.Style = "SingerList"
-            val intent: Intent
-            StaticData.Root = "网易云音乐"
-            if (!StaticData.Containr.contains(
-                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getId()
-                )
-            ) {
-                intent = Intent(activity, LoadingActivity::class.java)
-            } else {
-                StaticData.PlayList =
-                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getSongs()!!
-                intent = Intent(activity, SingerActivity::class.java)
-            }
+
+            val intent = Intent(context, LoadingActivity::class.java)
+            intent.putExtra("style","SingerList")
+            intent.putExtra("index",0)
             startActivity(intent)
+
+//            if (!StaticData.Containr.contains(
+//                    StaticData.Home.getSingers()?.get(0)?.getId()
+//                )
+//            ) {
+//                intent = Intent(activity, LoadingActivity::class.java)
+//            } else {
+//                StaticData.PlayList = StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getSongs()!!
+//                intent = Intent(activity, SingerActivity::class.java)
+//            }
+//            startActivity(intent)
         }
         binding.CircleImageView2.setOnClickListener {
-            StaticData.Singer_ID = 1
-            StaticData.Style = "SingerList"
-            val intent: Intent
-            StaticData.Root = "网易云音乐"
-            if (!StaticData.Containr.contains(
-                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getId()
-                )
-            ) {
-                intent = Intent(activity, LoadingActivity::class.java)
-            } else {
-                StaticData.PlayList =
-                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getSongs()!!
-                intent = Intent(activity, SingerActivity::class.java)
-            }
+            val intent = Intent(context, LoadingActivity::class.java)
+            intent.putExtra("style","SingerList")
+            intent.putExtra("index",1)
             startActivity(intent)
+//            if (!StaticData.Containr.contains(
+//                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getId()
+//                )
+//            ) {
+//                intent = Intent(activity, LoadingActivity::class.java)
+//            } else {
+//                StaticData.PlayList =
+//                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getSongs()!!
+//                intent = Intent(activity, SingerActivity::class.java)
+//            }
+//            startActivity(intent)
         }
         binding.CircleImageView3.setOnClickListener {
-            StaticData.Singer_ID = 2
-            StaticData.Style = "SingerList"
-            val intent: Intent
-            StaticData.Root = "网易云音乐"
-            if (!StaticData.Containr.contains(
-                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getId()
-                )
-            ) {
-                intent = Intent(activity, LoadingActivity::class.java)
-            } else {
-                StaticData.PlayList =
-                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getSongs()!!
-                intent = Intent(activity, SingerActivity::class.java)
-            }
+            val intent = Intent(context, LoadingActivity::class.java)
+            intent.putExtra("style","SingerList")
+            intent.putExtra("index",2)
             startActivity(intent)
+//            if (!StaticData.Containr.contains(
+//                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getId()
+//                )
+//            ) {
+//                intent = Intent(activity, LoadingActivity::class.java)
+//            } else {
+//                StaticData.PlayList =
+//                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getSongs()!!
+//                intent = Intent(activity, SingerActivity::class.java)
+//            }
+//            startActivity(intent)
         }
         binding.CircleImageView4.setOnClickListener {
-            StaticData.Singer_ID = 3
-            StaticData.Style = "SingerList"
-            val intent: Intent
-            StaticData.Root = "网易云音乐"
-            if (!StaticData.Containr.contains(
-                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getId()
-                )
-            ) {
-                intent = Intent(activity, LoadingActivity::class.java)
-            } else {
-                StaticData.PlayList =
-                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getSongs()!!
-                intent = Intent(activity, SingerActivity::class.java)
-            }
+            val intent = Intent(context, LoadingActivity::class.java)
+            intent.putExtra("style","SingerList")
+            intent.putExtra("index",3)
             startActivity(intent)
+//            if (!StaticData.Containr.contains(
+//                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getId()
+//                )
+//            ) {
+//                intent = Intent(activity, LoadingActivity::class.java)
+//            } else {
+//                StaticData.PlayList =
+//                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getSongs()!!
+//                intent = Intent(activity, SingerActivity::class.java)
+//            }
+//            startActivity(intent)
         }
         binding.CircleImageView5.setOnClickListener {
-            StaticData.Singer_ID = 4
-            StaticData.Style = "SingerList"
-            val intent: Intent
-            StaticData.Root = "网易云音乐"
-            if (!StaticData.Containr.contains(
-                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getId()
-                )
-            ) {
-                intent = Intent(activity, LoadingActivity::class.java)
-            } else {
-                StaticData.PlayList =
-                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getSongs()!!
-                intent = Intent(activity, SingerActivity::class.java)
-            }
+            val intent = Intent(context, LoadingActivity::class.java)
+            intent.putExtra("style","SingerList")
+            intent.putExtra("index",4)
             startActivity(intent)
+//            if (!StaticData.Containr.contains(
+//                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getId()
+//                )
+//            ) {
+//                intent = Intent(activity, LoadingActivity::class.java)
+//            } else {
+//                StaticData.PlayList =
+//                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getSongs()!!
+//                intent = Intent(activity, SingerActivity::class.java)
+//            }
+//            startActivity(intent)
         }
         binding.Card7Iv.setOnClickListener {
             StaticData.Songs = StaticData.Cloud.get(0)
@@ -163,14 +164,9 @@ class HomeFragment : Fragment() {
             ClickLocalMusic()
         }
         binding.ViewAll.setOnClickListener {
-            StaticData.Style = "Square"
-            if (!StaticData.Containr.contains("歌单广场")) {
-                val intent = Intent(activity, LoadingActivity::class.java)
-                startActivity(intent)
-            } else {
-                val intent = Intent(activity, SquareActivity::class.java)
-                startActivity(intent)
-            }
+            val intent = Intent(context, LoadingActivity::class.java)
+            intent.putExtra("style","Square")
+            startActivity(intent)
         }
         val SongList: MutableList<SongList?> = ArrayList()
         SongList.add(StaticData.Home.getSongsLists()?.get(0))
@@ -201,16 +197,6 @@ class HomeFragment : Fragment() {
             for (i in 0 until alphaAdapter.itemCount) {
                 alphaAdapter.notifyItemChanged(i)
             }
-            Thread {
-                val request: Request = Request.Builder()
-                    .url("https://v1.hitokoto.cn")
-                    .build()
-                val response = OkHttpClient().newCall(request).execute()
-                val jsonObject = response.body?.string()?.let { JSONObject(it) }
-                StaticData.hitokoto.setHitokoto(jsonObject?.getString("hitokoto"))
-                StaticData.hitokoto.setFrom(jsonObject?.getString("from"))
-                StaticData.hitokoto.setFrom_who(jsonObject?.getString("from_who"))
-            }.start()
             refreshLayout.finishRefresh()
         }
         binding.Label.setOnClickListener { }

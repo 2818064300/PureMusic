@@ -40,10 +40,9 @@ class MyRecyclerAdapter2(private val context: Context, List: MutableList<Singer?
             .load(url)
             .into(holder.avatar)
         holder.ibtn.setOnClickListener {
-            val intent: Intent
-            StaticData.Style = "SearchSinger"
-            StaticData.Singer_Result_ID = position
-            intent = Intent(context, LoadingActivity::class.java)
+            val intent = Intent(context, LoadingActivity::class.java)
+            intent.putExtra("style","SearchSinger")
+            intent.putExtra("index",position)
             context.startActivity(intent)
         }
     }

@@ -42,7 +42,8 @@ class ListAdapter(private val context: Context, List: MutableList<Record?>) :
         }
         holder.tv.setText(List[List.size - 1 - position]?.getKeyWord())
         holder.tv.setOnClickListener {
-            StaticData.Style = "Search"
+            val intent = Intent(context, LoadingActivity::class.java)
+            intent.putExtra("style","Search")
             StaticData.SelectID = List[List.size - 1 - position]?.getStyle()!!
             StaticData.KeyWords = List[List.size - 1 - position]?.getKeyWord()
             if (List[List.size - 1 - position]?.getMusicStyle().equals("网易云音乐")) {
@@ -50,7 +51,6 @@ class ListAdapter(private val context: Context, List: MutableList<Record?>) :
             } else {
                 StaticData.Root = "QQ音乐"
             }
-            val intent = Intent(context, LoadingActivity::class.java)
             context.startActivity(intent)
         }
     }

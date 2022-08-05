@@ -47,6 +47,7 @@ private lateinit var binding: ActivitySplashBinding
             intent.data = Uri.parse("package:" + this@SplashActivity.packageName)
             startActivityForResult(intent, 1)
         }
+        //初始化权限
         initPermission()
     }
     fun initPermission() {
@@ -65,6 +66,7 @@ private lateinit var binding: ActivitySplashBinding
         } else{
             if (!StaticData.debug) {
                 Thread{
+                    //获取数据库连接对象,检测版本更新
                     StaticData.connection = DBUtils.getConnection()
                     val format = SimpleDateFormat("yyyy-MM-dd")
                     //服务器版本
@@ -99,6 +101,7 @@ private lateinit var binding: ActivitySplashBinding
                 val request: Request = Request.Builder()
                     .url("http://www.puremusic.com.cn:3000/personalized?limit=60")
                     .addHeader("cookie", StaticData.cookie)
+                    .method("GET", null)
                     .build()
                 val response: Response = OkHttpClient().newCall(request).execute()
                 val result = JSONObject(response.body?.string()).getJSONArray("result")
@@ -112,6 +115,7 @@ private lateinit var binding: ActivitySplashBinding
             pools.submit(Runnable {
                 val request: Request = Request.Builder()
                     .url("http://www.puremusic.com.cn:3000/top/artists?limit=5")
+                    .method("GET", null)
                     .build()
                 val response: Response = OkHttpClient().newCall(request).execute()
                 val artists = JSONObject(response.body?.string()).getJSONArray("artists")
@@ -167,8 +171,9 @@ private lateinit var binding: ActivitySplashBinding
                     sharedPreference.getString("account",null),
                     sharedPreference.getString("password",null)
                 )
-                StaticData.Style = "UserInfo"
-                startActivity(Intent(this@SplashActivity, LoadingActivity::class.java))
+                val intent = Intent(this@SplashActivity, LoadingActivity::class.java)
+                intent.putExtra("style","UserInfo")
+                startActivity(intent)
             } else {
                 startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
             }

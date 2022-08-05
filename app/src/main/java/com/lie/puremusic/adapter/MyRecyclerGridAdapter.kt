@@ -20,10 +20,20 @@ import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.activity.LoadingActivity
 import com.lie.puremusic.activity.SongListActivity
+import com.lie.puremusic.pojo.Song
 import com.lie.puremusic.pojo.SongList
+import com.lie.puremusic.utils.GetSongData
 import jp.wasabeef.glide.transformations.BlurTransformation
+import okhttp3.*
+import org.json.JSONObject
+import java.io.IOException
+import java.util.concurrent.Executors
 
-class MyRecyclerGridAdapter(private val context: Context, List: MutableList<SongList?>, Style: Int) : RecyclerView.Adapter<MyRecyclerGridAdapter.InnerHolder>() {
+class MyRecyclerGridAdapter(
+    private val context: Context,
+    List: MutableList<SongList?>,
+    Style: Int
+) : RecyclerView.Adapter<MyRecyclerGridAdapter.InnerHolder>() {
     private val List: MutableList<SongList?>
     private val Style: Int
 
@@ -70,26 +80,14 @@ class MyRecyclerGridAdapter(private val context: Context, List: MutableList<Song
             )
             .into(holder.bg2)
         holder.Card.setOnClickListener {
-            if (Style == 1) {
-                StaticData.Style = "PopularList"
-                StaticData.SongsList_ID = position + StaticData.offset * 6
-            }
-            if (Style == 2) {
-                StaticData.Style = "SquareList"
-                StaticData.Square_Position = position
-            }
-            val intent: Intent
-            StaticData.Root = "网易云音乐"
-            if (StaticData.Containr.contains(List[position]?.getId())) {
-                if (Style == 1) {
-                    StaticData.PlayList = List[position]?.getSongs()!!
-                }
-                if (Style == 2) {
-                    StaticData.PlayList = List[StaticData.Square_Position]?.getSongs()!!
-                }
-                intent = Intent(context, SongListActivity::class.java)
-            } else {
-                intent = Intent(context, LoadingActivity::class.java)
+            val intent = if (Style == 1) {
+                val intent = Intent(context, LoadingActivity::class.java)
+                intent.putExtra("style","PopularList")
+                intent.putExtra("index",position + StaticData.offset * 6)
+            }else {
+                val intent = Intent(context, LoadingActivity::class.java)
+                intent.putExtra("style","SquareList")
+                intent.putExtra("index",position)
             }
             context.startActivity(intent)
         }

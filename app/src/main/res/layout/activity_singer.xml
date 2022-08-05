@@ -344,9 +344,6 @@
             android:layout_height="match_parent"
             android:scrollbars="none">
         </androidx.recyclerview.widget.RecyclerView>
-        <com.scwang.smart.refresh.footer.BallPulseFooter
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

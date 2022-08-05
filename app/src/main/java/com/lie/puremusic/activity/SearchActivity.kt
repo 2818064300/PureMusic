@@ -66,16 +66,6 @@ class SearchActivity : AppCompatActivity() {
             for (i in 0 until finalAlphaAdapter.itemCount) {
                 finalAlphaAdapter.notifyItemChanged(i)
             }
-            Thread {
-                val request: Request = Request.Builder()
-                    .url("https://v1.hitokoto.cn")
-                    .build()
-                val response =OkHttpClient().newCall(request).execute()
-                val jsonObject = response.body?.string()?.let { JSONObject(it) }
-                StaticData.hitokoto.setHitokoto(jsonObject?.getString("hitokoto"))
-                StaticData.hitokoto.setFrom(jsonObject?.getString("from"))
-                StaticData.hitokoto.setFrom_who(jsonObject?.getString("from_who"))
-            }.start()
             refreshLayout.finishRefresh()
         })
     }

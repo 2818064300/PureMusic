@@ -27,18 +27,22 @@ import com.lie.puremusic.adapter.MediaPlayerHelper
 import com.lie.puremusic.adapter.MyRecyclerAdapter
 import com.lie.puremusic.databinding.ActivitySongListBinding
 import com.lie.puremusic.listener.AppBarStateChangeListener
+import com.lie.puremusic.pojo.Singer
+import com.lie.puremusic.pojo.Song
 import com.lie.puremusic.pojo.SongList
 import com.lie.puremusic.utils.CropTransformation
+import com.lie.puremusic.utils.GetSongData
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
 import com.liulishuo.filedownloader.FileDownloader
 import es.dmoral.toasty.Toasty
 import jp.wasabeef.glide.transformations.BlurTransformation
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
 import org.json.JSONObject
 import java.io.File
+import java.io.IOException
+import java.util.concurrent.Executors
 
 class SongListActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySongListBinding
@@ -47,6 +51,7 @@ class SongListActivity : AppCompatActivity() {
     private val tv_group: MutableList<TextView?> = ArrayList()
     private var last_SelectID = 0
     private var animation: Animation? = null
+    private val pools = Executors.newCachedThreadPool()
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,23 +67,17 @@ class SongListActivity : AppCompatActivity() {
         binding.Avatar2.visibility = View.GONE
         animation = AnimationUtils.loadAnimation(this, R.anim.img_animation)
         animation?.interpolator = LinearInterpolator()
-        if (StaticData.Style.equals("PopularList")) {
-            SongList = StaticData.Home.getSongsLists()?.get(StaticData.SongsList_ID)
+        SongList = StaticData.Home.getSongsLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
+
+
+        when (intent.getStringExtra("style")) {
+            "SingerList" -> SongList = StaticData.Home.getSongsLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
+            "SearchList" -> SongList = StaticData.Result.getSongLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
+            "List_ID" -> SongList = StaticData.SongList
+            "UserList" -> SongList = StaticData.User?.getSongLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
+            "SquareList" -> StaticData.Square.get(StaticData.Square_SelectID)?.getSongsLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
         }
-        if (StaticData.Style.equals("SearchList")) {
-            SongList = StaticData.Result.getSongLists()?.get(StaticData.SongList_Result_ID)
-        }
-        if (StaticData.Style.equals("List_ID")) {
-            SongList = StaticData.SongList
-        }
-        if (StaticData.Style.equals("UserList")) {
-            SongList = StaticData.User?.getSongLists()?.get(StaticData.SongList_Music_ID)
-        }
-        if (StaticData.Style.equals("SquareList")) {
-            SongList = StaticData.Square.get(StaticData.Square_SelectID)?.getSongsLists()?.get(
-                StaticData.Square_Position
-            )
-        }
+
         if (StaticData.Containr.contains(SongList?.getId())) {
             binding.RefreshLayout.autoRefresh(200)
             overridePendingTransition(R.anim.top_in, R.anim.top_out)
@@ -86,6 +85,7 @@ class SongListActivity : AppCompatActivity() {
             StaticData.Containr.add(this.SongList?.getId())
             binding.RefreshLayout.autoRefresh(500)
         }
+
         binding.SonglistName.text = SongList?.getName()
         binding.SonglistCount.text = "共 " + SongList?.getCount() + " 首"
         binding.tips1.text = SongList?.getName()
@@ -122,7 +122,12 @@ class SongListActivity : AppCompatActivity() {
             }
         })
         binding.PlayBar.setOnClickListener {
-            this@SongListActivity.startActivity(Intent(this@SongListActivity, PlayerActivity::class.java))
+            this@SongListActivity.startActivity(
+                Intent(
+                    this@SongListActivity,
+                    PlayerActivity::class.java
+                )
+            )
         }
         binding.PlayButton.setOnClickListener {
             if (MediaPlayerHelper.getInstance(this@SongListActivity)?.isPlaying == true) {
@@ -221,7 +226,57 @@ class SongListActivity : AppCompatActivity() {
                 .start()
             false
         }
-        val adapter = MyRecyclerAdapter(this, StaticData.PlayList)
+        Thread {
+            for (j in 0 until StaticData.PlayList.size) {
+                pools.submit {
+                    var url =
+                        "http://www.puremusic.com.cn:3000/song/detail?ids=" + StaticData.PlayList
+                            ?.get(j)?.getId()
+                    val request: Request = Request.Builder()
+                        .url(url)
+                        .addHeader("cookie", StaticData.cookie)
+                        .method("GET", null)
+                        .build()
+
+                    OkHttpClient().newCall(request)
+                        .enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
+                            }
+
+                            override fun onResponse(call: Call, response: Response) {
+                                val songs = JSONObject(response.body?.string()).getJSONArray("songs")
+                                var Songs = StaticData.PlayList.get(j)
+                                Songs?.setName(songs.getJSONObject(0).getString("name"))
+                                for (i in 0 until songs.getJSONObject(0).getJSONArray("ar")
+                                    .length()) {
+                                    val singer = Singer(
+                                        songs.getJSONObject(0).getJSONArray("ar").getJSONObject(i)
+                                            .getString("id")
+                                    )
+                                    singer.setName(
+                                        songs.getJSONObject(0).getJSONArray("ar").getJSONObject(i)
+                                            .getString("name")
+                                    )
+                                    Songs?.getSingers()?.add(singer)
+                                }
+                                Songs?.setCover_url(
+                                    songs.getJSONObject(0).getJSONObject("al").getString("picUrl")
+                                )
+                                Songs?.setFee(songs.getJSONObject(0).getInt("fee"))
+                                Songs?.setPop(songs.getJSONObject(0).getInt("pop"))
+                                Songs?.setTime(songs.getJSONObject(0).getInt("dt"))
+                                Songs?.setStyle("NeteaseCloudMusic")
+                            }
+                        })
+
+                }
+            }
+            pools.shutdown()
+        }.start()
+        val adapter = MyRecyclerAdapter(
+            this,
+            StaticData.PlayList
+        )
         val alphaAdapter = AlphaInAnimationAdapter(adapter)
         binding.SonglistRv.adapter = AlphaInAnimationAdapter(alphaAdapter)
         binding.SonglistRv.layoutManager =
@@ -231,19 +286,10 @@ class SongListActivity : AppCompatActivity() {
             for (i in 0 until alphaAdapter.itemCount) {
                 alphaAdapter.notifyItemChanged(i)
             }
-            Thread {
-                val request: Request = Request.Builder()
-                    .url("https://v1.hitokoto.cn")
-                    .build()
-                val response = OkHttpClient().newCall(request).execute()
-                val jsonObject = response.body?.string()?.let { JSONObject(it) }
-                StaticData.hitokoto.setHitokoto(jsonObject?.getString("hitokoto"))
-                StaticData.hitokoto.setFrom(jsonObject?.getString("from"))
-                StaticData.hitokoto.setFrom_who(jsonObject?.getString("from_who"))
-            }.start()
             refreshLayout.finishRefresh()
         }
     }
+
     private fun initbtn() {
         StaticData.SelectID = 0
         binding.tv1.setOnClickListener {
@@ -289,6 +335,7 @@ class SongListActivity : AppCompatActivity() {
         tv_group[last_SelectID]?.setTextColor(Color.parseColor("#FF6399fd"))
         tv_group[SelectID]?.setTextColor(Color.parseColor("#FFFFFF"))
     }
+
     override fun onResume() {
         super.onResume()
         if (StaticData.Songs != null) {
@@ -306,8 +353,10 @@ class SongListActivity : AppCompatActivity() {
                 .into(binding.Avatar2)
         }
     }
+
     override fun finish() {
         super.finish()
+        pools.shutdown()
         overridePendingTransition(R.anim.bottom_in, R.anim.bottom_out)
     }
 }

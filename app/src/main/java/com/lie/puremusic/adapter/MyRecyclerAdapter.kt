@@ -20,6 +20,7 @@ import com.lie.puremusic.StaticData
 import com.lie.puremusic.activity.LoadingActivity
 import com.lie.puremusic.activity.PlayerActivity
 import com.lie.puremusic.pojo.Record
+import com.lie.puremusic.pojo.Singer
 import com.lie.puremusic.pojo.Song
 import com.lie.puremusic.utils.GetLyricData
 import com.lie.puremusic.utils.GetMusicData
@@ -28,7 +29,10 @@ import com.liulishuo.filedownloader.FileDownloadListener
 import com.liulishuo.filedownloader.FileDownloader
 import de.hdodenhof.circleimageview.CircleImageView
 import es.dmoral.toasty.Toasty
+import okhttp3.*
+import org.json.JSONObject
 import java.io.File
+import java.io.IOException
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -50,10 +54,8 @@ class MyRecyclerAdapter(private val context: Context, List: MutableList<Song?>) 
 
     @SuppressLint("RecyclerView", "SetTextI18n")
     override fun onBindViewHolder(holder: InnerHolder, position: Int) {
-        if (List[position]?.getName() != null) {
-            holder.tv1.setText(List[position]?.getName())
-        }
-//        List[position]?.getPop()?.let { holder.pop.setText(it) }
+        holder.tv1.setText(List[position]?.getName())
+        holder.pop.setText(List[position]?.getPop().toString())
         var SingerName = ""
         for (i in 0 until List[position]?.getSingers()?.size!!) {
             if (i == 0) {
@@ -101,7 +103,9 @@ class MyRecyclerAdapter(private val context: Context, List: MutableList<Song?>) 
                 Toast.LENGTH_SHORT,
                 true
             ).show()
-            StaticData.Style = "Search"
+
+            val intent = Intent(context, LoadingActivity::class.java)
+            intent.putExtra("style","Search")
             StaticData.KeyWords = List[position]?.getName()
             StaticData.Records.add(Record(StaticData.SelectID, List[position]?.getName()))
             if (List[position]?.getStyle().equals("网易云音乐")) {
@@ -109,7 +113,6 @@ class MyRecyclerAdapter(private val context: Context, List: MutableList<Song?>) 
             } else {
                 StaticData.Root = "QQ音乐"
             }
-            val intent = Intent(context, LoadingActivity::class.java)
             context.startActivity(intent)
             false
         }
@@ -263,6 +266,9 @@ class MyRecyclerAdapter(private val context: Context, List: MutableList<Song?>) 
     }
 
     override fun getItemCount(): Int {
+        if(List.size<5){
+            return 5
+        }
         return List.size
     }
 

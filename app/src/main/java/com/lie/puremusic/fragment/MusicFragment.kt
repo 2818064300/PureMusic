@@ -11,10 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lie.puremusic.*
-import com.lie.puremusic.activity.LoadingActivity
-import com.lie.puremusic.activity.MainActivity
-import com.lie.puremusic.activity.PreSearchActivity
-import com.lie.puremusic.activity.SongListActivity
+import com.lie.puremusic.activity.*
 import com.lie.puremusic.adapter.MyRecyclerAdapter4
 import com.lie.puremusic.databinding.FragmentMusicBinding
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
@@ -95,17 +92,17 @@ class MusicFragment : Fragment() {
         }
         binding.tv9.text = "共" + StaticData.User?.getFavorite()?.getCount() + "首"
         binding.rect3.setOnClickListener {
-            val intent: Intent
-            StaticData.Style = "List_ID"
-            StaticData.Root = "网易云音乐"
-            if (!StaticData.Containr.contains(StaticData.User?.getFavorite()?.getId())) {
-                StaticData.SongList = StaticData.User?.getFavorite()
-                intent = Intent(activity, LoadingActivity::class.java)
-            } else {
-                StaticData.PlayList = StaticData.User?.getFavorite()?.getSongs()!!
-                intent = Intent(activity, SongListActivity::class.java)
-            }
+            val intent = Intent(context, SearchActivity::class.java)
+            intent.putExtra("style", "List_ID")
             startActivity(intent)
+//            if (!StaticData.Containr.contains(StaticData.User?.getFavorite()?.getId())) {
+//                StaticData.SongList = StaticData.User?.getFavorite()
+//                intent = Intent(activity, LoadingActivity::class.java)
+//            } else {
+//                StaticData.PlayList = StaticData.User?.getFavorite()?.getSongs()!!
+//                intent = Intent(activity, SongListActivity::class.java)
+//            }
+//            startActivity(intent)
         }
     }
 

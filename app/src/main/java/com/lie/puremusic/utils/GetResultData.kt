@@ -47,14 +47,10 @@ class GetResultData : Runnable {
                 if (result != null) {
                     for (j in 0 until result.length()) {
                         if (StaticData.Result.getSongs()?.size!! < result.length()) {
-                            StaticData.Result.getSongs()?.add(Song("实体$j"))
+                            StaticData.Result.getSongs()?.add(Song(result.getJSONObject(j).getString("id")))
                         }
-                        pools.execute(
-                            GetSongData(
-                                j, 4, result.getJSONObject(j).getString("id")
-                            )
-                        )
                     }
+                    StaticData.PlayList = StaticData.Result.getSongs()!!
                 }
                 pools.shutdown()
             }

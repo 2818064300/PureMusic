@@ -82,7 +82,6 @@ class PreSearchActivity : AppCompatActivity() {
             LinearLayoutManager(this@PreSearchActivity, LinearLayoutManager.VERTICAL, false)
         binding.Search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                StaticData.Style = "Search"
                 StaticData.KeyWords = query
                 val record = Record(StaticData.SelectID, query)
                 if (StaticData.Root.equals("网易云音乐")) {
@@ -91,7 +90,9 @@ class PreSearchActivity : AppCompatActivity() {
                     record.setMusicStyle("QQ音乐")
                 }
                 StaticData.Records.add(record)
+
                 val intent = Intent(this@PreSearchActivity, LoadingActivity::class.java)
+                intent.putExtra("style","Search")
                 startActivity(intent)
                 finish()
                 return false
