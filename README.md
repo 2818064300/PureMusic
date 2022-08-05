@@ -6,18 +6,25 @@
 
 ## 官网
 
-[Pure Music](http://www.puremusic.com.cn/)
+> [Pure Music](http://www.puremusic.com.cn/)
 
-## 特点功能
+## 🚀 特点功能
 
 - 极致简约的设计
-
 - 支持**网易云音乐**账号登录
 - 采用**Material Design**与**IOS设计风格**
 - 支持**QQ音乐**源搜索
 - 支持**FLAC无损音质**播放
 
-## 更新日志
+## 🧩 截图
+
+![PureMusic/screenshot_1.jpg at master · 2818064300/PureMusic (github.com)](https://github.com/2818064300/PureMusic/blob/master/app/src/main/assets/screenshot_1.jpg)
+
+![PureMusic/screenshot_2.jpg at master · 2818064300/PureMusic (github.com)](https://github.com/2818064300/PureMusic/blob/master/app/src/main/assets/screenshot_2.jpg)
+
+![PureMusic/screenshot_3.jpg at master · 2818064300/PureMusic (github.com)](https://github.com/2818064300/PureMusic/blob/master/app/src/main/assets/screenshot_3.jpg)
+
+## 📃更新日志
 
 - **2022/8/02**
 
@@ -33,7 +40,7 @@
 4. 歌单界面增加PlayBar
 5. 修复云端歌曲异常bug
 
-## 已知bug
+## 🐛已知bug
 
 - **2022/7/16**
 
