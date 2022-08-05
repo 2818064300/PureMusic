@@ -20,14 +20,8 @@
 
 ![PureMusic/screenshot_1.jpg at master · 2818064300/PureMusic (github.com)](https://github.com/2818064300/PureMusic/blob/master/app/src/main/assets/screenshot_1.jpg)
 
----
-
-
 
 ![PureMusic/screenshot_2.jpg at master · 2818064300/PureMusic (github.com)](https://github.com/2818064300/PureMusic/blob/master/app/src/main/assets/screenshot_2.jpg)
-
----
-
 
 
 ![PureMusic/screenshot_3.jpg at master · 2818064300/PureMusic (github.com)](https://github.com/2818064300/PureMusic/blob/master/app/src/main/assets/screenshot_3.jpg)
