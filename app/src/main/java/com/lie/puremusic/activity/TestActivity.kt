@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.lie.puremusic.databinding.ActivityTestBinding
 import okhttp3.*
 import org.json.JSONObject
+import redis.clients.jedis.Jedis
 import java.io.IOException
 
 
@@ -27,6 +28,9 @@ class TestActivity : AppCompatActivity() {
                     }
 
                     override fun onResponse(call: Call, response: Response) {
+                        var jedis = Jedis("r-m5eiii8dfrqdjvdmdspd.redis.rds.aliyuncs.com",6379)
+                        jedis.auth("Lcz123456")
+                        jedis.set("id",JSONObject(response.body?.string()).getJSONArray("songs").toString())
                         var name = JSONObject(response.body?.string()).getJSONArray("songs").getJSONObject(0).getString("name")
                         runOnUiThread {
                             binding.tv1.text = name

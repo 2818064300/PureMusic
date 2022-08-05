@@ -69,4 +69,7 @@ dependencies {
     implementation 'com.github.jenly1314:arcseekbar:1.0.3'
     implementation 'com.mxn.soul:flowingdrawer-core:2.1.0'
     implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'redis.clients:jedis:4.2.3'
+
+
 }

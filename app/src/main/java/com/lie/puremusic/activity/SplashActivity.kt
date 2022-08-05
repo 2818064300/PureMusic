@@ -18,6 +18,7 @@ import com.lie.puremusic.databinding.ActivitySplashBinding
 import com.lie.puremusic.pojo.*
 import com.lie.puremusic.utils.DBUtils
 import com.lie.puremusic.utils.Dao
+import com.lie.puremusic.utils.RedisUtils
 import es.dmoral.toasty.Toasty
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -66,6 +67,7 @@ private lateinit var binding: ActivitySplashBinding
         } else{
             if (!StaticData.debug) {
                 Thread{
+                    StaticData.jedis =  RedisUtils.getConnection()
                     //获取数据库连接对象,检测版本更新
                     StaticData.connection = DBUtils.getConnection()
                     val format = SimpleDateFormat("yyyy-MM-dd")

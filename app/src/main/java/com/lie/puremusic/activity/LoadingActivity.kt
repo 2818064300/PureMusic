@@ -11,11 +11,14 @@ import com.lie.puremusic.*
 import com.lie.puremusic.databinding.ActivityLoadingBinding
 import com.lie.puremusic.pojo.Singer
 import com.lie.puremusic.pojo.Song
+import com.lie.puremusic.pojo.SongList
 import com.lie.puremusic.pojo.SquareSongList
 import com.lie.puremusic.utils.*
 import es.dmoral.toasty.Toasty
 import okhttp3.*
+import org.json.JSONArray
 import org.json.JSONObject
+import redis.clients.jedis.Jedis
 import java.io.IOException
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -63,6 +66,7 @@ class LoadingActivity : AppCompatActivity() {
         binding.fromWho.text = fromWho
         Thread {
             val pools = Executors.newCachedThreadPool()
+            var jedis = StaticData.jedis
             if (intent.getStringExtra("style").equals("UserInfo")) {
                 pools.submit(
                     GetUser(StaticData.user?.getAccount(), StaticData.user?.getPassword(), this)
@@ -86,7 +90,7 @@ class LoadingActivity : AppCompatActivity() {
                 pools.submit(Runnable {
                     StaticData.Root = "网易云音乐"
                     val index = intent.getIntExtra("index", Int.MAX_VALUE)
-                    var SongList = StaticData.Home.getSongsLists()?.get(index)
+                    var SongList: SongList? = null
                     when (intent.getStringExtra("style")) {
                         "PopularList" -> SongList = StaticData.Home.getSongsLists()?.get(index)
                         "SearchList" -> SongList = StaticData.Result.getSongLists()?.get(index)
@@ -95,46 +99,72 @@ class LoadingActivity : AppCompatActivity() {
                         "SquareList" -> StaticData.Square.get(StaticData.Square_SelectID)
                             ?.getSongsLists()?.get(index)
                     }
-                    val url =
-                        if (intent.getStringExtra("style").equals("Singer_ID").equals("List_ID")) {
-                            "http://www.puremusic.com.cn:3000/playlist/track/all?id=" + StaticData.User?.getFavorite()?.getId()
-                        } else {
-                            "http://www.puremusic.com.cn:3000/playlist/track/all?id=" + SongList?.getId()
+                    if (jedis?.get("SongList_" + SongList?.getId()) != null) {
+                        println("缓存")
+                        val songs = JSONArray(jedis?.get("SongList_" + SongList?.getId()))
+                        SongList?.setCount(songs.length())
+                        for (j in 0 until songs.length()) {
+                            if (SongList?.getSongs()?.size!! < songs.length()) {
+                                SongList?.getSongs()
+                                    ?.add(Song(songs.getJSONObject(j).getString("id")))
+                            }
                         }
-
-                    val request: Request = Request.Builder()
-                        .url(url)
-                        .addHeader("cookie", StaticData.cookie)
-                        .method("GET", null)
-                        .build()
-
-                    OkHttpClient().newCall(request)
-                        .enqueue(object : Callback {
-                            override fun onFailure(call: Call, e: IOException) {
+                        StaticData.PlayList = SongList?.getSongs()!!
+                        val intent =
+                            Intent(this@LoadingActivity, SongListActivity::class.java)
+                        intent.putExtra("style", "PopularList")
+                        intent.putExtra("index", index)
+                        startActivity(intent)
+                        finish()
+                    } else{
+                        val url =
+                            if (intent.getStringExtra("style").equals("List_ID")) {
+                                "http://www.puremusic.com.cn:3000/playlist/track/all?id=" + StaticData.User?.getFavorite()
+                                    ?.getId()
+                            } else {
+                                "http://www.puremusic.com.cn:3000/playlist/track/all?id=" + SongList?.getId()
                             }
 
-                            override fun onResponse(call: Call, response: Response) {
-                                println("发送异步请求")
-                                val songs =
-                                    JSONObject(response.body?.string()).getJSONArray("songs")
-                                StaticData.Home.getSongsLists()?.get(index)
-                                    ?.setCount(songs.length())
-                                for (j in 0 until songs.length()) {
-                                    if (SongList?.getSongs()?.size!! < songs.length()) {
-                                        SongList?.getSongs()
-                                            ?.add(Song(songs.getJSONObject(j).getString("id")))
-                                    }
+                        val request: Request = Request.Builder()
+                            .url(url)
+                            .addHeader("cookie", StaticData.cookie)
+                            .method("GET", null)
+                            .build()
+
+                        OkHttpClient().newCall(request)
+                            .enqueue(object : Callback {
+                                override fun onFailure(call: Call, e: IOException) {
                                 }
-                                StaticData.PlayList = SongList?.getSongs()!!
 
-                                val intent =
-                                    Intent(this@LoadingActivity, SongListActivity::class.java)
-                                intent.putExtra("style", "PopularList")
-                                intent.putExtra("index", index)
-                                startActivity(intent)
-                                finish()
-                            }
-                        })
+                                override fun onResponse(call: Call, response: Response) {
+                                    println("发送异步请求")
+                                    var songs =
+                                        JSONObject(response.body?.string()).getJSONArray("songs")
+                                    jedis?.set("SongList_" + SongList?.getId(),songs.toString())
+                                    SongList?.setCount(songs.length())
+                                    for (j in 0 until songs.length()) {
+                                        if (SongList?.getSongs()?.size!! < songs.length()) {
+                                            SongList?.getSongs()
+                                                ?.add(Song(songs.getJSONObject(j).getString("id")))
+                                        }
+                                    }
+                                    StaticData.PlayList = SongList?.getSongs()!!
+                                    val intent =
+                                        Intent(this@LoadingActivity, SongListActivity::class.java)
+
+                                    when (intent.getStringExtra("style")) {
+                                        "PopularList" -> intent.putExtra("style", "PopularList")
+                                        "SearchList" -> intent.putExtra("style", "SearchList")
+                                        "List_ID" -> intent.putExtra("style", "List_ID")
+                                        "UserList" -> intent.putExtra("style", "UserList")
+                                        "SquareList" -> intent.putExtra("style", "SquareList")
+                                    }
+                                    intent.putExtra("index", index)
+                                    startActivity(intent)
+                                    finish()
+                                }
+                            })
+                    }
                 })
             }
             if (intent.getStringExtra("style")
@@ -151,45 +181,67 @@ class LoadingActivity : AppCompatActivity() {
                         "SearchSinger" -> Singer = StaticData.Result.getSingers()?.get(index)
                         "Singer_ID" -> Singer = StaticData.Singer
                     }
-                    val url =
-                        "http://www.puremusic.com.cn:3000/artist/songs?id=" + Singer?.getId()
-                    val request: Request = Request.Builder()
-                        .url(url)
-                        .addHeader("cookie", StaticData.cookie)
-                        .method("GET", null)
-                        .build()
-
-                    OkHttpClient().newCall(request)
-                        .enqueue(object : Callback {
-                            override fun onFailure(call: Call, e: IOException) {
+                    if (jedis?.get("Singer_" + Singer?.getId()) != null) {
+                        println("缓存")
+                        val songs = JSONArray(jedis?.get("Singer_" + Singer?.getId()))
+                        for (j in 0 until songs.length()) {
+                            if (Singer?.getSongs()?.size!! < songs.length()) {
+                                Singer?.getSongs()
+                                    ?.add(Song(songs.getJSONObject(j).getString("id")))
                             }
+                        }
+                        StaticData.PlayList = Singer?.getSongs()!!
 
-                            override fun onResponse(call: Call, response: Response) {
-                                println("发送异步请求")
-                                val songs =
-                                    JSONObject(response.body?.string()).getJSONArray("songs")
-                                StaticData.Home.getSongsLists()?.get(index)
-                                    ?.setCount(songs.length())
-                                for (j in 0 until songs.length()) {
-                                    if (Singer?.getSongs()?.size!! < songs.length()) {
-                                        Singer?.getSongs()
-                                            ?.add(Song(songs.getJSONObject(j).getString("id")))
+                        val intent =
+                            Intent(this@LoadingActivity, SingerActivity::class.java)
+                        when (intent.getStringExtra("style")) {
+                            "SingerList" -> intent.putExtra("style", "SingerList")
+                            "SearchSinger" -> intent.putExtra("style", "SearchSinger")
+                            "Singer_ID" -> intent.putExtra("style", "Singer_ID")
+                        }
+                        intent.putExtra("index", index)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        val url =
+                            "http://www.puremusic.com.cn:3000/artist/songs?id=" + Singer?.getId()
+                        val request: Request = Request.Builder()
+                            .url(url)
+                            .addHeader("cookie", StaticData.cookie)
+                            .method("GET", null)
+                            .build()
+
+                        OkHttpClient().newCall(request)
+                            .enqueue(object : Callback {
+                                override fun onFailure(call: Call, e: IOException) {
+                                }
+
+                                override fun onResponse(call: Call, response: Response) {
+                                    println("发送异步请求")
+                                    val songs =
+                                        JSONObject(response.body?.string()).getJSONArray("songs")
+                                    jedis?.set("Singer_" + Singer?.getId(), songs.toString())
+                                    for (j in 0 until songs.length()) {
+                                        if (Singer?.getSongs()?.size!! < songs.length()) {
+                                            Singer?.getSongs()
+                                                ?.add(Song(songs.getJSONObject(j).getString("id")))
+                                        }
                                     }
-                                }
-                                StaticData.PlayList = Singer?.getSongs()!!
+                                    StaticData.PlayList = Singer?.getSongs()!!
 
-                                val intent =
-                                    Intent(this@LoadingActivity, SingerActivity::class.java)
-                                when (intent.getStringExtra("style")) {
-                                    "SingerList" -> intent.putExtra("style", "SingerList")
-                                    "SearchSinger" -> intent.putExtra("style", "SearchSinger")
-                                    "Singer_ID" -> intent.putExtra("style", "Singer_ID")
+                                    val intent =
+                                        Intent(this@LoadingActivity, SingerActivity::class.java)
+                                    when (intent.getStringExtra("style")) {
+                                        "SingerList" -> intent.putExtra("style", "SingerList")
+                                        "SearchSinger" -> intent.putExtra("style", "SearchSinger")
+                                        "Singer_ID" -> intent.putExtra("style", "Singer_ID")
+                                    }
+                                    intent.putExtra("index", index)
+                                    startActivity(intent)
+                                    finish()
                                 }
-                                intent.putExtra("index", index)
-                                startActivity(intent)
-                                finish()
-                            }
-                        })
+                            })
+                    }
                 })
             }
             if (intent.getStringExtra("style").equals("Search")) {

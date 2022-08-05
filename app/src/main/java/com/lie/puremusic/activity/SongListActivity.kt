@@ -69,9 +69,8 @@ class SongListActivity : AppCompatActivity() {
         animation?.interpolator = LinearInterpolator()
         SongList = StaticData.Home.getSongsLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
 
-
         when (intent.getStringExtra("style")) {
-            "SingerList" -> SongList = StaticData.Home.getSongsLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
+            "PopularList" -> SongList = StaticData.Home.getSongsLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
             "SearchList" -> SongList = StaticData.Result.getSongLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
             "List_ID" -> SongList = StaticData.SongList
             "UserList" -> SongList = StaticData.User?.getSongLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))

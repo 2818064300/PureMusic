@@ -80,15 +80,12 @@ class MyRecyclerGridAdapter(
             )
             .into(holder.bg2)
         holder.Card.setOnClickListener {
-            val intent = if (Style == 1) {
-                val intent = Intent(context, LoadingActivity::class.java)
-                intent.putExtra("style","PopularList")
-                intent.putExtra("index",position + StaticData.offset * 6)
-            }else {
-                val intent = Intent(context, LoadingActivity::class.java)
-                intent.putExtra("style","SquareList")
-                intent.putExtra("index",position)
-            }
+            val intent = Intent(context, LoadingActivity::class.java)
+            intent.putExtra("style","PopularList")
+            intent.putExtra("index",position + StaticData.offset * 6)
+//            val intent = Intent(context, LoadingActivity::class.java)
+//            intent.putExtra("style","SquareList")
+//            intent.putExtra("index",position)
             context.startActivity(intent)
         }
     }
