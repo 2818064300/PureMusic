@@ -92,10 +92,16 @@ class LoadingActivity : AppCompatActivity() {
                         "SearchList" -> SongList = StaticData.Result.getSongLists()?.get(index)
                         "List_ID" -> SongList = StaticData.SongList
                         "UserList" -> SongList = StaticData.User?.getSongLists()?.get(index)
-                        "SquareList" -> StaticData.Square.get(StaticData.Square_SelectID)?.getSongsLists()?.get(index)
+                        "SquareList" -> StaticData.Square.get(StaticData.Square_SelectID)
+                            ?.getSongsLists()?.get(index)
                     }
                     val url =
-                        "http://www.puremusic.com.cn:3000/playlist/track/all?id=" + SongList?.getId()
+                        if (intent.getStringExtra("style").equals("Singer_ID").equals("List_ID")) {
+                            "http://www.puremusic.com.cn:3000/playlist/track/all?id=" + StaticData.User?.getFavorite()?.getId()
+                        } else {
+                            "http://www.puremusic.com.cn:3000/playlist/track/all?id=" + SongList?.getId()
+                        }
+
                     val request: Request = Request.Builder()
                         .url(url)
                         .addHeader("cookie", StaticData.cookie)
@@ -146,11 +152,7 @@ class LoadingActivity : AppCompatActivity() {
                         "Singer_ID" -> Singer = StaticData.Singer
                     }
                     val url =
-                        if (intent.getStringExtra("style").equals("Singer_ID").equals("List_ID")) {
-                            "http://www.puremusic.com.cn:3000/artist/songs?id=" + Singer?.getId()
-                        } else{
-                            "http://www.puremusic.com.cn:3000/playlist/track/all?id=" + StaticData.User?.getFavorite()?.getId()
-                        }
+                        "http://www.puremusic.com.cn:3000/artist/songs?id=" + Singer?.getId()
                     val request: Request = Request.Builder()
                         .url(url)
                         .addHeader("cookie", StaticData.cookie)
@@ -228,6 +230,7 @@ class LoadingActivity : AppCompatActivity() {
             }
         }.start()
     }
+
     fun save() {
         val sharedPreference = getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
         var editor = sharedPreference.edit()

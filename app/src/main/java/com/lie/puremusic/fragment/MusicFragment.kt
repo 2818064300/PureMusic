@@ -92,17 +92,9 @@ class MusicFragment : Fragment() {
         }
         binding.tv9.text = "共" + StaticData.User?.getFavorite()?.getCount() + "首"
         binding.rect3.setOnClickListener {
-            val intent = Intent(context, SearchActivity::class.java)
+            val intent = Intent(context, LoadingActivity::class.java)
             intent.putExtra("style", "List_ID")
             startActivity(intent)
-//            if (!StaticData.Containr.contains(StaticData.User?.getFavorite()?.getId())) {
-//                StaticData.SongList = StaticData.User?.getFavorite()
-//                intent = Intent(activity, LoadingActivity::class.java)
-//            } else {
-//                StaticData.PlayList = StaticData.User?.getFavorite()?.getSongs()!!
-//                intent = Intent(activity, SongListActivity::class.java)
-//            }
-//            startActivity(intent)
         }
     }
 
