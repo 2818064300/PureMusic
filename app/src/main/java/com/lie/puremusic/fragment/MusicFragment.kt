@@ -94,6 +94,7 @@ class MusicFragment : Fragment() {
         binding.rect3.setOnClickListener {
             val intent = Intent(context, LoadingActivity::class.java)
             intent.putExtra("style", "List_ID")
+            intent.putExtra("index", 0)
             startActivity(intent)
         }
     }

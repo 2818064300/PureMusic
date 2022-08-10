@@ -67,16 +67,15 @@ class SongListActivity : AppCompatActivity() {
         binding.Avatar2.visibility = View.GONE
         animation = AnimationUtils.loadAnimation(this, R.anim.img_animation)
         animation?.interpolator = LinearInterpolator()
-        SongList = StaticData.Home.getSongsLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
-
+        println(intent.getIntExtra("index", Int.MAX_VALUE))
+        println(intent.getStringExtra("style"))
         when (intent.getStringExtra("style")) {
             "PopularList" -> SongList = StaticData.Home.getSongsLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
             "SearchList" -> SongList = StaticData.Result.getSongLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
-            "List_ID" -> SongList = StaticData.SongList
+            "List_ID" -> SongList = StaticData.User?.getFavorite()
             "UserList" -> SongList = StaticData.User?.getSongLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
-            "SquareList" -> StaticData.Square.get(StaticData.Square_SelectID)?.getSongsLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
+            "SquareList" -> SongList = StaticData.Square.get(StaticData.Square_SelectID)?.getSongsLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
         }
-
         if (StaticData.Containr.contains(SongList?.getId())) {
             binding.RefreshLayout.autoRefresh(200)
             overridePendingTransition(R.anim.top_in, R.anim.top_out)
@@ -84,6 +83,11 @@ class SongListActivity : AppCompatActivity() {
             StaticData.Containr.add(this.SongList?.getId())
             binding.RefreshLayout.autoRefresh(500)
         }
+        println(SongList)
+//        println(SongList)
+//        println(SongList?.getName())
+
+
 
         binding.SonglistName.text = SongList?.getName()
         binding.SonglistCount.text = "共 " + SongList?.getCount() + " 首"

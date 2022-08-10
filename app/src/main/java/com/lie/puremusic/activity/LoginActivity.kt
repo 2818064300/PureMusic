@@ -34,8 +34,7 @@ class LoginActivity : AppCompatActivity() {
             true
         ).show()
         binding.loginButton.setOnClickListener(View.OnClickListener {
-            val user =
-                PureUser("暂无", binding.account.text.toString(), binding.password.text.toString())
+            val user = PureUser("暂无", binding.account.text.toString(), binding.password.text.toString())
             if (isLogin) {
                 Thread {
                     StaticData.user = Dao.select(StaticData.connection, user)

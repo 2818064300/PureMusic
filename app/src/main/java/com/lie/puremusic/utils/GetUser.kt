@@ -27,7 +27,7 @@ class GetUser : Runnable {
     override fun run() {
         val sharedPreference =
             context?.getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
-        if (sharedPreference?.contains("id") != true) {
+        if (sharedPreference?.contains("id") == true) {
             //登录
             val request: Request = Request.Builder()
                 .url("http://www.puremusic.com.cn:3000/login/cellphone?phone=$account&password=$password")
@@ -52,9 +52,11 @@ class GetUser : Runnable {
             editor?.putString("password", StaticData.user?.getPassword())
             editor?.apply()
         } else {
-            StaticData.user?.setMusic_id(sharedPreference.getString("music_id", null))
-            StaticData.user?.setName(sharedPreference.getString("name", null))
-            StaticData.user?.setAvatarUrl(sharedPreference.getString("avatarUrl", null))
+            StaticData.user?.setMusic_id(sharedPreference?.getString("music_id", "1333576013"))
+            StaticData.user?.setName(sharedPreference?.getString("name", "执意画红尘z"))
+            StaticData.user?.setAvatarUrl(sharedPreference?.getString("avatarUrl", "https://p3.music.126.net/M4jrGsicytQjxCoWQA_rVg==/109951165806189999.jpg"))
+
+
         }
         StaticData.User = User(StaticData.user?.getId())
         val pools = Executors.newCachedThreadPool()

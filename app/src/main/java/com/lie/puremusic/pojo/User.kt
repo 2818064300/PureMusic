@@ -5,7 +5,7 @@ class User {
     private var listenSongs = 0
     private var id: String? = null
     private var identify: String? = null
-    private var Favorite = SongList("")
+    private var Favorite = SongList("2046607227")
     private var SongLists: MutableList<SongList?> = ArrayList()
 
     constructor(id: String?) {

@@ -167,11 +167,11 @@ private lateinit var binding: ActivitySplashBinding
             pools.shutdown()
             pools.awaitTermination(Long.MAX_VALUE,TimeUnit.NANOSECONDS)
             val sharedPreference = getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
-            if (sharedPreference?.contains("id") == true) {
+            if (sharedPreference?.contains("id") != true) {
                 StaticData.user = PureUser(
-                    sharedPreference.getString("id",null),
-                    sharedPreference.getString("account",null),
-                    sharedPreference.getString("password",null)
+                    sharedPreference.getString("id","暂无"),
+                    sharedPreference.getString("account","18296923394"),
+                    sharedPreference.getString("password","Lcz18296923394")
                 )
                 val intent = Intent(this@SplashActivity, LoadingActivity::class.java)
                 intent.putExtra("style","UserInfo")
@@ -179,6 +179,11 @@ private lateinit var binding: ActivitySplashBinding
             } else {
                 startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
             }
+//            StaticData.user = PureUser(
+//                "暂无",
+//                "18296923394",
+//                "Lcz18296923394"
+//            )
             finish()
         }.start()
     }

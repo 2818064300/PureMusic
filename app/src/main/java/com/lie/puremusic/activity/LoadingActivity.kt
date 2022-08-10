@@ -18,7 +18,6 @@ import es.dmoral.toasty.Toasty
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
-import redis.clients.jedis.Jedis
 import java.io.IOException
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -67,7 +66,8 @@ class LoadingActivity : AppCompatActivity() {
         Thread {
             val pools = Executors.newCachedThreadPool()
             var jedis = StaticData.jedis
-            if (intent.getStringExtra("style").equals("UserInfo")) {
+            var style = intent.getStringExtra("style")
+            if (style.equals("UserInfo")) {
                 pools.submit(
                     GetUser(StaticData.user?.getAccount(), StaticData.user?.getPassword(), this)
                 )
@@ -81,20 +81,18 @@ class LoadingActivity : AppCompatActivity() {
                     finish()
                 }
             }
-            if (intent.getStringExtra("style")
-                    .equals("PopularList") || intent.getStringExtra("style")
-                    .equals("SearchList") || intent.getStringExtra("style")
-                    .equals("List_ID") || intent.getStringExtra("style")
-                    .equals("UserList") || intent.getStringExtra("style").equals("SquareList")
+            if (style.equals("PopularList") || style.equals("SearchList") || style.equals("List_ID") || style.equals(
+                    "UserList"
+                ) || style.equals("SquareList")
             ) {
                 pools.submit(Runnable {
                     StaticData.Root = "网易云音乐"
                     val index = intent.getIntExtra("index", Int.MAX_VALUE)
                     var SongList: SongList? = null
-                    when (intent.getStringExtra("style")) {
+                    when (style) {
                         "PopularList" -> SongList = StaticData.Home.getSongsLists()?.get(index)
                         "SearchList" -> SongList = StaticData.Result.getSongLists()?.get(index)
-                        "List_ID" -> SongList = StaticData.SongList
+                        "List_ID" -> SongList = StaticData.User?.getFavorite()
                         "UserList" -> SongList = StaticData.User?.getSongLists()?.get(index)
                         "SquareList" -> StaticData.Square.get(StaticData.Square_SelectID)
                             ?.getSongsLists()?.get(index)
@@ -112,19 +110,19 @@ class LoadingActivity : AppCompatActivity() {
                         StaticData.PlayList = SongList?.getSongs()!!
                         val intent =
                             Intent(this@LoadingActivity, SongListActivity::class.java)
-                        intent.putExtra("style", "PopularList")
+                        when (style) {
+                            "PopularList" -> intent.putExtra("style", "PopularList")
+                            "SearchList" -> intent.putExtra("style", "SearchList")
+                            "List_ID" -> intent.putExtra("style", "List_ID")
+                            "UserList" -> intent.putExtra("style", "UserList")
+                            "SquareList" -> intent.putExtra("style", "SquareList")
+                        }
                         intent.putExtra("index", index)
                         startActivity(intent)
                         finish()
-                    } else{
+                    } else {
                         val url =
-                            if (intent.getStringExtra("style").equals("List_ID")) {
-                                "http://www.puremusic.com.cn:3000/playlist/track/all?id=" + StaticData.User?.getFavorite()
-                                    ?.getId()
-                            } else {
-                                "http://www.puremusic.com.cn:3000/playlist/track/all?id=" + SongList?.getId()
-                            }
-
+                            "http://www.puremusic.com.cn:3000/playlist/track/all?id=" + SongList?.getId()
                         val request: Request = Request.Builder()
                             .url(url)
                             .addHeader("cookie", StaticData.cookie)
@@ -140,7 +138,7 @@ class LoadingActivity : AppCompatActivity() {
                                     println("发送异步请求")
                                     var songs =
                                         JSONObject(response.body?.string()).getJSONArray("songs")
-                                    jedis?.set("SongList_" + SongList?.getId(),songs.toString())
+                                    jedis?.set("SongList_" + SongList?.getId(), songs.toString())
                                     SongList?.setCount(songs.length())
                                     for (j in 0 until songs.length()) {
                                         if (SongList?.getSongs()?.size!! < songs.length()) {
@@ -152,7 +150,7 @@ class LoadingActivity : AppCompatActivity() {
                                     val intent =
                                         Intent(this@LoadingActivity, SongListActivity::class.java)
 
-                                    when (intent.getStringExtra("style")) {
+                                    when (style) {
                                         "PopularList" -> intent.putExtra("style", "PopularList")
                                         "SearchList" -> intent.putExtra("style", "SearchList")
                                         "List_ID" -> intent.putExtra("style", "List_ID")
@@ -167,16 +165,14 @@ class LoadingActivity : AppCompatActivity() {
                     }
                 })
             }
-            if (intent.getStringExtra("style")
-                    .equals("SingerList") || intent.getStringExtra("style")
-                    .equals("SearchSinger") || intent.getStringExtra("style").equals("Singer_ID")
+            if (style.equals("SingerList") || style.equals("SearchSinger") || style.equals("Singer_ID")
             ) {
                 pools.submit(Runnable {
                     StaticData.Root = "网易云音乐"
                     val index = intent.getIntExtra("index", Int.MAX_VALUE)
 
                     var Singer: Singer? = null
-                    when (intent.getStringExtra("style")) {
+                    when (style) {
                         "SingerList" -> Singer = StaticData.Home.getSingers()?.get(index)
                         "SearchSinger" -> Singer = StaticData.Result.getSingers()?.get(index)
                         "Singer_ID" -> Singer = StaticData.Singer
@@ -191,10 +187,9 @@ class LoadingActivity : AppCompatActivity() {
                             }
                         }
                         StaticData.PlayList = Singer?.getSongs()!!
-
                         val intent =
                             Intent(this@LoadingActivity, SingerActivity::class.java)
-                        when (intent.getStringExtra("style")) {
+                        when (style) {
                             "SingerList" -> intent.putExtra("style", "SingerList")
                             "SearchSinger" -> intent.putExtra("style", "SearchSinger")
                             "Singer_ID" -> intent.putExtra("style", "Singer_ID")
@@ -231,7 +226,7 @@ class LoadingActivity : AppCompatActivity() {
 
                                     val intent =
                                         Intent(this@LoadingActivity, SingerActivity::class.java)
-                                    when (intent.getStringExtra("style")) {
+                                    when (style) {
                                         "SingerList" -> intent.putExtra("style", "SingerList")
                                         "SearchSinger" -> intent.putExtra("style", "SearchSinger")
                                         "Singer_ID" -> intent.putExtra("style", "Singer_ID")
@@ -244,7 +239,7 @@ class LoadingActivity : AppCompatActivity() {
                     }
                 })
             }
-            if (intent.getStringExtra("style").equals("Search")) {
+            if (style.equals("Search")) {
                 pools.submit(GetResultData(intent.getStringExtra("value")))
                 pools.shutdown()
                 pools.awaitTermination(
@@ -259,7 +254,7 @@ class LoadingActivity : AppCompatActivity() {
                     finish()
                 }
             }
-            if (intent.getStringExtra("style").equals("Square")) {
+            if (style.equals("Square")) {
                 for (i in 0..4) {
                     StaticData.Square.add(SquareSongList())
                 }
@@ -302,7 +297,7 @@ class LoadingActivity : AppCompatActivity() {
             period = System.currentTimeMillis() - mExitTime //两次按下的时间间隔
             if (period > 1500) //3s之内两次按下退出有效
             {
-                Toasty.info(this, "再按一次退出退出加载", Toast.LENGTH_SHORT, true).show()
+                Toasty.info(this, "再按一次退出加载", Toast.LENGTH_SHORT, true).show()
                 mExitTime = System.currentTimeMillis()
             } else {
                 Pass = false
