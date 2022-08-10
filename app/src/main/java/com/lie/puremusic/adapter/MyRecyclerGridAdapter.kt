@@ -23,6 +23,7 @@ import com.lie.puremusic.activity.SongListActivity
 import com.lie.puremusic.pojo.Song
 import com.lie.puremusic.pojo.SongList
 import com.lie.puremusic.utils.GetSongData
+import com.lie.puremusic.utils.RedisUtils
 import jp.wasabeef.glide.transformations.BlurTransformation
 import okhttp3.*
 import org.json.JSONObject

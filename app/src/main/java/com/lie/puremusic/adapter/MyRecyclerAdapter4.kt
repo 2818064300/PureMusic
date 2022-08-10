@@ -44,7 +44,6 @@ class MyRecyclerAdapter4(private val context: Context, List: MutableList<SongLis
         holder.ibtn.setOnClickListener {
             val intent = Intent(context, LoadingActivity::class.java)
             if (context === MusicFragment.MusicFragmentContext) {
-                val intent = Intent(context, LoadingActivity::class.java)
                 intent.putExtra("style", "UserList")
                 intent.putExtra("index", position)
             } else {

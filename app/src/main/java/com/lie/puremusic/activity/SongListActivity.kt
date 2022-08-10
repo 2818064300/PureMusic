@@ -76,19 +76,14 @@ class SongListActivity : AppCompatActivity() {
             "UserList" -> SongList = StaticData.User?.getSongLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
             "SquareList" -> SongList = StaticData.Square.get(StaticData.Square_SelectID)?.getSongsLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
         }
-        if (StaticData.Containr.contains(SongList?.getId())) {
-            binding.RefreshLayout.autoRefresh(200)
-            overridePendingTransition(R.anim.top_in, R.anim.top_out)
-        } else {
-            StaticData.Containr.add(this.SongList?.getId())
-            binding.RefreshLayout.autoRefresh(500)
-        }
-        println(SongList)
-//        println(SongList)
-//        println(SongList?.getName())
-
-
-
+        Thread{
+            val jedis = StaticData.jedis
+            if (jedis?.get("SongList_" + SongList?.getId()) != null) {
+                overridePendingTransition(R.anim.top_in, R.anim.top_out)
+            } else{
+                binding.RefreshLayout.autoRefresh(500)
+            }
+        }.start()
         binding.SonglistName.text = SongList?.getName()
         binding.SonglistCount.text = "共 " + SongList?.getCount() + " 首"
         binding.tips1.text = SongList?.getName()

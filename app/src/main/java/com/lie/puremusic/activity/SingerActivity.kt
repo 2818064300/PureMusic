@@ -50,13 +50,15 @@ class SingerActivity : AppCompatActivity(){
             "SearchSinger" -> Singer = StaticData.Result.getSingers()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
             "Singer_ID" -> Singer = StaticData.Singer
         }
-        if (StaticData.Containr.contains(Singer?.getId())) {
-            binding.RefreshLayout.autoRefresh(200)
-            overridePendingTransition(R.anim.top_in, R.anim.top_out)
-        } else {
-            StaticData.Containr.add(Singer?.getId())
-            binding.RefreshLayout.autoRefresh(500)
-        }
+        Thread{
+            val jedis = StaticData.jedis
+            if (jedis?.get("Singer_" + Singer?.getId()) != null) {
+                overridePendingTransition(R.anim.top_in, R.anim.top_out)
+            } else{
+                binding.RefreshLayout.autoRefresh(500)
+            }
+        }.start()
+
         val d = Date()
         val hours = d.hours
         if (hours < 6) {

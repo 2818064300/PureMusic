@@ -14,9 +14,12 @@ import com.bumptech.glide.Glide
 import com.lie.puremusic.*
 import com.lie.puremusic.activity.*
 import com.lie.puremusic.adapter.MyRecyclerGridAdapter
+import com.lie.puremusic.adapter.MyRecyclerGridAdapter2
 import com.lie.puremusic.databinding.FragmentHomeBinding
+import com.lie.puremusic.pojo.Singer
 import com.lie.puremusic.pojo.SongList
 import com.lie.puremusic.utils.SpacesItemDecoration
+import com.lie.puremusic.utils.SpacesItemDecoration2
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
 import com.liulishuo.filedownloader.FileDownloader
@@ -46,7 +49,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
         Thread {
             while (true) {
                 count++
@@ -60,92 +62,6 @@ class HomeFragment : Fragment() {
             startActivity(
                 Intent(activity, PreSearchActivity::class.java)
             )
-        }
-        binding.CircleImageView1.setOnClickListener {
-
-            val intent = Intent(context, LoadingActivity::class.java)
-            intent.putExtra("style","SingerList")
-            intent.putExtra("index",0)
-            startActivity(intent)
-
-//            if (!StaticData.Containr.contains(
-//                    StaticData.Home.getSingers()?.get(0)?.getId()
-//                )
-//            ) {
-//                intent = Intent(activity, LoadingActivity::class.java)
-//            } else {
-//                StaticData.PlayList = StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getSongs()!!
-//                intent = Intent(activity, SingerActivity::class.java)
-//            }
-//            startActivity(intent)
-        }
-        binding.CircleImageView2.setOnClickListener {
-            val intent = Intent(context, LoadingActivity::class.java)
-            intent.putExtra("style","SingerList")
-            intent.putExtra("index",1)
-            startActivity(intent)
-//            if (!StaticData.Containr.contains(
-//                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getId()
-//                )
-//            ) {
-//                intent = Intent(activity, LoadingActivity::class.java)
-//            } else {
-//                StaticData.PlayList =
-//                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getSongs()!!
-//                intent = Intent(activity, SingerActivity::class.java)
-//            }
-//            startActivity(intent)
-        }
-        binding.CircleImageView3.setOnClickListener {
-            val intent = Intent(context, LoadingActivity::class.java)
-            intent.putExtra("style","SingerList")
-            intent.putExtra("index",2)
-            startActivity(intent)
-//            if (!StaticData.Containr.contains(
-//                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getId()
-//                )
-//            ) {
-//                intent = Intent(activity, LoadingActivity::class.java)
-//            } else {
-//                StaticData.PlayList =
-//                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getSongs()!!
-//                intent = Intent(activity, SingerActivity::class.java)
-//            }
-//            startActivity(intent)
-        }
-        binding.CircleImageView4.setOnClickListener {
-            val intent = Intent(context, LoadingActivity::class.java)
-            intent.putExtra("style","SingerList")
-            intent.putExtra("index",3)
-            startActivity(intent)
-//            if (!StaticData.Containr.contains(
-//                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getId()
-//                )
-//            ) {
-//                intent = Intent(activity, LoadingActivity::class.java)
-//            } else {
-//                StaticData.PlayList =
-//                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getSongs()!!
-//                intent = Intent(activity, SingerActivity::class.java)
-//            }
-//            startActivity(intent)
-        }
-        binding.CircleImageView5.setOnClickListener {
-            val intent = Intent(context, LoadingActivity::class.java)
-            intent.putExtra("style","SingerList")
-            intent.putExtra("index",4)
-            startActivity(intent)
-//            if (!StaticData.Containr.contains(
-//                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getId()
-//                )
-//            ) {
-//                intent = Intent(activity, LoadingActivity::class.java)
-//            } else {
-//                StaticData.PlayList =
-//                    StaticData.Home.getSingers()?.get(StaticData.Singer_ID)?.getSongs()!!
-//                intent = Intent(activity, SingerActivity::class.java)
-//            }
-//            startActivity(intent)
         }
         binding.Card7Iv.setOnClickListener {
             StaticData.Songs = StaticData.Cloud.get(0)
@@ -168,13 +84,13 @@ class HomeFragment : Fragment() {
             intent.putExtra("style","Square")
             startActivity(intent)
         }
+        Glide.with(this)
+            .load(StaticData.user?.getAvatarUrl())
+            .into(binding.Avatar)
         val SongList: MutableList<SongList?> = ArrayList()
-        SongList.add(StaticData.Home.getSongsLists()?.get(0))
-        SongList.add(StaticData.Home.getSongsLists()?.get(1))
-        SongList.add(StaticData.Home.getSongsLists()?.get(2))
-        SongList.add(StaticData.Home.getSongsLists()?.get(3))
-        SongList.add(StaticData.Home.getSongsLists()?.get(4))
-        SongList.add(StaticData.Home.getSongsLists()?.get(5))
+        for (i in 0..5){
+            SongList.add(StaticData.Home.getSongsLists()?.get(i))
+        }
         val adapter = MyRecyclerGridAdapter(requireContext(), SongList, 1)
         val alphaAdapter = AlphaInAnimationAdapter(adapter)
         binding.CardGroup.adapter = AlphaInAnimationAdapter(alphaAdapter)
@@ -182,6 +98,19 @@ class HomeFragment : Fragment() {
         layoutManager.orientation = RecyclerView.VERTICAL
         binding.CardGroup.layoutManager = layoutManager
         binding.CardGroup.addItemDecoration(SpacesItemDecoration())
+        val Singer: MutableList<Singer?> = ArrayList()
+        for (i in 0..4){
+            Singer.add(StaticData.Home.getSingers()?.get(i))
+        }
+        val adapter2 = MyRecyclerGridAdapter2(requireContext(), Singer)
+        val alphaAdapter2 = AlphaInAnimationAdapter(adapter2)
+        binding.SingerGroup.adapter = AlphaInAnimationAdapter(alphaAdapter2)
+        val layoutManager2 = GridLayoutManager(context, 5)
+        layoutManager2.orientation = RecyclerView.VERTICAL
+        binding.SingerGroup.layoutManager = layoutManager2
+        binding.SingerGroup.addItemDecoration(SpacesItemDecoration2())
+
+
         binding.RefreshLayout.setOnRefreshListener { refreshLayout ->
             if (StaticData.offset < StaticData.Home.getSongsLists()?.size?.div(6)?.minus(1)!!) {
                 StaticData.offset += 1
@@ -248,33 +177,6 @@ class HomeFragment : Fragment() {
         val intent = Intent(activity, PlayerActivity::class.java)
         startActivity(intent)
     }
-
-    private fun init() {
-        Glide.with(this)
-            .load(StaticData.Home.getSingers()?.get(0)?.getCover_url())
-            .into(binding.CircleImageView1)
-        Glide.with(this)
-            .load(StaticData.Home.getSingers()?.get(1)?.getCover_url())
-            .into(binding.CircleImageView2)
-        Glide.with(this)
-            .load(StaticData.Home.getSingers()?.get(2)?.getCover_url())
-            .into(binding.CircleImageView3)
-        Glide.with(this)
-            .load(StaticData.Home.getSingers()?.get(3)?.getCover_url())
-            .into(binding.CircleImageView4)
-        Glide.with(this)
-            .load(StaticData.Home.getSingers()?.get(4)?.getCover_url())
-            .into(binding.CircleImageView5)
-        Glide.with(this)
-            .load(StaticData.user?.getAvatarUrl())
-            .into(binding.Avatar)
-        binding.CircleImageView1TextView.setText(StaticData.Home.getSingers()?.get(0)?.getName())
-        binding.CircleImageView2TextView.setText(StaticData.Home.getSingers()?.get(1)?.getName())
-        binding.CircleImageView3TextView.setText(StaticData.Home.getSingers()?.get(2)?.getName())
-        binding.CircleImageView4TextView.setText(StaticData.Home.getSingers()?.get(3)?.getName())
-        binding.CircleImageView5TextView.setText(StaticData.Home.getSingers()?.get(4)?.getName())
-    }
-
     override fun onResume() {
         super.onResume()
         if (count > 4500) {
