@@ -7,7 +7,7 @@ import kotlin.collections.ArrayList
 
 class StaticData {
     companion object {
-        var debug = false
+        var debug = true
         var Square_SelectID = 0
         var SelectID = 0
         var Scale = 1f

@@ -76,14 +76,8 @@ class SongListActivity : AppCompatActivity() {
             "UserList" -> SongList = StaticData.User?.getSongLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
             "SquareList" -> SongList = StaticData.Square.get(StaticData.Square_SelectID)?.getSongsLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
         }
-        Thread{
-            val jedis = StaticData.jedis
-            if (jedis?.get("SongList_" + SongList?.getId()) != null) {
-                overridePendingTransition(R.anim.top_in, R.anim.top_out)
-            } else{
-                binding.RefreshLayout.autoRefresh(500)
-            }
-        }.start()
+        overridePendingTransition(R.anim.top_in, R.anim.top_out)
+        binding.RefreshLayout.autoRefresh(200)
         binding.SonglistName.text = SongList?.getName()
         binding.SonglistCount.text = "共 " + SongList?.getCount() + " 首"
         binding.tips1.text = SongList?.getName()
@@ -245,17 +239,19 @@ class SongListActivity : AppCompatActivity() {
                                 val songs = JSONObject(response.body?.string()).getJSONArray("songs")
                                 var Songs = StaticData.PlayList.get(j)
                                 Songs?.setName(songs.getJSONObject(0).getString("name"))
-                                for (i in 0 until songs.getJSONObject(0).getJSONArray("ar")
-                                    .length()) {
-                                    val singer = Singer(
-                                        songs.getJSONObject(0).getJSONArray("ar").getJSONObject(i)
-                                            .getString("id")
-                                    )
-                                    singer.setName(
-                                        songs.getJSONObject(0).getJSONArray("ar").getJSONObject(i)
-                                            .getString("name")
-                                    )
-                                    Songs?.getSingers()?.add(singer)
+                                if(Songs?.getSingers()?.isEmpty() == true){
+                                    for (i in 0 until songs.getJSONObject(0).getJSONArray("ar")
+                                        .length()) {
+                                        val singer = Singer(
+                                            songs.getJSONObject(0).getJSONArray("ar").getJSONObject(i)
+                                                .getString("id")
+                                        )
+                                        singer.setName(
+                                            songs.getJSONObject(0).getJSONArray("ar").getJSONObject(i)
+                                                .getString("name")
+                                        )
+                                        Songs?.getSingers()?.add(singer)
+                                    }
                                 }
                                 Songs?.setCover_url(
                                     songs.getJSONObject(0).getJSONObject("al").getString("picUrl")

@@ -19,15 +19,11 @@ import com.lie.puremusic.databinding.FragmentHomeBinding
 import com.lie.puremusic.pojo.Singer
 import com.lie.puremusic.pojo.SongList
 import com.lie.puremusic.utils.SpacesItemDecoration
-import com.lie.puremusic.utils.SpacesItemDecoration2
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
 import com.liulishuo.filedownloader.FileDownloader
 import es.dmoral.toasty.Toasty
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.json.JSONObject
 import java.io.File
 
 class HomeFragment : Fragment() {
@@ -108,9 +104,6 @@ class HomeFragment : Fragment() {
         val layoutManager2 = GridLayoutManager(context, 5)
         layoutManager2.orientation = RecyclerView.VERTICAL
         binding.SingerGroup.layoutManager = layoutManager2
-        binding.SingerGroup.addItemDecoration(SpacesItemDecoration2())
-
-
         binding.RefreshLayout.setOnRefreshListener { refreshLayout ->
             if (StaticData.offset < StaticData.Home.getSongsLists()?.size?.div(6)?.minus(1)!!) {
                 StaticData.offset += 1

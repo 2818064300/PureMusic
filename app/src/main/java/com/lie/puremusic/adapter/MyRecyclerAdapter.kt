@@ -47,8 +47,7 @@ class MyRecyclerAdapter(private val context: Context, List: MutableList<Song?>) 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InnerHolder {
         FileDownloader.setup(parent.context)
-        val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
         return InnerHolder(view)
     }
 

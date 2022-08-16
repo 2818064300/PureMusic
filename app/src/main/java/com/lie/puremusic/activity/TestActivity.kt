@@ -59,28 +59,28 @@ class TestActivity : AppCompatActivity() {
                                     }
                                     Timer().schedule(object : TimerTask() {
                                         override fun run() {
-                                            var url =
-                                                "http://www.puremusic.com.cn:3000/login/qr/check?key=" + key + "&timerstamp=" + System.currentTimeMillis()
-                                            val request: Request = Request.Builder()
-                                                .url(url)
-                                                .method("GET", null)
-                                                .build()
-
-                                            OkHttpClient().newCall(request)
-                                                .enqueue(object : Callback {
-                                                    override fun onFailure(
-                                                        call: Call,
-                                                        e: IOException
-                                                    ) {
-                                                    }
-
-                                                    override fun onResponse(
-                                                        call: Call,
-                                                        response: Response
-                                                    ) {
-                                                        println(response.body?.string())
-                                                    }
-                                                })
+                                            var url = "http://www.puremusic.com.cn:3000/login/qr/check?key=" + key + "&timerstamp=" + System.currentTimeMillis()
+                                            println(url)
+//                                            val request: Request = Request.Builder()
+//                                                .url(url)
+//                                                .method("GET", null)
+//                                                .build()
+//
+//                                            OkHttpClient().newCall(request)
+//                                                .enqueue(object : Callback {
+//                                                    override fun onFailure(
+//                                                        call: Call,
+//                                                        e: IOException
+//                                                    ) {
+//                                                    }
+//
+//                                                    override fun onResponse(
+//                                                        call: Call,
+//                                                        response: Response
+//                                                    ) {
+//                                                        println(response.body?.string())
+//                                                    }
+//                                                })
                                         }
                                     }, 0, 3000)
                                 }

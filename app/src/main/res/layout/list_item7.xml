@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ibtn"
-    android:layout_width="@dimen/x200"
+    android:layout_width="@dimen/x264"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <de.hdodenhof.circleimageview.CircleImageView
@@ -21,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/x50"
+        android:singleLine="true"
         app:layout_constraintEnd_toEndOf="@+id/CircleImageView"
         app:layout_constraintStart_toStartOf="@+id/CircleImageView"
         app:layout_constraintTop_toBottomOf="@+id/CircleImageView" />
