@@ -98,7 +98,6 @@ class LoadingActivity : AppCompatActivity() {
                             ?.getSongsLists()?.get(index)
                     }
                     if (jedis?.get("SongList_" + SongList?.getId()) != null) {
-                        println("缓存")
                         val songs = JSONArray(jedis?.get("SongList_" + SongList?.getId()))
                         SongList?.setCount(songs.length())
                         for (j in 0 until songs.length()) {
@@ -135,7 +134,6 @@ class LoadingActivity : AppCompatActivity() {
                                 }
 
                                 override fun onResponse(call: Call, response: Response) {
-                                    println("发送异步请求")
                                     var songs =
                                         JSONObject(response.body?.string()).getJSONArray("songs")
                                     jedis?.set("SongList_" + SongList?.getId(), songs.toString())
@@ -178,7 +176,6 @@ class LoadingActivity : AppCompatActivity() {
                         "Singer_ID" -> Singer = StaticData.Singer
                     }
                     if (jedis?.get("Singer_" + Singer?.getId()) != null) {
-                        println("缓存")
                         val songs = JSONArray(jedis?.get("Singer_" + Singer?.getId()))
                         for (j in 0 until songs.length()) {
                             if (Singer?.getSongs()?.size!! < songs.length()) {
@@ -212,7 +209,6 @@ class LoadingActivity : AppCompatActivity() {
                                 }
 
                                 override fun onResponse(call: Call, response: Response) {
-                                    println("发送异步请求")
                                     val songs =
                                         JSONObject(response.body?.string()).getJSONArray("songs")
                                     jedis?.set("Singer_" + Singer?.getId(), songs.toString())

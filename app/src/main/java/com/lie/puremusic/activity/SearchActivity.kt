@@ -13,9 +13,6 @@ import com.lie.puremusic.adapter.MyRecyclerAdapter3
 import com.lie.puremusic.databinding.ActivitySearchBinding
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.json.JSONObject
 
 class SearchActivity : AppCompatActivity() {
 

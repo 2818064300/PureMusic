@@ -96,5 +96,6 @@ class TestActivity : AppCompatActivity() {
                 println("保存成功")
             }.start()
         }
+        binding.RadioButtonFirst.isChecked = true
     }
 }

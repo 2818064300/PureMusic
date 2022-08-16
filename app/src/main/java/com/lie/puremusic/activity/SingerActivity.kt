@@ -29,9 +29,6 @@ import java.util.concurrent.Executors
 class SingerActivity : AppCompatActivity(){
     private var Singer: Singer? = null
     private lateinit var binding: ActivitySingerBinding
-    private val btn_group: MutableList<ImageButton?> = ArrayList()
-    private val tv_group: MutableList<TextView?> = ArrayList()
-    private var last_SelectID = 0
     private val pools = Executors.newCachedThreadPool()
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +41,7 @@ class SingerActivity : AppCompatActivity(){
             statusBarDarkFont(true)
         }
 
-        initbtn()
+        binding.RadioButtonFirst.isChecked = true
         when (intent.getStringExtra("style")) {
             "SingerList" -> Singer = StaticData.Home.getSingers()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
             "SearchSinger" -> Singer = StaticData.Result.getSingers()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
@@ -159,6 +156,9 @@ class SingerActivity : AppCompatActivity(){
                         })
 
                 }
+                if(j>StaticData.CacheValue){
+                    Thread.sleep(50)
+                }
             }
             pools.shutdown()
         }.start()
@@ -189,52 +189,6 @@ class SingerActivity : AppCompatActivity(){
             }
             refreshLayout.finishRefresh()
         })
-    }
-
-    private fun initbtn() {
-        StaticData.SelectID = 0
-        binding.tv1.setOnClickListener {
-            StaticData.SelectID = 0
-            setbtn(last_SelectID, StaticData.SelectID)
-            last_SelectID = 0
-        }
-        binding.tv2.setOnClickListener {
-            StaticData.SelectID = 1
-            setbtn(last_SelectID, StaticData.SelectID)
-            last_SelectID = 1
-        }
-        binding.tv3.setOnClickListener {
-            StaticData.SelectID = 2
-            setbtn(last_SelectID, StaticData.SelectID)
-            last_SelectID = 2
-        }
-        binding.tv4.setOnClickListener {
-            StaticData.SelectID = 3
-            setbtn(last_SelectID, StaticData.SelectID)
-            last_SelectID = 3
-        }
-        binding.tv5.setOnClickListener {
-            StaticData.SelectID = 4
-            setbtn(last_SelectID, StaticData.SelectID)
-            last_SelectID = 4
-        }
-        btn_group.add(binding.btn1)
-        btn_group.add(binding.btn2)
-        btn_group.add(binding.btn3)
-        btn_group.add(binding.btn4)
-        btn_group.add(binding.btn5)
-        tv_group.add(binding.tv1)
-        tv_group.add(binding.tv2)
-        tv_group.add(binding.tv3)
-        tv_group.add(binding.tv4)
-        tv_group.add(binding.tv5)
-    }
-
-    private fun setbtn(last_SelectID: Int, SelectID: Int) {
-        btn_group[last_SelectID]?.visibility = View.GONE
-        btn_group[SelectID]?.visibility = View.VISIBLE
-        tv_group[last_SelectID]?.setTextColor(Color.parseColor("#FF6399fd"))
-        tv_group[SelectID]?.setTextColor(Color.parseColor("#FFFFFF"))
     }
 
     override fun finish() {

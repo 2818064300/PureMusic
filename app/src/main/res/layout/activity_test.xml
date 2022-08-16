@@ -12,8 +12,7 @@
         android:layout_marginTop="@dimen/x120"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
     <Button
         android:id="@+id/btn1"
         android:layout_width="@dimen/x480"
@@ -35,4 +34,64 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn1"/>
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x200"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/x40"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn2">
+        <RadioButton
+            android:id="@+id/RadioButton_first"
+            android:layout_width="@dimen/x230"
+            android:layout_height="@dimen/x111"
+            android:button="@null"
+            android:text="播放"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/x42"
+            android:textColor="@drawable/radiobutton_tv_bg"
+            android:background="@drawable/radiobutton_bg"/>
+        <RadioButton
+            android:layout_width="@dimen/x230"
+            android:layout_height="@dimen/x111"
+            android:button="@null"
+            android:text="收藏"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/x42"
+            android:textColor="@drawable/radiobutton_tv_bg"
+            android:background="@drawable/radiobutton_bg"/>
+        <RadioButton
+            android:layout_width="@dimen/x230"
+            android:layout_height="@dimen/x111"
+            android:button="@null"
+            android:text="评论"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:textColor="@drawable/radiobutton_tv_bg"
+            android:background="@drawable/radiobutton_bg"/>
+        <RadioButton
+            android:layout_width="@dimen/x230"
+            android:layout_height="@dimen/x111"
+            android:button="@null"
+            android:text="分享"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:layout_marginStart="@dimen/x42"
+            android:textColor="@drawable/radiobutton_tv_bg"
+            android:background="@drawable/radiobutton_bg"/>
+        <RadioButton
+            android:layout_width="@dimen/x230"
+            android:layout_height="@dimen/x111"
+            android:button="@null"
+            android:text="下载"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:layout_marginStart="@dimen/x42"
+            android:textColor="@drawable/radiobutton_tv_bg"
+            android:background="@drawable/radiobutton_bg"/>
+    </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lie.puremusic.adapter.ListAdapter
 import com.lie.puremusic.R
@@ -20,9 +21,6 @@ import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 
 class PreSearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPreSearchBinding
-    private val btn_group: MutableList<ImageButton?> = ArrayList()
-    private val tv_group: MutableList<TextView?> = ArrayList()
-    private var last_SelectID = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPreSearchBinding.inflate(layoutInflater)
@@ -38,9 +36,21 @@ class PreSearchActivity : AppCompatActivity() {
             binding.FAB.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFf6be1a"))
         }
         binding.SearchBar.setOnClickListener { binding.Search.isIconified = false }
-        initbtn()
         if (StaticData.Records.size > 0) {
             binding.Card2.visibility = View.VISIBLE
+        } else{
+            binding.Card2.visibility = View.GONE
+        }
+        binding.RadioButton1.isChecked = true
+        binding.RadioGroup.setOnCheckedChangeListener { radioGroup, i ->
+            when(i){
+                R.id.RadioButton1 -> StaticData.SelectID = 0
+                R.id.RadioButton2 -> StaticData.SelectID = 1
+                R.id.RadioButton3 -> StaticData.SelectID = 2
+                R.id.RadioButton4 -> StaticData.SelectID = 3
+                R.id.RadioButton5 -> StaticData.SelectID = 4
+            }
+
         }
         binding.FAB.setOnClickListener {
             if (StaticData.Root.equals("网易云音乐")) {
@@ -102,52 +112,6 @@ class PreSearchActivity : AppCompatActivity() {
                 return false
             }
         })
-    }
-    private fun initbtn() {
-        StaticData.SelectID = 0
-        binding.Card2.visibility = View.GONE
-        binding.tv1.setOnClickListener {
-            StaticData.SelectID = 0
-            setbtn(last_SelectID, StaticData.SelectID)
-            last_SelectID = 0
-        }
-        binding.tv2.setOnClickListener {
-            StaticData.SelectID = 1
-            setbtn(last_SelectID, StaticData.SelectID)
-            last_SelectID = 1
-        }
-        binding.tv3.setOnClickListener {
-            StaticData.SelectID = 2
-            setbtn(last_SelectID, StaticData.SelectID)
-            last_SelectID = 2
-        }
-        binding.tv4.setOnClickListener {
-            StaticData.SelectID = 3
-            setbtn(last_SelectID, StaticData.SelectID)
-            last_SelectID = 3
-        }
-        binding.tv5.setOnClickListener {
-            StaticData.SelectID = 4
-            setbtn(last_SelectID, StaticData.SelectID)
-            last_SelectID = 4
-        }
-        btn_group.add(binding.btn1)
-        btn_group.add(binding.btn2)
-        btn_group.add(binding.btn3)
-        btn_group.add(binding.btn4)
-        btn_group.add(binding.btn5)
-        tv_group.add(binding.tv1)
-        tv_group.add(binding.tv2)
-        tv_group.add(binding.tv3)
-        tv_group.add(binding.tv4)
-        tv_group.add(binding.tv5)
-    }
-
-    private fun setbtn(last_SelectID: Int, SelectID: Int) {
-        btn_group.get(last_SelectID)?.setVisibility(View.GONE)
-        btn_group.get(SelectID)?.setVisibility(View.VISIBLE)
-        tv_group.get(last_SelectID)?.setTextColor(Color.parseColor("#FF6399fd"))
-        tv_group.get(SelectID)?.setTextColor(Color.parseColor("#FFFFFF"))
     }
     override fun finish() {
         super.finish()
