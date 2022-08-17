@@ -831,29 +831,20 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                     var Muted: Palette.Swatch? = null
                     pools.execute {
                         StaticData.Songs?.let {
-                            SearchLyric.getLyricString(it, {
+                            SearchLyric.getLyricString(it) {
                                 StaticData.SongUrl = it
-                            })
+                            }
                         }
                     }
-                    pools.execute {
-                        val p: Palette? =
-                            getBitmapGlide(StaticData.Songs?.imageUrl)?.let { it1 ->
-                                Palette.from(it1)
-                                    .generate()
-                            }
-                        Vibrant = p?.getVibrantSwatch()
-                        VibrantLight = p?.getLightVibrantSwatch()
-                        VibrantDark = p?.getDarkVibrantSwatch()
-                        Muted = p?.getMutedSwatch()
-                    }
-
-                    pools.shutdown()
-                    pools.awaitTermination(
-                        Long.MAX_VALUE,
-                        TimeUnit.NANOSECONDS
-                    )
-                    StaticData.SongUrl = url
+                    val p: Palette? =
+                        getBitmapGlide(StaticData.Songs?.imageUrl)?.let { it1 ->
+                            Palette.from(it1)
+                                .generate()
+                        }
+                    Vibrant = p?.getVibrantSwatch()
+                    VibrantLight = p?.getLightVibrantSwatch()
+                    VibrantDark = p?.getDarkVibrantSwatch()
+                    Muted = p?.getMutedSwatch()
                     StaticData.PlayDataEx = StandardSongDataEx(
                         StaticData.Songs?.id,
                         Vibrant,
@@ -861,6 +852,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                         VibrantDark,
                         Muted
                     )
+                    StaticData.SongUrl = url
                     initMediaPlayer(url, Position)
                 } else {
                     CanPlay = true
