@@ -3,7 +3,6 @@ package com.lie.puremusic.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Environment
@@ -11,11 +10,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
-import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
@@ -29,10 +24,10 @@ import com.lie.puremusic.adapter.MyRecyclerAdapter
 import com.lie.puremusic.databinding.ActivitySongListBinding
 import com.lie.puremusic.listener.AppBarStateChangeListener
 import com.lie.puremusic.pojo.Singer
-import com.lie.puremusic.pojo.Song
 import com.lie.puremusic.pojo.SongList
+import com.lie.puremusic.standard.data.StandardPlaylistData
+import com.lie.puremusic.ui.base.BaseActivity
 import com.lie.puremusic.utils.CropTransformation
-import com.lie.puremusic.utils.GetSongData
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
 import com.liulishuo.filedownloader.FileDownloader
@@ -45,11 +40,13 @@ import java.io.File
 import java.io.IOException
 import java.util.concurrent.Executors
 
-class SongListActivity : AppCompatActivity() {
+class SongListActivity : BaseActivity() {
     private lateinit var binding: ActivitySongListBinding
-    private var SongList: SongList? = null
+    private var PlaylistData: StandardPlaylistData? = null
     private var animation: Animation? = null
-    private val pools = Executors.newCachedThreadPool()
+
+
+    var adapter = null
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,26 +57,19 @@ class SongListActivity : AppCompatActivity() {
             statusBarColor(R.color.nullcolor)
             statusBarDarkFont(true)
         }
+
         binding.RadioButtonFirst.isChecked = true
         binding.PlayBar.visibility = View.GONE
         binding.Avatar2.visibility = View.GONE
         animation = AnimationUtils.loadAnimation(this, R.anim.img_animation)
         animation?.interpolator = LinearInterpolator()
-        println(intent.getIntExtra("index", Int.MAX_VALUE))
-        println(intent.getStringExtra("style"))
-        when (intent.getStringExtra("style")) {
-            "PopularList" -> SongList = StaticData.Home.getSongsLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
-            "SearchList" -> SongList = StaticData.Result.getSongLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
-            "List_ID" -> SongList = StaticData.User?.getFavorite()
-            "UserList" -> SongList = StaticData.User?.getSongLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
-            "SquareList" -> SongList = StaticData.Square.get(StaticData.Square_SelectID)?.getSongsLists()?.get(intent.getIntExtra("index", Int.MAX_VALUE))
-        }
+        PlaylistData = StaticData.PlayListData
         overridePendingTransition(R.anim.top_in, R.anim.top_out)
         binding.RefreshLayout.autoRefresh(200)
-        binding.SonglistName.text = SongList?.getName()
-        binding.SonglistCount.text = "共 " + SongList?.getCount() + " 首"
-        binding.tips1.text = SongList?.getName()
-        binding.tips2.text = "共 " + SongList?.getCount() + " 首"
+        binding.SonglistName.text = PlaylistData?.name
+        binding.SonglistCount.text = "共 " + PlaylistData?.songs?.size + " 首"
+        binding.tips1.text = PlaylistData?.name
+        binding.tips2.text = "共 " + PlaylistData?.songs?.size + " 首"
         binding.Back.setOnClickListener { finish() }
         binding.FAB.setOnClickListener { binding.RefreshLayout.autoRefresh() }
         val typeface = Typeface.createFromAsset(this.assets, "汉仪雅酷黑65W.ttf")
@@ -129,10 +119,10 @@ class SongListActivity : AppCompatActivity() {
             }
         }
         Glide.with(this@SongListActivity)
-            .load(SongList?.getCover_url() + "?param=1440y1440")
+            .load(PlaylistData?.picUrl + "?param=1440y1440")
             .into(binding.Avatar)
         Glide.with(this@SongListActivity)
-            .load(SongList?.getCover_url() + "?param=1440y1440")
+            .load(PlaylistData?.picUrl + "?param=1440y1440")
             .transform(
                 CropTransformation(
                     0,
@@ -143,7 +133,7 @@ class SongListActivity : AppCompatActivity() {
             )
             .into(binding.SonglistBg)
         Glide.with(this@SongListActivity)
-            .load(SongList?.getCover_url() + "?param=1440y1440")
+            .load(PlaylistData?.picUrl + "?param=1440y1440")
             .apply(
                 RequestOptions.bitmapTransform(
                     MultiTransformation<Bitmap?>(
@@ -169,8 +159,8 @@ class SongListActivity : AppCompatActivity() {
         binding.SonglistBg.setOnLongClickListener {
             File(Environment.getExternalStorageDirectory().path + "/PureMusic/Picture/SongList/")
                 .mkdirs()
-            FileDownloader.getImpl().create(SongList?.getCover_url())
-                .setPath(Environment.getExternalStorageDirectory().path + "/PureMusic/Picture/SongList/" + SongList?.getId() + ".png")
+            FileDownloader.getImpl().create(PlaylistData?.picUrl)
+                .setPath(Environment.getExternalStorageDirectory().path + "/PureMusic/Picture/SongList/" + PlaylistData?.id + ".png")
                 .setListener(object : FileDownloadListener() {
                     override fun pending(
                         task: BaseDownloadTask,
@@ -216,61 +206,60 @@ class SongListActivity : AppCompatActivity() {
                 .start()
             false
         }
-        Thread {
-            for (j in 0 until StaticData.PlayList.size) {
-                pools.submit {
-                    var url =
-                        "http://www.puremusic.com.cn:3000/song/detail?ids=" + StaticData.PlayList
-                            ?.get(j)?.getId()
-                    val request: Request = Request.Builder()
-                        .url(url)
-                        .addHeader("cookie", StaticData.cookie)
-                        .method("GET", null)
-                        .build()
-
-                    OkHttpClient().newCall(request)
-                        .enqueue(object : Callback {
-                            override fun onFailure(call: Call, e: IOException) {
-                            }
-
-                            override fun onResponse(call: Call, response: Response) {
-                                val songs = JSONObject(response.body?.string()).getJSONArray("songs")
-                                var Songs = StaticData.PlayList.get(j)
-                                Songs?.setName(songs.getJSONObject(0).getString("name"))
-                                if(Songs?.getSingers()?.isEmpty() == true){
-                                    for (i in 0 until songs.getJSONObject(0).getJSONArray("ar")
-                                        .length()) {
-                                        val singer = Singer(
-                                            songs.getJSONObject(0).getJSONArray("ar").getJSONObject(i)
-                                                .getString("id")
-                                        )
-                                        singer.setName(
-                                            songs.getJSONObject(0).getJSONArray("ar").getJSONObject(i)
-                                                .getString("name")
-                                        )
-                                        Songs?.getSingers()?.add(singer)
-                                    }
-                                }
-                                Songs?.setCover_url(
-                                    songs.getJSONObject(0).getJSONObject("al").getString("picUrl")
-                                )
-                                Songs?.setFee(songs.getJSONObject(0).getInt("fee"))
-                                Songs?.setPop(songs.getJSONObject(0).getInt("pop"))
-                                Songs?.setTime(songs.getJSONObject(0).getInt("dt"))
-                                Songs?.setStyle("NeteaseCloudMusic")
-                            }
-                        })
-
-                }
-                if(j>StaticData.CacheValue){
-                    Thread.sleep(50)
-                }
-            }
-            pools.shutdown()
-        }.start()
+//        Thread {
+//            for (j in 0 until StaticData.PlayList.size) {
+//                pools.submit {
+//                    var url =
+//                        "http://www.puremusic.com.cn:3000/song/detail?ids=" + StaticData.PlayList?.get(j)?.getId()
+//                    val request: Request = Request.Builder()
+//                        .url(url)
+//                        .addHeader("cookie", StaticData.cookie)
+//                        .method("GET", null)
+//                        .build()
+//
+//                    OkHttpClient().newCall(request)
+//                        .enqueue(object : Callback {
+//                            override fun onFailure(call: Call, e: IOException) {
+//                            }
+//
+//                            override fun onResponse(call: Call, response: Response) {
+//                                val songs = JSONObject(response.body?.string()).getJSONArray("songs")
+//                                var Songs = StaticData.PlayList.get(j)
+//                                Songs?.setName(songs.getJSONObject(0).getString("name"))
+//                                if(Songs?.getSingers()?.isEmpty() == true){
+//                                    for (i in 0 until songs.getJSONObject(0).getJSONArray("ar")
+//                                        .length()) {
+//                                        val singer = Singer(
+//                                            songs.getJSONObject(0).getJSONArray("ar").getJSONObject(i)
+//                                                .getString("id")
+//                                        )
+//                                        singer.setName(
+//                                            songs.getJSONObject(0).getJSONArray("ar").getJSONObject(i)
+//                                                .getString("name")
+//                                        )
+//                                        Songs?.getSingers()?.add(singer)
+//                                    }
+//                                }
+//                                Songs?.setCover_url(
+//                                    songs.getJSONObject(0).getJSONObject("al").getString("picUrl")
+//                                )
+//                                Songs?.setFee(songs.getJSONObject(0).getInt("fee"))
+//                                Songs?.setPop(songs.getJSONObject(0).getInt("pop"))
+//                                Songs?.setTime(songs.getJSONObject(0).getInt("dt"))
+//                                Songs?.setStyle("NeteaseCloudMusic")
+//                            }
+//                        })
+//
+//                }
+//                if(j>StaticData.CacheValue){
+//                    Thread.sleep(50)
+//                }
+//            }
+//            pools.shutdown()
+//        }.start()
         val adapter = MyRecyclerAdapter(
             this,
-            StaticData.PlayList
+            PlaylistData?.songs
         )
         val alphaAdapter = AlphaInAnimationAdapter(adapter)
         binding.SonglistRv.adapter = AlphaInAnimationAdapter(alphaAdapter)
@@ -295,16 +284,15 @@ class SongListActivity : AppCompatActivity() {
             binding.PlayBar.visibility = View.VISIBLE
             binding.Avatar2.visibility = View.VISIBLE
             binding.Avatar2.startAnimation(animation)
-            binding.BarName.setText(StaticData.Songs?.getName())
+            binding.BarName.setText(StaticData.Songs?.name)
             Glide.with(this)
-                .load(StaticData.Songs?.getCover_url() + "?param=200y200")
+                .load(StaticData.Songs?.imageUrl + "?param=200y200")
                 .into(binding.Avatar2)
         }
     }
 
     override fun finish() {
         super.finish()
-        pools.shutdown()
         overridePendingTransition(R.anim.bottom_in, R.anim.bottom_out)
     }
 }

@@ -14,7 +14,7 @@
             android:layout_height="match_parent"
             android:background="#00000000" />
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/avatar"
+            android:id="@+id/ivCover"
             android:layout_width="@dimen/x160"
             android:layout_height="@dimen/x160"
             android:layout_marginStart="@dimen/x110"
@@ -29,11 +29,11 @@
             android:layout_width="@dimen/x16"
             android:layout_height="@dimen/x16"
             android:background="@drawable/search_item_ball"
-            app:layout_constraintStart_toEndOf="@+id/avatar"
-            app:layout_constraintTop_toTopOf="@+id/avatar" />
+            app:layout_constraintStart_toEndOf="@+id/ivCover"
+            app:layout_constraintTop_toTopOf="@+id/ivCover" />
 
         <TextView
-            android:id="@+id/tv1"
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/x100"
@@ -44,11 +44,11 @@
             android:textColor="#FF3b414c"
             android:textSize="@dimen/x63"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/avatar"
+            app:layout_constraintStart_toEndOf="@+id/ivCover"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv2"
+            android:id="@+id/tvSub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/x100"
@@ -59,8 +59,8 @@
             android:textColor="#FFc1c1c3"
             android:textSize="@dimen/x49"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/avatar"
-            app:layout_constraintTop_toBottomOf="@+id/tv1" />
+            app:layout_constraintStart_toEndOf="@+id/ivCover"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
         <ImageButton
             android:id="@+id/play"

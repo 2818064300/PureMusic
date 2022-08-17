@@ -8,6 +8,7 @@ import com.lie.puremusic.adapter.FragmentAdapter
 import com.lie.puremusic.fragment.LrcFragment
 import com.lie.puremusic.adapter.MediaPlayerHelper
 import com.lie.puremusic.R
+import com.lie.puremusic.StaticData
 import com.lie.puremusic.databinding.ActivityPlayerBinding
 import com.lie.puremusic.fragment.PlayerFragment
 import com.lie.puremusic.fragment.TestFragment1
@@ -57,6 +58,7 @@ class PlayerActivity : AppCompatActivity(){
 
     override fun finish() {
         super.finish()
+        StaticData.isCloud = false
         overridePendingTransition(R.anim.bottom_in, R.anim.bottom_out)
     }
 }

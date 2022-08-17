@@ -19,29 +19,14 @@ import com.lie.puremusic.utils.CropTransformation
 import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.activity.LoadingActivity
-import com.lie.puremusic.activity.SongListActivity
-import com.lie.puremusic.pojo.Song
-import com.lie.puremusic.pojo.SongList
-import com.lie.puremusic.utils.GetSongData
-import com.lie.puremusic.utils.RedisUtils
+import com.lie.puremusic.music.netease.PlaylistRecommend
+import com.lie.puremusic.standard.data.StandardPlaylistData
 import jp.wasabeef.glide.transformations.BlurTransformation
-import okhttp3.*
-import org.json.JSONObject
-import java.io.IOException
-import java.util.concurrent.Executors
 
 class MyRecyclerGridAdapter(
     private val context: Context,
-    List: MutableList<SongList?>,
-    Style: Int
+    private val playlistRecommendDataResult: ArrayList<PlaylistRecommend.PlaylistRecommendDataResult>
 ) : RecyclerView.Adapter<MyRecyclerGridAdapter.InnerHolder>() {
-    private val List: MutableList<SongList?>
-    private val Style: Int
-
-    init {
-        this.List = List
-        this.Style = Style
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InnerHolder {
         val view: View =
@@ -53,9 +38,11 @@ class MyRecyclerGridAdapter(
         holder: InnerHolder,
         @SuppressLint("RecyclerView") position: Int
     ) {
-        holder.tv.setText(List[position]?.getName())
+
+        val playlist = playlistRecommendDataResult[position]
+        holder.tv.setText(playlist.name)
         Glide.with(context)
-            .load(List[position]?.getCover_url() + "?param=390y390")
+            .load(playlist.picUrl + "?param=390y390")
             .transform(
                 CropTransformation(
                     0,
@@ -66,7 +53,7 @@ class MyRecyclerGridAdapter(
             )
             .into(holder.bg1)
         Glide.with(context)
-            .load(List[position]?.getCover_url() + "?param=390y390")
+            .load(playlist.picUrl + "?param=390y390")
             .apply(
                 RequestOptions.bitmapTransform(
                     MultiTransformation<Bitmap?>(
@@ -82,17 +69,19 @@ class MyRecyclerGridAdapter(
             .into(holder.bg2)
         holder.Card.setOnClickListener {
             val intent = Intent(context, LoadingActivity::class.java)
-            intent.putExtra("style","PopularList")
-            intent.putExtra("index",position + StaticData.offset * 6)
+            intent.putExtra("style", "SongList")
+            intent.putExtra("id", playlist.id)
+            intent.putExtra("picUrl", playlist.picUrl)
+            intent.putExtra("name", playlist.name)
+            intent.putExtra("playCount", playlist.playCount)
 //            val intent = Intent(context, LoadingActivity::class.java)
 //            intent.putExtra("style","SquareList")
 //            intent.putExtra("index",position)
             context.startActivity(intent)
         }
     }
-
     override fun getItemCount(): Int {
-        return List.size
+        return playlistRecommendDataResult.size
     }
 
     inner class InnerHolder(view: View) : RecyclerView.ViewHolder(view) {

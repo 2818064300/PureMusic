@@ -166,9 +166,9 @@ class MainActivity : AppCompatActivity() {
             binding.PlayBar.visibility = View.VISIBLE
             binding.Avatar.visibility = View.VISIBLE
             binding.Avatar.startAnimation(animation)
-            binding.BarName.setText(StaticData.Songs?.getName())
+            binding.BarName.setText(StaticData.Songs?.name)
             Glide.with(this)
-                .load(StaticData.Songs?.getCover_url() + "?param=200y200")
+                .load(StaticData.Songs?.imageUrl + "?param=200y200")
                 .into(binding.Avatar)
         }
     }

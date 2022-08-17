@@ -14,19 +14,15 @@ import com.bumptech.glide.Glide
 import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.activity.LoadingActivity
+import com.lie.puremusic.music.netease.PlaylistRecommend
+import com.lie.puremusic.music.netease.SingerRecommend
 import com.lie.puremusic.pojo.Singer
 import de.hdodenhof.circleimageview.CircleImageView
 
 class MyRecyclerGridAdapter2(
     private val context: Context,
-    List: MutableList<Singer?>,
+    private val singerRecommendDataResult: ArrayList<SingerRecommend.SingerRecommendDataResult>,
 ) : RecyclerView.Adapter<MyRecyclerGridAdapter2.InnerHolder>() {
-    private val List: MutableList<Singer?>
-
-    init {
-        this.List = List
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InnerHolder {
         val view: View =
             LayoutInflater.from(parent.context).inflate(R.layout.list_item7, parent, false)
@@ -37,20 +33,23 @@ class MyRecyclerGridAdapter2(
         holder: InnerHolder,
         @SuppressLint("RecyclerView") position: Int
     ) {
+        val singer = singerRecommendDataResult[position]
         Glide.with(context)
-            .load(StaticData.Home.getSingers()?.get(position)?.getCover_url())
+            .load(singer.picUrl)
             .into(holder.CircleImageView)
-        holder.CircleImageView_TextView.setText(StaticData.Home.getSingers()?.get(position)?.getName())
+        holder.CircleImageView_TextView.text = singer.name
         holder.CircleImageView.setOnClickListener {
             val intent = Intent(context, LoadingActivity::class.java)
             intent.putExtra("style","SingerList")
-            intent.putExtra("index",position)
+            intent.putExtra("id",singer.id)
+            intent.putExtra("picUrl", singer.picUrl)
+            intent.putExtra("name", singer.name)
             context.startActivity(intent)
         }
     }
 
     override fun getItemCount(): Int {
-        return List.size
+        return singerRecommendDataResult.size
     }
 
     inner class InnerHolder(view: View) : RecyclerView.ViewHolder(view) {

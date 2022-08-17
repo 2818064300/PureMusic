@@ -11,7 +11,7 @@
         app:lrcCurrentTextColor="@color/blue"
         app:lrcTextSize="24dp"
         app:lrcNormalTextSize="18dp"
-        app:lrcPadding="@dimen/x120"
+        app:lrcPadding="@dimen/x100"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"

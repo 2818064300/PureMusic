@@ -30,13 +30,13 @@ class SquareFragment5 : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = context?.let { StaticData.Square.get(4)?.getSongsLists()?.let { it1 -> MyRecyclerGridAdapter(it, it1, 2) } }
-        val alphaAdapter = adapter?.let { AlphaInAnimationAdapter(it) }
-        binding.CardGroup.setAdapter(alphaAdapter?.let { AlphaInAnimationAdapter(it) })
-        val layoutManager = GridLayoutManager(context, 3)
-        layoutManager.orientation = RecyclerView.VERTICAL
-        binding.CardGroup.setLayoutManager(layoutManager)
-        binding.CardGroup.addItemDecoration(SpacesItemDecoration())
+//        val adapter = context?.let { StaticData.Square.get(4)?.getSongsLists()?.let { it1 -> MyRecyclerGridAdapter(it, it1, 2) } }
+//        val alphaAdapter = adapter?.let { AlphaInAnimationAdapter(it) }
+//        binding.CardGroup.setAdapter(alphaAdapter?.let { AlphaInAnimationAdapter(it) })
+//        val layoutManager = GridLayoutManager(context, 3)
+//        layoutManager.orientation = RecyclerView.VERTICAL
+//        binding.CardGroup.setLayoutManager(layoutManager)
+//        binding.CardGroup.addItemDecoration(SpacesItemDecoration())
     }
 
     override fun onDestroyView() {

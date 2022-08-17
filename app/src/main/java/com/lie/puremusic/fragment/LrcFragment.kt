@@ -32,9 +32,8 @@ class LrcFragment : Fragment() {
         init()
         Timer().schedule(object : TimerTask() {
             override fun run() {
-                StaticData.Songs?.getLyric()?.getCurrentPosition()?.toLong()
-                    ?.let { binding.LrcView.updateTime(it) }
-                if(!Lrc.equals(StaticData.Songs?.getLyric()?.getContent())){
+                StaticData.CurrentPosition?.let { binding.LrcView.updateTime(it) }
+                if(!Lrc.equals(StaticData.SongLrc)){
                     init()
                     val activity = activity as PlayerActivity?
                     activity?.goPlayer()
@@ -44,18 +43,18 @@ class LrcFragment : Fragment() {
     }
 
     private fun init(){
-        Lrc = StaticData.Songs?.getLyric()?.getContent()
+        Lrc = StaticData.SongLrc
         binding.LrcView.loadLrc(Lrc)
-        if (StaticData.Songs?.getVibrantLight() != null && StaticData.Songs?.getVibrant() != null) {
-            StaticData.Songs?.getVibrant()?.getRgb()
+        if (StaticData.PlayDataEx?.VibrantLight != null && StaticData.PlayDataEx?.Vibrant != null) {
+            StaticData.PlayDataEx?.Vibrant?.getRgb()
                 ?.let { BurnUtil.colorBurn(it) }?.let { binding.LrcView.setCurrentColor(it) }
-            StaticData.Songs?.getVibrantLight()?.getRgb()
+            StaticData.PlayDataEx?.VibrantLight?.getRgb()
                 ?.let { binding.LrcView.setNormalColor(it) }
         } else{
-            if (StaticData.Songs?.getVibrantDark() != null && StaticData.Songs?.getMuted() != null) {
-                StaticData.Songs?.getMuted()?.getRgb()
+            if (StaticData.PlayDataEx?.VibrantDark != null && StaticData.PlayDataEx?.Muted != null) {
+                StaticData.PlayDataEx?.Muted?.getRgb()
                     ?.let { BurnUtil.colorBurn(it) }?.let { binding.LrcView.setCurrentColor(it) }
-                StaticData.Songs?.getVibrantDark()?.getRgb()
+                StaticData.PlayDataEx?.VibrantDark?.getRgb()
                     ?.let { binding.LrcView.setNormalColor(it) }
             }
         }

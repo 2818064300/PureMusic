@@ -2,14 +2,12 @@ package com.lie.puremusic.utils
 
 import android.content.Context
 import com.lie.puremusic.StaticData
-import com.lie.puremusic.pojo.SongList
-import com.lie.puremusic.pojo.User
+import com.lie.puremusic.music.netease.UserDetail
+import com.lie.puremusic.music.netease.UserPlaylist
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.Response
 import org.json.JSONObject
 import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 
 class GetUser : Runnable {
@@ -58,61 +56,5 @@ class GetUser : Runnable {
 
 
         }
-        StaticData.User = User(StaticData.user?.getId())
-        val pools = Executors.newCachedThreadPool()
-        pools.submit() {
-            val request: Request = Request.Builder()
-                .url("http://www.puremusic.com.cn:3000/user/detail?uid=" + StaticData.user?.getMusic_id())
-                .build()
-            val response: Response? = OkHttpClient().newCall(request).execute()
-            val User = response?.body?.string()?.let { JSONObject(it) }
-            //获取登录用户信息
-            if (User != null) {
-                StaticData.User?.setIdentify(User.getJSONObject("identify").getString("imageDesc"))
-                StaticData.User?.setLevel(User.getInt("level"))
-                StaticData.User?.setListenSongs(User.getInt("listenSongs"))
-            }
-        }
-        pools.submit() {
-            val request: Request = Request.Builder()
-                .url("http://www.puremusic.com.cn:3000/user/playlist?uid=" + StaticData.user?.getMusic_id())
-                .addHeader("cookie", StaticData.cookie)
-                .build()
-            val response: Response? = OkHttpClient().newCall(request).execute()
-            val playlists =
-                response?.body?.string()?.let { JSONObject(it).getJSONArray("playlist") }
-            if (playlists != null) {
-                StaticData.User?.setFavorite(SongList(playlists.getJSONObject(0).getString("id")))
-                StaticData.User?.getFavorite()
-                    ?.setName(playlists.getJSONObject(0).getString("name"))
-                StaticData.User?.getFavorite()
-                    ?.setCover_url(playlists.getJSONObject(0).getString("coverImgUrl"))
-                es.submit(
-                    GetSonglistData2(
-                        StaticData.User?.getFavorite(),
-                        playlists.getJSONObject(0),
-                        true
-                    )
-                )
-                //遍历用户歌单(除去我喜欢的音乐)
-                for (i in 1 until playlists.length()) {
-                    StaticData.User?.getSongLists()
-                        ?.add(SongList(playlists.getJSONObject(i).getString("id")))
-                    StaticData.User?.getSongLists()?.get(i - 1)
-                        ?.setName(playlists.getJSONObject(i).getString("name"))
-                    StaticData.User?.getSongLists()?.get(i - 1)
-                        ?.setCover_url(playlists.getJSONObject(i).getString("coverImgUrl"))
-                    es.submit(
-                        GetSonglistData2(
-                            StaticData.User?.getSongLists()?.get(i - 1),
-                            playlists.getJSONObject(i),
-                            true
-                        )
-                    )
-                }
-            }
-            es.shutdown()
-        }
-        es.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS)
     }
 }

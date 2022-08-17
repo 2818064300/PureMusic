@@ -22,9 +22,15 @@ import com.lie.puremusic.*
 import com.lie.puremusic.activity.PlayerActivity
 import com.lie.puremusic.adapter.MediaPlayerHelper
 import com.lie.puremusic.databinding.FragmentPlayerBinding
+import com.lie.puremusic.music.netease.SongUrl
+import com.lie.puremusic.standard.SearchLyric
+import com.lie.puremusic.standard.data.SONG_QUALITY_HQ
+import com.lie.puremusic.standard.data.StandardSongDataEx
+import com.lie.puremusic.standard.data.quality
 import com.lie.puremusic.utils.BurnUtil
 import com.lie.puremusic.utils.GetLyricData
 import com.lie.puremusic.utils.GetMusicData
+import com.lie.puremusic.utils.parse
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
 import com.liulishuo.filedownloader.FileDownloader
@@ -35,7 +41,7 @@ import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-class PlayerFragment : Fragment(), View.OnClickListener{
+class PlayerFragment : Fragment(), View.OnClickListener {
     private var _binding: FragmentPlayerBinding? = null
     private val binding get() = _binding!!
     private var animation: Animation? = null
@@ -50,6 +56,7 @@ class PlayerFragment : Fragment(), View.OnClickListener{
         return binding.root
 
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         FileDownloader.setup(context)
@@ -73,19 +80,20 @@ class PlayerFragment : Fragment(), View.OnClickListener{
                             PlayerActivity.mediaPlayerHelper?.seekTo(binding.SeekBar.getProgress())
                             isSeekbarChaning = false
                         }
-                        PlayerActivity.mediaPlayerHelper?.currentPosition?.let { binding.LrcView.updateTime(it.toLong()) }
                         PlayerActivity.mediaPlayerHelper?.currentPosition?.let {
-                            StaticData.Songs?.getLyric()?.setCurrentPosition(
-                                it
+                            binding.LrcView.updateTime(
+                                it.toLong()
                             )
                         }
+                        StaticData.CurrentPosition =
+                            PlayerActivity.mediaPlayerHelper?.currentPosition?.toLong()
                         binding.TvStart.setText(
                             PlayerActivity.mediaPlayerHelper?.currentPosition?.toLong()?.div(1000)
                                 ?.let { calculateTime(it) }) //开始时间
                         binding.TvEnd.setText(
                             (PlayerActivity.mediaPlayerHelper?.duration?.toLong())?.div(1000)
                                 ?.let { calculateTime(it) }) //总时长
-                    } else{
+                    } else {
                         if (isSeekbarChaning) {
                             PlayerActivity.mediaPlayerHelper?.seekTo(binding.SeekBar.getProgress())
                             isSeekbarChaning = false
@@ -107,11 +115,16 @@ class PlayerFragment : Fragment(), View.OnClickListener{
             override fun onSingleTapUp() {}
         })
         initView()
+        var type: String = if (StaticData.isCloud) {
+            "Cloud"
+        } else {
+            "Netease"
+        }
         val path =
-            Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + StaticData.Songs?.getStyle() + "/" + StaticData.Songs?.getId()
+            Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + type + "/" + StaticData.Songs?.id
         val file1 = File("$path.flac")
         val file2 = File("$path.mp3")
-        if ((file1.exists() || file2.exists()) && StaticData.Songs?.getId() !== StaticData.Playing_ID) {
+        if ((file1.exists() || file2.exists()) && StaticData.Songs?.id !== StaticData.Playing_ID) {
             if (file1.exists()) {
                 load("$path.flac", 0)
             } else {
@@ -125,90 +138,130 @@ class PlayerFragment : Fragment(), View.OnClickListener{
 //            }
 //        }
         binding.playbtn4New.setOnClickListener {
-            if(!isReplay) {
+            if (!isReplay) {
                 isReplay = true
-                binding.playbtn4New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                    R.drawable.refresh_pressed
-                ) }
+                binding.playbtn4New.background = context?.let { it1 ->
+                    ContextCompat.getDrawable(
+                        it1,
+                        R.drawable.refresh_pressed
+                    )
+                }
                 context?.let { it1 -> Toasty.info(it1, "循环播放.", Toast.LENGTH_SHORT, true).show() }
-            } else{
+            } else {
                 isReplay = false
-                binding.playbtn4New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                    R.drawable.refresh
-                ) }
+                binding.playbtn4New.background = context?.let { it1 ->
+                    ContextCompat.getDrawable(
+                        it1,
+                        R.drawable.refresh
+                    )
+                }
                 context?.let { it1 -> Toasty.info(it1, "取消循环播放.", Toast.LENGTH_SHORT, true).show() }
             }
         }
         binding.playbtn5New.setOnClickListener {
-            if(!isDownload) {
+            if (!isDownload) {
                 isDownload = true
-                binding.playbtn5New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                    R.drawable.download_pressed
-                ) }
+                binding.playbtn5New.background = context?.let { it1 ->
+                    ContextCompat.getDrawable(
+                        it1,
+                        R.drawable.download_pressed
+                    )
+                }
                 context?.let { it1 -> Toasty.info(it1, "开始下载歌曲.", Toast.LENGTH_SHORT, true).show() }
-            } else{
+            } else {
                 isDownload = false
-                binding.playbtn5New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                    R.drawable.download
-                ) }
+                binding.playbtn5New.background = context?.let { it1 ->
+                    ContextCompat.getDrawable(
+                        it1,
+                        R.drawable.download
+                    )
+                }
             }
         }
         binding.playbtn6New.setOnClickListener {
-            if(!isAdd) {
+            if (!isAdd) {
                 isAdd = true
-                binding.playbtn6New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                    R.drawable.add_pressed
-                ) }
+                binding.playbtn6New.background = context?.let { it1 ->
+                    ContextCompat.getDrawable(
+                        it1,
+                        R.drawable.add_pressed
+                    )
+                }
                 context?.let { it1 -> Toasty.info(it1, "已添加歌曲.", Toast.LENGTH_SHORT, true).show() }
-            } else{
+            } else {
                 isAdd = false
-                binding.playbtn6New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                    R.drawable.add
-                ) }
-                context?.let { it1 -> Toasty.warning(it1, "已移除歌曲.", Toast.LENGTH_SHORT, true).show() }
+                binding.playbtn6New.background = context?.let { it1 ->
+                    ContextCompat.getDrawable(
+                        it1,
+                        R.drawable.add
+                    )
+                }
+                context?.let { it1 ->
+                    Toasty.warning(it1, "已移除歌曲.", Toast.LENGTH_SHORT, true).show()
+                }
             }
         }
         binding.playbtn7New.setOnClickListener {
-            if(!isMark) {
+            if (!isMark) {
                 isMark = true
-                binding.playbtn7New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                    R.drawable.heart_pressed
-                ) }
+                binding.playbtn7New.background = context?.let { it1 ->
+                    ContextCompat.getDrawable(
+                        it1,
+                        R.drawable.heart_pressed
+                    )
+                }
                 context?.let { it1 -> Toasty.info(it1, "已收藏歌曲.", Toast.LENGTH_SHORT, true).show() }
-            } else{
+            } else {
                 isMark = false
-                binding.playbtn7New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                    R.drawable.heart
-                ) }
-                context?.let { it1 -> Toasty.warning(it1, "取消收藏!", Toast.LENGTH_SHORT, true).show() }
+                binding.playbtn7New.background = context?.let { it1 ->
+                    ContextCompat.getDrawable(
+                        it1,
+                        R.drawable.heart
+                    )
+                }
+                context?.let { it1 ->
+                    Toasty.warning(it1, "取消收藏!", Toast.LENGTH_SHORT, true).show()
+                }
             }
         }
         binding.playbtn8New.setOnClickListener {
-            if(!isComment) {
+            if (!isComment) {
                 isComment = true
-                binding.playbtn8New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                    R.drawable.chat_pressed
-                ) }
+                binding.playbtn8New.background = context?.let { it1 ->
+                    ContextCompat.getDrawable(
+                        it1,
+                        R.drawable.chat_pressed
+                    )
+                }
                 //展开评论区
-            } else{
+            } else {
                 isComment = false
-                binding.playbtn8New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                    R.drawable.chat
-                ) }
+                binding.playbtn8New.background = context?.let { it1 ->
+                    ContextCompat.getDrawable(
+                        it1,
+                        R.drawable.chat
+                    )
+                }
             }
         }
         binding.playbtn9New.setOnClickListener {
-            if(!isList) {
+            if (!isList) {
                 isList = true
-                binding.playbtn9New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                    R.drawable.list_pressed
-                ) }
+                binding.playbtn9New.background = context?.let { it1 ->
+                    ContextCompat.getDrawable(
+                        it1,
+                        R.drawable.list_pressed
+                    )
+                }
                 //展开播放列表
-            } else{
+            } else {
                 isList = false
-                binding.playbtn9New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                    R.drawable.list
-                ) }
+                binding.playbtn9New.background = context?.let { it1 ->
+                    ContextCompat.getDrawable(
+                        it1,
+                        R.drawable.list
+                    )
+                }
             }
         }
         binding.Cover.setOnClickListener {
@@ -216,30 +269,23 @@ class PlayerFragment : Fragment(), View.OnClickListener{
             activity?.goLrc()
         }
     }
+
     @SuppressLint("ResourceType")
     private fun initView() {
         //歌曲名
-        binding.SongName.setText(StaticData.Songs?.getName())
+        binding.SongName.setText(StaticData.Songs?.name)
         //歌手名
-        var SingerName = ""
-        for (i in 0 until (StaticData.Songs?.getSingers()?.size!!)) {
-            if (i == 0) {
-                SingerName += StaticData.Songs?.getSingers()?.get(i)?.getName()
-            } else {
-                SingerName += "/" + StaticData.Songs?.getSingers()?.get(i)?.getName()
-            }
-        }
-        binding.SingerName.setText(SingerName)
-        if (StaticData.Songs?.getVibrantLight() != null && StaticData.Songs?.getVibrant() != null) {
-            binding.SeekBar.setProgressColor(BurnUtil.colorBurn(StaticData.Songs?.getVibrant()!!.getRgb()))
-            binding.SeekBar.setNormalColor(StaticData.Songs?.getVibrantLight()!!.getRgb())
+        binding.SingerName.text = StaticData.Songs?.artists?.parse()
+        if (StaticData.PlayDataEx?.VibrantLight != null && StaticData.PlayDataEx?.Vibrant != null) {
+            binding.SeekBar.setProgressColor(BurnUtil.colorBurn(StaticData.PlayDataEx?.Vibrant!!.getRgb()))
+            binding.SeekBar.setNormalColor(StaticData.PlayDataEx?.VibrantLight!!.getRgb())
         }
         context?.let {
             Glide.with(it)
-                .load(StaticData.Songs?.getCover_url())
+                .load(StaticData.Songs?.imageUrl)
                 .into(binding.Cover)
         }
-        if (StaticData.Songs?.getId().equals(StaticData.Playing_ID)) {
+        if (StaticData.Songs?.id.equals(StaticData.Playing_ID)) {
             if (PlayerActivity.mediaPlayerHelper?.isPlaying == true) {
                 binding.PlayerIbtn.setImageDrawable(
                     context?.let {
@@ -263,68 +309,77 @@ class PlayerFragment : Fragment(), View.OnClickListener{
             Timer().schedule(object : TimerTask() {
                 override fun run() {
                     if (!isSeekbarChaning) {
-                        PlayerActivity.mediaPlayerHelper?.currentPosition?.let { binding.SeekBar.setProgress(it) }
                         PlayerActivity.mediaPlayerHelper?.currentPosition?.let {
-                            StaticData.Songs?.setCurrentPosition(it)
+                            binding.SeekBar.setProgress(
+                                it
+                            )
                         }
+                        StaticData.CurrentPosition =
+                            PlayerActivity.mediaPlayerHelper?.currentPosition?.toLong()
                     }
                 }
             }, 0, 50)
         } else {
             binding.TvStart.setText(calculateTime(0))
-            binding.TvEnd.text =
-                StaticData.Songs?.getTime()?.div(1000)?.let { calculateTime(it.toLong()) }
+//            binding.TvEnd.text = StaticData.Songs?.getTime()?.div(1000)?.let { calculateTime(it.toLong()) }
+            binding.TvEnd.text = calculateTime(0)
         }
-        if (StaticData.Songs?.getLyric() != null) {
-            binding.LrcView.loadLrc(StaticData.Songs?.getLyric()?.getContent())
-            if (StaticData.Songs?.getVibrantLight() != null && StaticData.Songs?.getVibrant() != null) {
-                StaticData.Songs?.getVibrant()?.getRgb()
+        if (StaticData.SongUrl != null) {
+            StaticData.Songs?.let {
+                SearchLyric.getLyricString(it, {
+                    StaticData.SongLrc = it
+                    binding.LrcView.loadLrc(it)
+                })
+            }
+            if (StaticData.PlayDataEx?.VibrantLight != null && StaticData.PlayDataEx?.Vibrant != null) {
+                StaticData.PlayDataEx?.Vibrant?.getRgb()
                     ?.let { BurnUtil.colorBurn(it) }?.let { binding.LrcView.setCurrentColor(it) }
-                StaticData.Songs?.getVibrantLight()?.getRgb()
+                StaticData.PlayDataEx?.VibrantLight?.getRgb()
                     ?.let { binding.LrcView.setNormalColor(it) }
                 binding.playBtn.setImageTintList(
-                    StaticData.Songs?.getVibrantLight()?.getRgb()?.let {
+                    StaticData.PlayDataEx?.VibrantLight?.getRgb()?.let {
                         ColorStateList.valueOf(
                             it
                         )
                     }
                 )
                 binding.PlayerIbtn2.setImageTintList(
-                    StaticData.Songs?.getVibrantLight()?.getRgb()?.let {
+                    StaticData.PlayDataEx?.VibrantLight?.getRgb()?.let {
                         ColorStateList.valueOf(
                             it
                         )
                     }
                 )
                 binding.PlayerIbtn3.setImageTintList(
-                    StaticData.Songs?.getVibrantLight()?.getRgb()?.let {
+                    StaticData.PlayDataEx?.VibrantLight?.getRgb()?.let {
                         ColorStateList.valueOf(
                             it
                         )
                     }
                 )
             } else {
-                if (StaticData.Songs?.getVibrantDark() != null && StaticData.Songs?.getMuted() != null) {
-                    StaticData.Songs?.getMuted()?.getRgb()
-                        ?.let { BurnUtil.colorBurn(it) }?.let { binding.LrcView.setCurrentColor(it) }
-                    StaticData.Songs?.getVibrantDark()?.getRgb()
+                if (StaticData.PlayDataEx?.VibrantDark != null && StaticData.PlayDataEx?.Muted != null) {
+                    StaticData.PlayDataEx?.Muted?.getRgb()
+                        ?.let { BurnUtil.colorBurn(it) }
+                        ?.let { binding.LrcView.setCurrentColor(it) }
+                    StaticData.PlayDataEx?.VibrantDark?.getRgb()
                         ?.let { binding.LrcView.setNormalColor(it) }
                     binding.playBtn.setImageTintList(
-                        StaticData.Songs?.getVibrantDark()?.getRgb()?.let {
+                        StaticData.PlayDataEx?.VibrantDark?.getRgb()?.let {
                             ColorStateList.valueOf(
                                 it
                             )
                         }
                     )
                     binding.PlayerIbtn2.setImageTintList(
-                        StaticData.Songs?.getVibrantDark()?.getRgb()?.let {
+                        StaticData.PlayDataEx?.VibrantDark?.getRgb()?.let {
                             ColorStateList.valueOf(
                                 it
                             )
                         }
                     )
                     binding.PlayerIbtn3.setImageTintList(
-                        StaticData.Songs?.getVibrantDark()?.getRgb()?.let {
+                        StaticData.PlayDataEx?.VibrantDark?.getRgb()?.let {
                             ColorStateList.valueOf(
                                 it
                             )
@@ -333,49 +388,78 @@ class PlayerFragment : Fragment(), View.OnClickListener{
                 }
             }
         }
-        if(isReplay) {
-            binding.playbtn4New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                R.drawable.refresh_pressed
-            ) }
-        } else{
-            binding.playbtn4New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                R.drawable.refresh
-            ) }
+        if (isReplay) {
+            binding.playbtn4New.background = context?.let { it1 ->
+                ContextCompat.getDrawable(
+                    it1,
+                    R.drawable.refresh_pressed
+                )
+            }
+        } else {
+            binding.playbtn4New.background = context?.let { it1 ->
+                ContextCompat.getDrawable(
+                    it1,
+                    R.drawable.refresh
+                )
+            }
         }
-        if(isDownload) {
-            binding.playbtn5New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                R.drawable.download_pressed
-            ) }
-        } else{
-            binding.playbtn5New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                R.drawable.download
-            ) }
+        if (isDownload) {
+            binding.playbtn5New.background = context?.let { it1 ->
+                ContextCompat.getDrawable(
+                    it1,
+                    R.drawable.download_pressed
+                )
+            }
+        } else {
+            binding.playbtn5New.background = context?.let { it1 ->
+                ContextCompat.getDrawable(
+                    it1,
+                    R.drawable.download
+                )
+            }
         }
-        if(isAdd) {
-            binding.playbtn6New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                R.drawable.add_pressed
-            ) }
-        } else{
-            binding.playbtn6New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                R.drawable.add
-            ) }
+        if (isAdd) {
+            binding.playbtn6New.background = context?.let { it1 ->
+                ContextCompat.getDrawable(
+                    it1,
+                    R.drawable.add_pressed
+                )
+            }
+        } else {
+            binding.playbtn6New.background = context?.let { it1 ->
+                ContextCompat.getDrawable(
+                    it1,
+                    R.drawable.add
+                )
+            }
         }
-        if(isMark) {
-            binding.playbtn7New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                R.drawable.heart_pressed
-            ) }
-        } else{
-            binding.playbtn7New.background = context?.let { it1 -> ContextCompat.getDrawable(it1,
-                R.drawable.heart
-            ) }
+        if (isMark) {
+            binding.playbtn7New.background = context?.let { it1 ->
+                ContextCompat.getDrawable(
+                    it1,
+                    R.drawable.heart_pressed
+                )
+            }
+        } else {
+            binding.playbtn7New.background = context?.let { it1 ->
+                ContextCompat.getDrawable(
+                    it1,
+                    R.drawable.heart
+                )
+            }
         }
         if (rotate_num > 1) {
             binding.Cover.startAnimation(animation)
         }
+        if (StaticData.PlayList_now == null) {
+            StaticData.PlayList_now = StaticData.PlayListData
+        }
         view?.invalidate()
     }
+
     @SuppressLint("ResourceType")
     private fun initMediaPlayer(url: String, seek: Int) {
+        println(url)
         PlayerActivity.mediaPlayerHelper?.setPath(url)
         PlayerActivity.mediaPlayerHelper?.setOnMeidaPlayerHelperListener(object :
             MediaPlayerHelper.OnMeidaPlayerHelperListener {
@@ -393,19 +477,26 @@ class PlayerFragment : Fragment(), View.OnClickListener{
                     PlayerActivity.mediaPlayerHelper?.start()
                 } else {
                     if (PlayerActivity.mediaPlayerHelper?.currentPosition?.plus(1500)!! >= PlayerActivity.mediaPlayerHelper!!.duration!!) {
-                        val index3: Int = StaticData.PlayList_now.indexOf(StaticData.Songs)
-                        if (index3 < StaticData.PlayList_now.size - 1 && CanPlay) {
+                        if (StaticData.Position < StaticData.PlayList_now!!.songs.size - 1 && CanPlay) {
                             CanPlay = false
+                            var type: String = if (StaticData.isCloud) {
+                                "Cloud"
+                            } else {
+                                "Netease"
+                            }
                             val path3 =
-                                Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + StaticData.Songs?.getStyle() + "/" + StaticData.PlayList_now.get(
-                                    index3 + 1
-                                )?.getId()
+                                Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + type + "/" + StaticData.PlayList_now?.songs?.get(
+                                    StaticData.Position + 1
+                                )?.id
                             if (File("$path3.flac").exists() || File("$path3.mp3").exists()) {
+                                StaticData.Position += 1
                                 if (File("$path3.flac").exists()) {
-                                    StaticData.Songs = StaticData.PlayList_now.get(index3 + 1)
+                                    StaticData.Songs =
+                                        StaticData.PlayList_now?.songs?.get(StaticData.Position)
                                     load("$path3.flac", 0)
                                 } else {
-                                    StaticData.Songs = StaticData.PlayList_now.get(index3 + 1)
+                                    StaticData.Songs =
+                                        StaticData.PlayList_now?.songs?.get(StaticData.Position)
                                     load("$path3.mp3", 0)
                                 }
                             } else {
@@ -434,7 +525,7 @@ class PlayerFragment : Fragment(), View.OnClickListener{
                                         true
                                     ).show()
                                 }
-                                download(index3 + 1, path3)
+                                download(StaticData.Position + 1, path3)
                             }
                         }
                     }
@@ -468,15 +559,21 @@ class PlayerFragment : Fragment(), View.OnClickListener{
             initView()
         }
     }
+
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.Player_ibtn -> if (!PlayerActivity.mediaPlayerHelper!!.isPlaying || StaticData.Songs?.getId() !== StaticData.Playing_ID) {
+            R.id.Player_ibtn -> if (!PlayerActivity.mediaPlayerHelper!!.isPlaying || StaticData.Songs?.id !== StaticData.Playing_ID) {
+                var type: String = if (StaticData.isCloud) {
+                    "Cloud"
+                } else {
+                    "Netease"
+                }
                 val path =
-                    Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + StaticData.Songs?.getStyle() + "/" + StaticData.Songs?.getId()
+                    Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + type + "/" + StaticData.Songs?.id
                 val file1 = File("$path.flac")
                 val file2 = File("$path.mp3")
                 if (file1.exists() || file2.exists()) {
-                    if (StaticData.Songs?.getId() !== StaticData.Playing_ID) {
+                    if (StaticData.Songs?.id !== StaticData.Playing_ID) {
                         if (file1.exists()) {
                             load("$path.flac", 0)
                         } else {
@@ -527,19 +624,26 @@ class PlayerFragment : Fragment(), View.OnClickListener{
                 )
             }
             R.id.Player_ibtn2 -> {
-                val index1: Int = StaticData.PlayList_now.indexOf(StaticData.Songs)
-                if (index1 > 0 && CanPlay) {
+                if (StaticData.Position > 0 && CanPlay) {
                     CanPlay = false
+                    var type: String = if (StaticData.isCloud) {
+                        "Cloud"
+                    } else {
+                        "Netease"
+                    }
                     val path1 =
-                        Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + StaticData.Songs?.getStyle() + "/" + StaticData.PlayList_now.get(
-                            index1 - 1
-                        )?.getId()
+                        Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + type + "/" + StaticData.PlayList_now?.songs?.get(
+                            StaticData.Position - 1
+                        )?.id
                     if (File("$path1.flac").exists() || File("$path1.mp3").exists()) {
+                        StaticData.Position -= 1
                         if (File("$path1.flac").exists()) {
-                            StaticData.Songs = StaticData.PlayList_now.get(index1 - 1)
+                            StaticData.Songs =
+                                StaticData.PlayList_now?.songs?.get(StaticData.Position)
                             load("$path1.flac", 0)
                         } else {
-                            StaticData.Songs = StaticData.PlayList_now.get(index1 - 1)
+                            StaticData.Songs =
+                                StaticData.PlayList_now?.songs?.get(StaticData.Position)
                             load("$path1.mp3", 0)
                         }
                     } else {
@@ -566,25 +670,31 @@ class PlayerFragment : Fragment(), View.OnClickListener{
 //                            }).start();
 //                        }
                         context?.let { Toasty.info(it, "开始缓存歌曲.", Toast.LENGTH_SHORT, true).show() }
-                        //                        DU.download(index1 - 1,path1,SongData.PlayList.get(index1 - 1).getType());
-                        download(index1 - 1, path1)
+                        download(StaticData.Position - 1, path1)
                     }
                 }
             }
             R.id.Player_ibtn3 -> {
-                val index2: Int = StaticData.PlayList_now.indexOf(StaticData.Songs)
-                if (index2 < StaticData.PlayList_now.size - 1 && CanPlay) {
+                if (StaticData.Position < StaticData.PlayList_now?.songs!!.size - 1 && CanPlay) {
                     CanPlay = false
+                    var type: String = if (StaticData.isCloud) {
+                        "Cloud"
+                    } else {
+                        "Netease"
+                    }
                     val path2 =
-                        Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + StaticData.Songs?.getStyle() + "/" + StaticData.PlayList_now.get(
-                            index2 + 1
-                        )?.getId()
+                        Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + type + "/" + StaticData.PlayList_now?.songs?.get(
+                            StaticData.Position + 1
+                        )?.id
                     if (File("$path2.flac").exists() || File("$path2.mp3").exists()) {
+                        StaticData.Position += 1
                         if (File("$path2.flac").exists()) {
-                            StaticData.Songs = StaticData.PlayList_now.get(index2 + 1)
+                            StaticData.Songs =
+                                StaticData.PlayList_now?.songs?.get(StaticData.Position)
                             load("$path2.flac", 0)
                         } else {
-                            StaticData.Songs = StaticData.PlayList_now.get(index2 + 1)
+                            StaticData.Songs =
+                                StaticData.PlayList_now?.songs?.get(StaticData.Position)
                             load("$path2.mp3", 0)
                         }
                     } else {
@@ -610,9 +720,8 @@ class PlayerFragment : Fragment(), View.OnClickListener{
 //                                }
 //                            }).start();
 //                        }
-//                        DU.download(index2 + 1,path2,SongData.PlayList.get(index2 + 1).getType());
                         context?.let { Toasty.info(it, "开始缓存歌曲.", Toast.LENGTH_SHORT, true).show() }
-                        download(index2 + 1, path2)
+                        download(StaticData.Position + 1, path2)
                     }
                 }
             }
@@ -622,16 +731,16 @@ class PlayerFragment : Fragment(), View.OnClickListener{
 
     fun play() {
         CanPlay = true
-        StaticData.Playing_ID = StaticData.Songs?.getId().toString()
+        StaticData.Playing_ID = StaticData.Songs?.id.toString()
         if (StaticData.isFirstPlay) {
-            StaticData.PlayList_now = StaticData.PlayList
+            StaticData.PlayList_now = StaticData.PlayListData
             StaticData.isFirstPlay = false
         }
         if (!PlayerActivity.mediaPlayerHelper?.isPlaying!!) {
             context?.let {
                 Toasty.custom(
                     it,
-                    "开始播放  " + "\"" + StaticData.Songs?.getName() + "\"",
+                    "开始播放  " + "\"" + StaticData.Songs?.name + "\"",
                     R.mipmap.ic_launcher_round,
                     R.color.material_blue_800,
                     750,
@@ -660,16 +769,18 @@ class PlayerFragment : Fragment(), View.OnClickListener{
                     val activity = activity as PlayerActivity?
                     activity?.runOnUiThread {
                         if (!isSeekbarChaning) {
-                            PlayerActivity.mediaPlayerHelper?.currentPosition?.let { binding.LrcView.updateTime(it.toLong()) }
                             PlayerActivity.mediaPlayerHelper?.currentPosition?.let {
-                                StaticData.Songs?.getLyric()?.setCurrentPosition(
+                                binding.LrcView.updateTime(
+                                    it.toLong()
+                                )
+                            }
+                            PlayerActivity.mediaPlayerHelper?.currentPosition?.let {
+                                binding.SeekBar.setProgress(
                                     it
                                 )
                             }
-                            PlayerActivity.mediaPlayerHelper?.currentPosition?.let { binding.SeekBar.setProgress(it) }
-                            PlayerActivity.mediaPlayerHelper?.currentPosition?.let {
-                                StaticData.Songs?.setCurrentPosition(it)
-                            }
+                            StaticData.CurrentPosition =
+                                PlayerActivity.mediaPlayerHelper?.currentPosition?.toLong()
                         }
                     }
                 }
@@ -711,29 +822,54 @@ class PlayerFragment : Fragment(), View.OnClickListener{
 
     private fun load(url: String, Position: Int) {
         Thread {
-            if(!StaticData.Songs?.isCould()!!) {
-                if (StaticData.Songs?.getLyric() == null) {
+            if (!StaticData.isCloud) {
+                if (StaticData.SongUrl == null) {
                     val pools = Executors.newCachedThreadPool()
-                    pools.submit(GetLyricData(StaticData.Songs, StaticData.Songs?.getId()))
-                    pools.submit() {
-                        val p = Palette.from(getBitmapGlide(StaticData.Songs?.getCover_url())!!)
-                            .generate()
-                        StaticData.Songs?.setVibrant(p.vibrantSwatch)
-                        StaticData.Songs?.setVibrantLight(p.lightVibrantSwatch)
-                        StaticData.Songs?.setVibrantDark(p.darkVibrantSwatch)
-                        StaticData.Songs?.setMuted(p.mutedSwatch)
+                    var Vibrant: Palette.Swatch? = null
+                    var VibrantLight: Palette.Swatch? = null
+                    var VibrantDark: Palette.Swatch? = null
+                    var Muted: Palette.Swatch? = null
+                    pools.execute {
+                        StaticData.Songs?.let {
+                            SearchLyric.getLyricString(it, {
+                                StaticData.SongUrl = it
+                            })
+                        }
                     }
+                    pools.execute {
+                        val p: Palette? =
+                            getBitmapGlide(StaticData.Songs?.imageUrl)?.let { it1 ->
+                                Palette.from(it1)
+                                    .generate()
+                            }
+                        Vibrant = p?.getVibrantSwatch()
+                        VibrantLight = p?.getLightVibrantSwatch()
+                        VibrantDark = p?.getDarkVibrantSwatch()
+                        Muted = p?.getMutedSwatch()
+                    }
+
                     pools.shutdown()
                     pools.awaitTermination(
                         Long.MAX_VALUE,
                         TimeUnit.NANOSECONDS
                     )
-                    CanPlay = true
+                    StaticData.SongUrl = url
+                    StaticData.PlayDataEx = StandardSongDataEx(
+                        StaticData.Songs?.id,
+                        Vibrant,
+                        VibrantLight,
+                        VibrantDark,
+                        Muted
+                    )
                     initMediaPlayer(url, Position)
                 } else {
                     CanPlay = true
                     initMediaPlayer(url, Position)
                 }
+            } else {
+                CanPlay = true
+                StaticData.SongUrl = "http://puremusic.com.cn/Cloud/Music/music" + (StaticData.Position +1) + ".mp3"
+                initMediaPlayer(StaticData.SongUrl!!, Position)
             }
         }.start()
     }
@@ -756,66 +892,72 @@ class PlayerFragment : Fragment(), View.OnClickListener{
     fun download(index: Int, path: String) {
         Thread {
             val pools = Executors.newCachedThreadPool()
-            if(!StaticData.Songs?.isCould()!!){
-                pools.submit(StaticData.PlayList_now.get(index)?.getId()?.let {
-                    GetMusicData(
-                        StaticData.PlayList_now.get(index), it
-                    )
+            pools.execute {
+                SongUrl.getSongUrlCookie(StaticData.PlayList_now?.songs?.get(index)?.id.toString()) {
+                    if(StaticData.isCloud){
+                        StaticData.SongUrl = "http://puremusic.com.cn/Cloud/Music/music" + (index+1) + ".mp3"
+                    } else{
+                        StaticData.SongUrl = it
+                    }
+                    println(StaticData.SongUrl)
+                    val style: String = if (StaticData.PlayList_now?.songs?.get(index)
+                            ?.quality() == SONG_QUALITY_HQ
+                    ) {
+                        "flac"
+                    } else {
+                        "mp3"
+                    }
+                    FileDownloader.getImpl().create(StaticData.SongUrl)
+                        .setPath(path + "." + style)
+                        .setListener(object : FileDownloadListener() {
+                            override fun pending(
+                                task: BaseDownloadTask,
+                                soFarBytes: Int,
+                                totalBytes: Int
+                            ) {
+                            }
+
+                            override fun progress(
+                                task: BaseDownloadTask,
+                                soFarBytes: Int,
+                                totalBytes: Int
+                            ) {
+                            }
+
+                            override fun completed(task: BaseDownloadTask) {
+                                context?.let {
+                                    Toasty.success(it, "缓存成功.", Toast.LENGTH_SHORT, true)
+                                        .show()
+                                }
+                                StaticData.Position = index
+                                StaticData.Songs = StaticData.PlayList_now?.songs?.get(index)
+                                load(path + "." + style, 0)
+                            }
+
+                            override fun paused(
+                                task: BaseDownloadTask,
+                                soFarBytes: Int,
+                                totalBytes: Int
+                            ) {
+                            }
+
+                            override fun error(task: BaseDownloadTask, e: Throwable) {
+                                context?.let {
+                                    Toasty.error(
+                                        it,
+                                        "网络问题,请稍后再试!",
+                                        Toast.LENGTH_SHORT,
+                                        true
+                                    ).show()
+                                }
+                            }
+
+                            override fun warn(task: BaseDownloadTask) {}
+                        })
+                        .start()
                 }
-                )
             }
             pools.shutdown()
-            pools.awaitTermination(
-                Long.MAX_VALUE,
-                TimeUnit.NANOSECONDS
-            )
-            FileDownloader.getImpl().create(StaticData.PlayList_now.get(index)?.getMusic_url())
-                .setPath(path + "." + StaticData.PlayList_now.get(index)?.getType())
-                .setListener(object : FileDownloadListener() {
-                    override fun pending(
-                        task: BaseDownloadTask,
-                        soFarBytes: Int,
-                        totalBytes: Int
-                    ) {
-                    }
-
-                    override fun progress(
-                        task: BaseDownloadTask,
-                        soFarBytes: Int,
-                        totalBytes: Int
-                    ) {
-                    }
-
-                    override fun completed(task: BaseDownloadTask) {
-                        context?.let {
-                            Toasty.success(it, "缓存成功.", Toast.LENGTH_SHORT, true)
-                                .show()
-                        }
-                        StaticData.Songs = StaticData.PlayList_now.get(index)
-                        load(path + "." + StaticData.PlayList_now.get(index)?.getType(), 0)
-                    }
-
-                    override fun paused(
-                        task: BaseDownloadTask,
-                        soFarBytes: Int,
-                        totalBytes: Int
-                    ) {
-                    }
-
-                    override fun error(task: BaseDownloadTask, e: Throwable) {
-                        context?.let {
-                            Toasty.error(
-                                it,
-                                "网络问题,请稍后再试!",
-                                Toast.LENGTH_SHORT,
-                                true
-                            ).show()
-                        }
-                    }
-
-                    override fun warn(task: BaseDownloadTask) {}
-                })
-                .start()
         }.start()
     }
 

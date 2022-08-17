@@ -43,10 +43,7 @@ class MusicFragment : Fragment() {
         val typeface = Typeface.createFromAsset(MusicFragmentContext?.assets, "汉仪雅酷黑65W.ttf")
         binding.tv1.typeface = typeface
         binding.tv2.typeface = typeface
-        val adapter = context?.let {
-            StaticData.User?.getSongLists()
-                ?.let { it1 -> MyRecyclerAdapter4(it, it1) }
-        }
+        val adapter = context?.let { MyRecyclerAdapter4(it,StaticData.UserPlaylistData) }
         val alphaAdapter = adapter?.let { AlphaInAnimationAdapter(it) }
         binding.CardGroup.adapter = alphaAdapter?.let { AlphaInAnimationAdapter(it) }
         binding.CardGroup.layoutManager =
@@ -90,13 +87,19 @@ class MusicFragment : Fragment() {
             binding.tv1.text = "夜深了,请注意休息"
             binding.rect3.setImageResource(R.drawable.pic3)
         }
-        binding.tv9.text = "共" + StaticData.User?.getFavorite()?.getCount() + "首"
         binding.rect3.setOnClickListener {
             val intent = Intent(context, LoadingActivity::class.java)
-            intent.putExtra("style", "List_ID")
-            intent.putExtra("index", 0)
+            intent.putExtra("style", "SongList")
+            intent.putExtra("id", StaticData.MyFavorite?.id)
+            intent.putExtra("picUrl", StaticData.MyFavorite?.coverImgUrl)
+            intent.putExtra("name", StaticData.MyFavorite?.name)
+            intent.putExtra("playCount", 0)
             startActivity(intent)
         }
+        binding.tv7.text = StaticData.UserDetailData?.profile?.follows + " Focus on"
+        binding.tv8.text = StaticData.UserDetailData?.profile?.followeds + " Fans"
+        binding.tv9.text = "共" + StaticData.MyFavorite?.trackCount + "首"
+        binding.tv10.text = StaticData.UserDetailData?.level.toString() + " Level"
     }
 
     override fun onDestroyView() {

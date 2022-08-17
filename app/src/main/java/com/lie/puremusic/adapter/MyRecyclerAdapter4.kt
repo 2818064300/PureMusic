@@ -15,15 +15,19 @@ import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.activity.LoadingActivity
 import com.lie.puremusic.fragment.MusicFragment
+import com.lie.puremusic.music.netease.UserPlaylist
+import com.lie.puremusic.music.netease.data.UserPlaylistData
 import com.lie.puremusic.pojo.SongList
 import com.liulishuo.filedownloader.FileDownloader
+import okhttp3.internal.wait
 
-class MyRecyclerAdapter4(private val context: Context, List: MutableList<SongList?>) :
+class MyRecyclerAdapter4(private val context: Context, private val List : ArrayList<UserPlaylistData.Playlist>?) :
     RecyclerView.Adapter<MyRecyclerAdapter4.InnerHolder>() {
-    private var List: MutableList<SongList?> = ArrayList()
-
-    init {
-        this.List = List
+    inner class InnerHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var ivCover: ImageView = view.findViewById(R.id.ivCover)
+        var tvTitle: TextView = view.findViewById(R.id.tvTitle)
+        var tvSub: TextView = view.findViewById(R.id.tvSub)
+        var ibtn: ConstraintLayout = view.findViewById(R.id.ibtn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InnerHolder {
@@ -35,40 +39,26 @@ class MyRecyclerAdapter4(private val context: Context, List: MutableList<SongLis
 
     @SuppressLint("RecyclerView")
     override fun onBindViewHolder(holder: InnerHolder, position: Int) {
-        holder.tv1.setText(List[position]?.getName())
-        holder.tv2.setText(List[position]?.getCreator_name())
-        val url: String? = List[position]?.getCover_url()
-        Glide.with(context)
-            .load(url)
-            .into(holder.SongsList_bg)
-        holder.ibtn.setOnClickListener {
-            val intent = Intent(context, LoadingActivity::class.java)
-            if (context === MusicFragment.MusicFragmentContext) {
-                intent.putExtra("style", "UserList")
-                intent.putExtra("index", position)
-            } else {
-                intent.putExtra("style", "SearchList")
-                intent.putExtra("index", position)
+        with(holder) {
+            val UserPlaylist = List?.get(position)
+            tvTitle.text = UserPlaylist?.name
+            tvSub.text = UserPlaylist?.creator?.nickname
+                Glide.with(context)
+                    .load(UserPlaylist?.coverImgUrl)
+                    .into(holder.ivCover)
+            ibtn.setOnClickListener {
+                val intent = Intent(context, LoadingActivity::class.java)
+                intent.putExtra("style", "SongList")
+                intent.putExtra("id", UserPlaylist?.id)
+                intent.putExtra("picUrl", UserPlaylist?.coverImgUrl)
+                intent.putExtra("name", UserPlaylist?.name)
+                intent.putExtra("playCount", 0)
+                context.startActivity(intent)
             }
-            context.startActivity(intent)
         }
     }
 
     override fun getItemCount(): Int {
-        return List.size
-    }
-
-    inner class InnerHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var SongsList_bg: ImageView
-        var tv1: TextView
-        var tv2: TextView
-        var ibtn: ConstraintLayout
-
-        init {
-            SongsList_bg = view.findViewById(R.id.SongsList_bg)
-            tv1 = view.findViewById(R.id.tv1)
-            tv2 = view.findViewById(R.id.tv2)
-            ibtn = view.findViewById(R.id.ibtn)
-        }
+        return List?.size!!
     }
 }

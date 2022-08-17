@@ -9,14 +9,16 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.lie.puremusic.*
 import com.lie.puremusic.databinding.ActivityLoadingBinding
-import com.lie.puremusic.pojo.Singer
-import com.lie.puremusic.pojo.Song
-import com.lie.puremusic.pojo.SongList
+import com.lie.puremusic.music.netease.Playlist
+import com.lie.puremusic.music.netease.SearchDetail
+import com.lie.puremusic.music.netease.UserDetail
+import com.lie.puremusic.music.netease.UserPlaylist
 import com.lie.puremusic.pojo.SquareSongList
+import com.lie.puremusic.standard.data.StandardPlaylistData
+import com.lie.puremusic.standard.data.StandardSingerData
 import com.lie.puremusic.utils.*
 import es.dmoral.toasty.Toasty
 import okhttp3.*
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.Executors
@@ -41,29 +43,6 @@ class LoadingActivity : AppCompatActivity() {
         setContentView(binding.root)
         overridePendingTransition(R.anim.top_in, R.anim.top_out)
         Thread {
-            val request: Request = Request.Builder()
-                .url("https://v1.hitokoto.cn")
-                .method("GET", null)
-                .build()
-
-            OkHttpClient().newCall(request)
-                .enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                    }
-
-                    override fun onResponse(call: Call, response: Response) {
-                        val response = OkHttpClient().newCall(request).execute()
-                        val jsonObject = response.body?.string()?.let { JSONObject(it) }
-                        runOnUiThread {
-                            text = jsonObject?.getString("hitokoto")
-                            fromWho = ("-- by " + jsonObject?.getString("from_who"))
-                        }
-                    }
-                })
-        }.start()
-        binding.hitokoto.text = text
-        binding.fromWho.text = fromWho
-        Thread {
             val pools = Executors.newCachedThreadPool()
             var jedis = StaticData.jedis
             var style = intent.getStringExtra("style")
@@ -71,183 +50,108 @@ class LoadingActivity : AppCompatActivity() {
                 pools.submit(
                     GetUser(StaticData.user?.getAccount(), StaticData.user?.getPassword(), this)
                 )
-                pools.shutdown()
-                pools.awaitTermination(
-                    Long.MAX_VALUE,
-                    TimeUnit.NANOSECONDS
-                )
-                if (Pass) {
-                    startActivity(Intent(this@LoadingActivity, MainActivity::class.java))
-                    finish()
+                pools.submit() {
+                    UserDetail.getUserDetail(this){
+                        StaticData.UserDetailData = it
+                    }
+                }
+                pools.submit() {
+                    UserPlaylist.getUserByCookie(1333576013){
+                        StaticData.MyFavorite = it.get(0)
+                        it.remove(StaticData.MyFavorite)
+                        StaticData.UserPlaylistData = it
+                        startActivity(Intent(this@LoadingActivity, MainActivity::class.java))
+                        finish()
+                    }
                 }
             }
-            if (style.equals("PopularList") || style.equals("SearchList") || style.equals("List_ID") || style.equals(
-                    "UserList"
-                ) || style.equals("SquareList")
+            if (style.equals("SongList")
             ) {
                 pools.submit(Runnable {
                     StaticData.Root = "网易云音乐"
-                    val index = intent.getIntExtra("index", Int.MAX_VALUE)
-                    var SongList: SongList? = null
-                    when (style) {
-                        "PopularList" -> SongList = StaticData.Home.getSongsLists()?.get(index)
-                        "SearchList" -> SongList = StaticData.Result.getSongLists()?.get(index)
-                        "List_ID" -> SongList = StaticData.User?.getFavorite()
-                        "UserList" -> SongList = StaticData.User?.getSongLists()?.get(index)
-                        "SquareList" -> StaticData.Square.get(StaticData.Square_SelectID)
-                            ?.getSongsLists()?.get(index)
-                    }
-                    if (jedis?.get("SongList_" + SongList?.getId()) != null) {
-                        val songs = JSONArray(jedis?.get("SongList_" + SongList?.getId()))
-                        SongList?.setCount(songs.length())
-                        for (j in 0 until songs.length()) {
-                            if (SongList?.getSongs()?.size!! < songs.length()) {
-                                SongList?.getSongs()
-                                    ?.add(Song(songs.getJSONObject(j).getString("id")))
-                            }
-                        }
-                        StaticData.PlayList = SongList?.getSongs()!!
-                        val intent =
-                            Intent(this@LoadingActivity, SongListActivity::class.java)
-                        when (style) {
-                            "PopularList" -> intent.putExtra("style", "PopularList")
-                            "SearchList" -> intent.putExtra("style", "SearchList")
-                            "List_ID" -> intent.putExtra("style", "List_ID")
-                            "UserList" -> intent.putExtra("style", "UserList")
-                            "SquareList" -> intent.putExtra("style", "SquareList")
-                        }
-                        intent.putExtra("index", index)
-                        startActivity(intent)
+                    var id: Long = intent.getLongExtra("id", 0)
+                    Playlist.getPlaylistByCookie(id) {
+                        StaticData.PlayListData =
+                            StandardPlaylistData(
+                                id,
+                                intent.getStringExtra("name").toString(),
+                                intent.getStringExtra("picUrl").toString(),
+                                intent.getLongExtra("playCount", 0),
+                                it
+                            )
+                        startActivity(Intent(this@LoadingActivity, SongListActivity::class.java))
                         finish()
-                    } else {
-                        val url =
-                            "http://www.puremusic.com.cn:3000/playlist/track/all?id=" + SongList?.getId()
-                        val request: Request = Request.Builder()
-                            .url(url)
-                            .addHeader("cookie", StaticData.cookie)
-                            .method("GET", null)
-                            .build()
-
-                        OkHttpClient().newCall(request)
-                            .enqueue(object : Callback {
-                                override fun onFailure(call: Call, e: IOException) {
-                                }
-
-                                override fun onResponse(call: Call, response: Response) {
-                                    var songs =
-                                        JSONObject(response.body?.string()).getJSONArray("songs")
-                                    jedis?.set("SongList_" + SongList?.getId(), songs.toString())
-                                    SongList?.setCount(songs.length())
-                                    for (j in 0 until songs.length()) {
-                                        if (SongList?.getSongs()?.size!! < songs.length()) {
-                                            SongList?.getSongs()
-                                                ?.add(Song(songs.getJSONObject(j).getString("id")))
-                                        }
-                                    }
-                                    StaticData.PlayList = SongList?.getSongs()!!
-                                    val intent =
-                                        Intent(this@LoadingActivity, SongListActivity::class.java)
-
-                                    when (style) {
-                                        "PopularList" -> intent.putExtra("style", "PopularList")
-                                        "SearchList" -> intent.putExtra("style", "SearchList")
-                                        "List_ID" -> intent.putExtra("style", "List_ID")
-                                        "UserList" -> intent.putExtra("style", "UserList")
-                                        "SquareList" -> intent.putExtra("style", "SquareList")
-                                    }
-                                    intent.putExtra("index", index)
-                                    startActivity(intent)
-                                    finish()
-                                }
-                            })
                     }
+//                    if (jedis?.get("SongList_" + id) != null) {
+//                        val songs = JSONArray(jedis?.get("SongList_" + id))
+//                        SongList?.setCount(songs.length())
+//                        for (j in 0 until songs.length()) {
+//                            if (SongList?.getSongs()?.size!! < songs.length()) {
+//                                SongList?.getSongs()
+//                                    ?.add(Song(songs.getJSONObject(j).getString("id")))
+//                            }
+//                        }
+//                        StaticData.PlayList = SongList?.getSongs()!!
+//                        val intent =
+//                            Intent(this@LoadingActivity, SongListActivity::class.java)
+//                        when (style) {
+//                            "PopularList" -> intent.putExtra("style", "PopularList")
+//                            "SearchList" -> intent.putExtra("style", "SearchList")
+//                            "List_ID" -> intent.putExtra("style", "List_ID")
+//                            "UserList" -> intent.putExtra("style", "UserList")
+//                            "SquareList" -> intent.putExtra("style", "SquareList")
+//                        }
+//                        intent.putExtra("index", index)
+//                        startActivity(intent)
+//                        finish()
+//                    } else {
+//                    }
                 })
             }
-            if (style.equals("SingerList") || style.equals("SearchSinger") || style.equals("Singer_ID")
-            ) {
+            if (style.equals("SingerList")) {
                 pools.submit(Runnable {
                     StaticData.Root = "网易云音乐"
-                    val index = intent.getIntExtra("index", Int.MAX_VALUE)
-
-                    var Singer: Singer? = null
-                    when (style) {
-                        "SingerList" -> Singer = StaticData.Home.getSingers()?.get(index)
-                        "SearchSinger" -> Singer = StaticData.Result.getSingers()?.get(index)
-                        "Singer_ID" -> Singer = StaticData.Singer
-                    }
-                    if (jedis?.get("Singer_" + Singer?.getId()) != null) {
-                        val songs = JSONArray(jedis?.get("Singer_" + Singer?.getId()))
-                        for (j in 0 until songs.length()) {
-                            if (Singer?.getSongs()?.size!! < songs.length()) {
-                                Singer?.getSongs()
-                                    ?.add(Song(songs.getJSONObject(j).getString("id")))
-                            }
-                        }
-                        StaticData.PlayList = Singer?.getSongs()!!
-                        val intent =
-                            Intent(this@LoadingActivity, SingerActivity::class.java)
-                        when (style) {
-                            "SingerList" -> intent.putExtra("style", "SingerList")
-                            "SearchSinger" -> intent.putExtra("style", "SearchSinger")
-                            "Singer_ID" -> intent.putExtra("style", "Singer_ID")
-                        }
-                        intent.putExtra("index", index)
-                        startActivity(intent)
+                    var id: Long = intent.getLongExtra("id", 0)
+                    Playlist.getSingerByCookie(id) {
+                        StaticData.SingerData =
+                            StandardSingerData(
+                                id,
+                                intent.getStringExtra("name").toString(),
+                                intent.getStringExtra("picUrl").toString(),
+                                it
+                            )
+                        startActivity(Intent(this@LoadingActivity, SingerActivity::class.java))
                         finish()
-                    } else {
-                        val url =
-                            "http://www.puremusic.com.cn:3000/artist/songs?id=" + Singer?.getId()
-                        val request: Request = Request.Builder()
-                            .url(url)
-                            .addHeader("cookie", StaticData.cookie)
-                            .method("GET", null)
-                            .build()
-
-                        OkHttpClient().newCall(request)
-                            .enqueue(object : Callback {
-                                override fun onFailure(call: Call, e: IOException) {
-                                }
-
-                                override fun onResponse(call: Call, response: Response) {
-                                    val songs =
-                                        JSONObject(response.body?.string()).getJSONArray("songs")
-                                    jedis?.set("Singer_" + Singer?.getId(), songs.toString())
-                                    for (j in 0 until songs.length()) {
-                                        if (Singer?.getSongs()?.size!! < songs.length()) {
-                                            Singer?.getSongs()
-                                                ?.add(Song(songs.getJSONObject(j).getString("id")))
-                                        }
-                                    }
-                                    StaticData.PlayList = Singer?.getSongs()!!
-
-                                    val intent =
-                                        Intent(this@LoadingActivity, SingerActivity::class.java)
-                                    when (style) {
-                                        "SingerList" -> intent.putExtra("style", "SingerList")
-                                        "SearchSinger" -> intent.putExtra("style", "SearchSinger")
-                                        "Singer_ID" -> intent.putExtra("style", "Singer_ID")
-                                    }
-                                    intent.putExtra("index", index)
-                                    startActivity(intent)
-                                    finish()
-                                }
-                            })
                     }
+//                    if (jedis?.get("Singer_" + Singer?.getId()) != null) {
+//                        val songs = JSONArray(jedis?.get("Singer_" + Singer?.getId()))
+//                        for (j in 0 until songs.length()) {
+//                            if (Singer?.getSongs()?.size!! < songs.length()) {
+//                                Singer?.getSongs()
+//                                    ?.add(Song(songs.getJSONObject(j).getString("id")))
+//                            }
+//                        }
+//                        StaticData.PlayList = Singer?.getSongs()!!
+//                        val intent =
+//                            Intent(this@LoadingActivity, SingerActivity::class.java)
+//                        when (style) {
+//                            "SingerList" -> intent.putExtra("style", "SingerList")
+//                            "SearchSinger" -> intent.putExtra("style", "SearchSinger")
+//                            "Singer_ID" -> intent.putExtra("style", "Singer_ID")
+//                        }
+//                        intent.putExtra("index", index)
+//                        startActivity(intent)
+//                        finish()
+//                    }
                 })
             }
             if (style.equals("Search")) {
-                pools.submit(GetResultData(intent.getStringExtra("value")))
-                pools.shutdown()
-                pools.awaitTermination(
-                    Long.MAX_VALUE,
-                    TimeUnit.NANOSECONDS
-                )
-                if (Pass) {
-                    val intent = Intent(this@LoadingActivity, SearchActivity::class.java)
-                    intent.putExtra("style", "Search")
-                    intent.putExtra("value", intent.getStringExtra("value"))
-                    startActivity(intent)
-                    finish()
+                SearchDetail.getSearchResult(this){
+                    StaticData.SearchResult = it.getSongArrayList()
+                    if (Pass) {
+                        startActivity(Intent(this@LoadingActivity, SearchActivity::class.java))
+                        finish()
+                    }
                 }
             }
             if (style.equals("Square")) {

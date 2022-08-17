@@ -3,60 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#ffffff">
+    android:orientation="vertical" >
     <ImageView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/title2"/>
-    <TextView
-        android:id="@+id/hitokoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/x63"
-        android:text=""
-        android:layout_marginTop="@dimen/x120"
-        android:maxLines="2"
-        android:maxWidth="@dimen/x1080"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv" />
-    <TextView
-        android:id="@+id/from_who"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/x63"
-        android:layout_marginTop="@dimen/x60"
-        android:singleLine="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hitokoto" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/splash" />
     <ProgressBar
         android:id="@+id/progress_bar"
-        android:layout_width="@dimen/x400"
-        android:layout_height="@dimen/x400"
-        android:layout_marginTop="@dimen/x1000"
-        android:indeterminateTint="@color/blue"
+        android:layout_width="@dimen/x120"
+        android:layout_height="@dimen/x120"
+        android:layout_marginTop="@dimen/x2000"
+        android:indeterminateTint="@color/material_blue_500"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:indeterminate="true" />
     <TextView
-        android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="正在加载中..."
+        android:text="正在加载中"
+        android:layout_marginTop="@dimen/x56"
         android:textColor="@color/blue"
-        android:textSize="@dimen/x84"
-        android:layout_marginTop="@dimen/x240"
+        android:textSize="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
-
+        app:layout_constraintTop_toBottomOf="@+id/progress_bar"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

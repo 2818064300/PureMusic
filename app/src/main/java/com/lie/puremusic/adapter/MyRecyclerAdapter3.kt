@@ -86,13 +86,12 @@ class MyRecyclerAdapter3(private val context: Context, List: MutableList<SongLis
             .into(holder.SongsList_bg)
         holder.ibtn.setOnClickListener {
             val intent = Intent(context, LoadingActivity::class.java)
+            intent.putExtra("style", "SongList")
             if (context === MusicFragment.MusicFragmentContext) {
                 val intent = Intent(context, LoadingActivity::class.java)
-                intent.putExtra("style", "UserList")
-                intent.putExtra("index", position)
+                intent.putExtra("id", StaticData.UserPlaylistData?.get(position)?.id)
             } else {
-                intent.putExtra("style", "SearchList")
-                intent.putExtra("index", position)
+                intent.putExtra("id", StaticData.Result.getSongLists()?.get(position)?.getId())
             }
             context.startActivity(intent)
         }

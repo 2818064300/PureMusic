@@ -6,7 +6,7 @@
     android:background="@drawable/rect7"
     xmlns:app="http://schemas.android.com/apk/res-auto">
         <www.linwg.org.lib.LCardView
-            android:id="@+id/cover"
+            android:id="@+id/ivCard"
             android:layout_width="@dimen/x240"
             android:layout_height="@dimen/x240"
             android:layout_marginStart="@dimen/x70"
@@ -19,13 +19,13 @@
             app:layout_constraintTop_toTopOf="parent"
             app:cornerRadius="@dimen/x36">
             <ImageView
-                android:id="@+id/SongsList_bg"
+                android:id="@+id/ivCover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </www.linwg.org.lib.LCardView>
 
         <TextView
-            android:id="@+id/tv1"
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="待定"
@@ -36,11 +36,11 @@
             android:textColor="@color/black"
             android:layout_marginTop="@dimen/x42"
             android:layout_marginStart="@dimen/x64"
-            app:layout_constraintStart_toEndOf="@+id/cover"
-            app:layout_constraintTop_toTopOf="@+id/cover"/>
+            app:layout_constraintStart_toEndOf="@+id/ivCard"
+            app:layout_constraintTop_toTopOf="@+id/ivCard"/>
 
         <TextView
-            android:id="@+id/tv2"
+            android:id="@+id/tvSub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="待定"
@@ -50,7 +50,7 @@
             android:textColor="#b3b9c9"
             android:layout_marginTop="@dimen/x10"
             android:layout_marginStart="@dimen/x64"
-            app:layout_constraintStart_toEndOf="@+id/cover"
-            app:layout_constraintTop_toBottomOf="@+id/tv1"/>
+            app:layout_constraintStart_toEndOf="@+id/ivCard"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
