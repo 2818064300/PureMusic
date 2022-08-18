@@ -71,7 +71,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
                         <ImageButton
-                            android:id="@+id/btn1"
+                            android:id="@+id/toplist_item1"
                             android:layout_width="@dimen/x261"
                             android:layout_height="@dimen/x346"
                             android:layout_marginLeft="@dimen/x103"
@@ -83,11 +83,11 @@
                             android:background="@drawable/toplist_item1"
                             android:src="@drawable/button_add_pressed"/>
                         <ImageButton
-                            android:id="@+id/btn2"
+                            android:id="@+id/toplist_item2"
                             android:layout_width="@dimen/x261"
                             android:layout_height="@dimen/x346"
                             android:layout_marginLeft="@dimen/x64"
-                            app:layout_constraintLeft_toRightOf="@+id/btn1"
+                            app:layout_constraintLeft_toRightOf="@+id/toplist_item1"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             android:adjustViewBounds="true"
@@ -95,11 +95,11 @@
                             android:background="@drawable/toplist_item2"
                             android:src="@drawable/button_add_pressed"/>
                         <ImageButton
-                            android:id="@+id/btn3"
+                            android:id="@+id/toplist_item3"
                             android:layout_width="@dimen/x261"
                             android:layout_height="@dimen/x346"
                             android:layout_marginLeft="@dimen/x64"
-                            app:layout_constraintLeft_toRightOf="@+id/btn2"
+                            app:layout_constraintLeft_toRightOf="@+id/toplist_item2"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             android:adjustViewBounds="true"
@@ -107,11 +107,11 @@
                             android:background="@drawable/toplist_item3"
                             android:src="@drawable/button_add_pressed"/>
                         <ImageButton
-                            android:id="@+id/btn4"
+                            android:id="@+id/toplist_item4"
                             android:layout_width="@dimen/x261"
                             android:layout_height="@dimen/x346"
                             android:layout_marginLeft="@dimen/x64"
-                            app:layout_constraintLeft_toRightOf="@+id/btn3"
+                            app:layout_constraintLeft_toRightOf="@+id/toplist_item3"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             android:adjustViewBounds="true"

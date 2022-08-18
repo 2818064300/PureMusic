@@ -12,29 +12,20 @@ import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.databinding.ActivitySplashBinding
-import com.lie.puremusic.music.netease.NewSong
 import com.lie.puremusic.music.netease.PlaylistRecommend
-import com.lie.puremusic.music.netease.SingerRecommend
 import com.lie.puremusic.pojo.*
 import com.lie.puremusic.standard.data.SOURCE_NETEASE
 import com.lie.puremusic.standard.data.StandardSongData
 import com.lie.puremusic.utils.DBUtils
 import com.lie.puremusic.utils.Dao
-import com.lie.puremusic.utils.MagicHttp.runOnMainThread
 import com.lie.puremusic.utils.RedisUtils
 import es.dmoral.toasty.Toasty
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 class SplashActivity : AppCompatActivity() {
 
@@ -137,16 +128,6 @@ class SplashActivity : AppCompatActivity() {
                         startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                     }
                     finish()
-                }
-            }
-            pools.submit{
-                NewSong.getNewSong(this){
-                    StaticData.NewSong = it
-                }
-            }
-            pools.submit {
-                SingerRecommend.getSingerRecommend(this) {
-                    StaticData.SingerRecommend = it
                 }
             }
             pools.submit(Runnable {

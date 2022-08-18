@@ -28,6 +28,7 @@ import com.lie.puremusic.standard.data.SONG_QUALITY_HQ
 import com.lie.puremusic.standard.data.StandardSongDataEx
 import com.lie.puremusic.standard.data.quality
 import com.lie.puremusic.utils.BurnUtil
+import com.lie.puremusic.utils.MagicHttp
 import com.lie.puremusic.utils.parse
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
@@ -44,6 +45,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
     private var animation: Animation? = null
     private var isSeekbarChaning = false
     private var CanPlay = true
+    private var isNew = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -128,137 +130,79 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                 load("$path.mp3", 0)
             }
         }
-        //        else {
-//            if(SongData.Songs.getMusic_url() != null && SongData.Songs.getId() != SongData.Playing_ID && CanPlay) {
-//                load(SongData.Songs.getMusic_url(),0);
-//                CanPlay = false;
-//            }
-//        }
         binding.playbtn4New.setOnClickListener {
             if (!isReplay) {
                 isReplay = true
-                binding.playbtn4New.background = context?.let { it1 ->
-                    ContextCompat.getDrawable(
-                        it1,
-                        R.drawable.refresh_pressed
-                    )
-                }
-                context?.let { it1 -> Toasty.info(it1, "循环播放.", Toast.LENGTH_SHORT, true).show() }
+                binding.playbtn4New.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.refresh_pressed)
+                Toasty.info(requireContext(), "循环播放.", Toast.LENGTH_SHORT, true).show()
             } else {
                 isReplay = false
-                binding.playbtn4New.background = context?.let { it1 ->
-                    ContextCompat.getDrawable(
-                        it1,
-                        R.drawable.refresh
-                    )
-                }
-                context?.let { it1 -> Toasty.info(it1, "取消循环播放.", Toast.LENGTH_SHORT, true).show() }
+                binding.playbtn4New.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.refresh)
+                Toasty.info(requireContext(), "取消循环播放.", Toast.LENGTH_SHORT, true).show()
             }
         }
         binding.playbtn5New.setOnClickListener {
             if (!isDownload) {
                 isDownload = true
-                binding.playbtn5New.background = context?.let { it1 ->
-                    ContextCompat.getDrawable(
-                        it1,
-                        R.drawable.download_pressed
-                    )
-                }
-                context?.let { it1 -> Toasty.info(it1, "开始下载歌曲.", Toast.LENGTH_SHORT, true).show() }
+                binding.playbtn5New.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.download_pressed)
+                Toasty.info(requireContext(), "开始下载歌曲.", Toast.LENGTH_SHORT, true).show()
             } else {
                 isDownload = false
-                binding.playbtn5New.background = context?.let { it1 ->
-                    ContextCompat.getDrawable(
-                        it1,
-                        R.drawable.download
-                    )
-                }
+                binding.playbtn5New.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.download)
             }
         }
         binding.playbtn6New.setOnClickListener {
             if (!isAdd) {
                 isAdd = true
-                binding.playbtn6New.background = context?.let { it1 ->
-                    ContextCompat.getDrawable(
-                        it1,
-                        R.drawable.add_pressed
-                    )
-                }
-                context?.let { it1 -> Toasty.info(it1, "已添加歌曲.", Toast.LENGTH_SHORT, true).show() }
+                binding.playbtn6New.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.add_pressed)
+                Toasty.info(requireContext(), "已添加歌曲.", Toast.LENGTH_SHORT, true).show()
             } else {
                 isAdd = false
-                binding.playbtn6New.background = context?.let { it1 ->
-                    ContextCompat.getDrawable(
-                        it1,
-                        R.drawable.add
-                    )
-                }
-                context?.let { it1 ->
-                    Toasty.warning(it1, "已移除歌曲.", Toast.LENGTH_SHORT, true).show()
-                }
+                binding.playbtn6New.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.add)
+                Toasty.warning(requireContext(), "已移除歌曲.", Toast.LENGTH_SHORT, true).show()
             }
         }
         binding.playbtn7New.setOnClickListener {
             if (!isMark) {
                 isMark = true
-                binding.playbtn7New.background = context?.let { it1 ->
-                    ContextCompat.getDrawable(
-                        it1,
-                        R.drawable.heart_pressed
-                    )
-                }
-                context?.let { it1 -> Toasty.info(it1, "已收藏歌曲.", Toast.LENGTH_SHORT, true).show() }
+                binding.playbtn7New.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.heart_pressed)
+                Toasty.info(requireContext(), "已收藏歌曲.", Toast.LENGTH_SHORT, true).show()
             } else {
                 isMark = false
-                binding.playbtn7New.background = context?.let { it1 ->
-                    ContextCompat.getDrawable(
-                        it1,
-                        R.drawable.heart
-                    )
-                }
-                context?.let { it1 ->
-                    Toasty.warning(it1, "取消收藏!", Toast.LENGTH_SHORT, true).show()
-                }
+                binding.playbtn7New.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.heart)
+                Toasty.warning(requireContext(), "取消收藏!", Toast.LENGTH_SHORT, true).show()
             }
         }
         binding.playbtn8New.setOnClickListener {
             if (!isComment) {
                 isComment = true
-                binding.playbtn8New.background = context?.let { it1 ->
-                    ContextCompat.getDrawable(
-                        it1,
-                        R.drawable.chat_pressed
-                    )
-                }
+                binding.playbtn8New.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.chat_pressed)
                 //展开评论区
             } else {
                 isComment = false
-                binding.playbtn8New.background = context?.let { it1 ->
-                    ContextCompat.getDrawable(
-                        it1,
-                        R.drawable.chat
-                    )
-                }
+                binding.playbtn8New.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.chat)
             }
         }
         binding.playbtn9New.setOnClickListener {
             if (!isList) {
                 isList = true
-                binding.playbtn9New.background = context?.let { it1 ->
-                    ContextCompat.getDrawable(
-                        it1,
-                        R.drawable.list_pressed
-                    )
-                }
+                binding.playbtn9New.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.list_pressed)
                 //展开播放列表
             } else {
                 isList = false
-                binding.playbtn9New.background = context?.let { it1 ->
-                    ContextCompat.getDrawable(
-                        it1,
-                        R.drawable.list
-                    )
-                }
+                binding.playbtn9New.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.list)
             }
         }
         binding.Cover.setOnClickListener {
@@ -277,30 +221,24 @@ class PlayerFragment : Fragment(), View.OnClickListener {
             binding.SeekBar.setProgressColor(BurnUtil.colorBurn(StaticData.PlayDataEx?.Vibrant!!.getRgb()))
             binding.SeekBar.setNormalColor(StaticData.PlayDataEx?.VibrantLight!!.getRgb())
         }
-        context?.let {
-            Glide.with(it)
-                .load(StaticData.Songs?.imageUrl)
-                .into(binding.Cover)
-        }
+        Glide.with(requireActivity())
+            .load(StaticData.Songs?.imageUrl)
+            .into(binding.Cover)
         if (StaticData.Songs?.id.equals(StaticData.Playing_ID)) {
             if (PlayerActivity.mediaPlayerHelper?.isPlaying == true) {
                 binding.PlayerIbtn.setImageDrawable(
-                    context?.let {
-                        ContextCompat.getDrawable(
-                            it,
-                            R.drawable.playbtn2
-                        )
-                    }
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.playbtn2
+                    )
                 )
                 PlayerActivity.mediaPlayerHelper?.duration?.let { binding.SeekBar.setMax(it) }
             } else {
                 binding.PlayerIbtn.setImageDrawable(
-                    context?.let {
-                        ContextCompat.getDrawable(
-                            it,
-                            R.drawable.playbtn
-                        )
-                    }
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.playbtn
+                    )
                 )
             }
             Timer().schedule(object : TimerTask() {
@@ -322,13 +260,14 @@ class PlayerFragment : Fragment(), View.OnClickListener {
             binding.TvEnd.text = calculateTime(0)
         }
         if (StaticData.SongUrl != null) {
-                StaticData.Songs?.let {
-                    ServiceSongUrl.getLyric(it){
-                        StaticData.SongLrc = it
-                        binding.LrcView.loadLrc(it.lyric,it.secondLyric)
-                    }
+            StaticData.Songs?.let {
+                ServiceSongUrl.getLyric(it) {
+                    StaticData.SongLrc = it
+                    binding.LrcView.loadLrc(it.lyric, it.secondLyric)
+                }
             }
-            if (StaticData.PlayDataEx?.VibrantLight != null && StaticData.PlayDataEx?.Vibrant != null) {
+            if (StaticData.PlayDataEx?.VibrantLight != null && StaticData.PlayDataEx?.Vibrant != null || isNew) {
+                isNew = false
                 StaticData.PlayDataEx?.Vibrant?.getRgb()
                     ?.let { BurnUtil.colorBurn(it) }?.let { binding.LrcView.setCurrentColor(it) }
                 StaticData.PlayDataEx?.VibrantLight?.getRgb()
@@ -386,64 +325,32 @@ class PlayerFragment : Fragment(), View.OnClickListener {
             }
         }
         if (isReplay) {
-            binding.playbtn4New.background = context?.let { it1 ->
-                ContextCompat.getDrawable(
-                    it1,
-                    R.drawable.refresh_pressed
-                )
-            }
+            binding.playbtn4New.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.refresh_pressed)
         } else {
-            binding.playbtn4New.background = context?.let { it1 ->
-                ContextCompat.getDrawable(
-                    it1,
-                    R.drawable.refresh
-                )
-            }
+            binding.playbtn4New.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.refresh)
         }
         if (isDownload) {
-            binding.playbtn5New.background = context?.let { it1 ->
-                ContextCompat.getDrawable(
-                    it1,
-                    R.drawable.download_pressed
-                )
-            }
+            binding.playbtn5New.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.download_pressed)
         } else {
-            binding.playbtn5New.background = context?.let { it1 ->
-                ContextCompat.getDrawable(
-                    it1,
-                    R.drawable.download
-                )
-            }
+            binding.playbtn5New.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.download)
         }
         if (isAdd) {
-            binding.playbtn6New.background = context?.let { it1 ->
-                ContextCompat.getDrawable(
-                    it1,
-                    R.drawable.add_pressed
-                )
-            }
+            binding.playbtn6New.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.add_pressed)
         } else {
-            binding.playbtn6New.background = context?.let { it1 ->
-                ContextCompat.getDrawable(
-                    it1,
-                    R.drawable.add
-                )
-            }
+            binding.playbtn6New.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.add)
         }
         if (isMark) {
-            binding.playbtn7New.background = context?.let { it1 ->
-                ContextCompat.getDrawable(
-                    it1,
-                    R.drawable.heart_pressed
-                )
-            }
+            binding.playbtn7New.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.heart_pressed)
         } else {
-            binding.playbtn7New.background = context?.let { it1 ->
-                ContextCompat.getDrawable(
-                    it1,
-                    R.drawable.heart
-                )
-            }
+            binding.playbtn7New.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.heart)
         }
 
         if (rotate_num >= 1) {
@@ -452,7 +359,6 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         if (StaticData.PlayList_now == null) {
             StaticData.PlayList_now = StaticData.PlayListData
         }
-        view?.invalidate()
     }
 
     @SuppressLint("ResourceType")
@@ -515,14 +421,8 @@ class PlayerFragment : Fragment(), View.OnClickListener {
 //                                        e.printStackTrace();
 //                                    }
 //                                }
-                                context?.let {
-                                    Toasty.info(
-                                        it,
-                                        "开始缓存歌曲.",
-                                        Toast.LENGTH_SHORT,
-                                        true
-                                    ).show()
-                                }
+                                Toasty.info(requireContext(), "开始缓存歌曲.", Toast.LENGTH_SHORT, true)
+                                    .show()
                                 download(StaticData.Position + 1, path3)
                             }
                         }
@@ -550,10 +450,8 @@ class PlayerFragment : Fragment(), View.OnClickListener {
 //                    }
 //                }
             }
-
         })
-        val activity = activity as PlayerActivity?
-        activity?.runOnUiThread {
+        MagicHttp.runOnMainThread {
             initView()
         }
     }
@@ -607,11 +505,11 @@ class PlayerFragment : Fragment(), View.OnClickListener {
 //                        } else {
 //                            play();
 //                        }
-                    context?.let { Toasty.error(it, "未找到歌曲", Toast.LENGTH_SHORT, true).show() }
+                    Toasty.error(requireContext(), "未找到歌曲.", Toast.LENGTH_SHORT, true).show()
                 }
             } else {
                 PlayerActivity.mediaPlayerHelper?.pause()
-                context?.let { Toasty.warning(it, "暂停播放", Toast.LENGTH_SHORT, true).show() }
+                Toasty.warning(requireContext(), "暂停播放.", Toast.LENGTH_SHORT, true).show()
                 binding.PlayerIbtn.setImageDrawable(
                     context?.let {
                         ContextCompat.getDrawable(
@@ -667,7 +565,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
 //                                }
 //                            }).start();
 //                        }
-                        context?.let { Toasty.info(it, "开始缓存歌曲.", Toast.LENGTH_SHORT, true).show() }
+                        Toasty.info(requireContext(), "开始缓存歌曲.", Toast.LENGTH_SHORT, true).show()
                         download(StaticData.Position - 1, path1)
                     }
                 }
@@ -718,7 +616,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
 //                                }
 //                            }).start();
 //                        }
-                        context?.let { Toasty.info(it, "开始缓存歌曲.", Toast.LENGTH_SHORT, true).show() }
+                        Toasty.info(requireContext(), "开始缓存歌曲.", Toast.LENGTH_SHORT, true).show()
                         download(StaticData.Position + 1, path2)
                     }
                 }
@@ -735,17 +633,15 @@ class PlayerFragment : Fragment(), View.OnClickListener {
             StaticData.isFirstPlay = false
         }
         if (!PlayerActivity.mediaPlayerHelper?.isPlaying!!) {
-            context?.let {
-                Toasty.custom(
-                    it,
-                    "开始播放  " + "\"" + StaticData.Songs?.name + "\"",
-                    R.mipmap.ic_launcher_round,
-                    R.color.material_blue_800,
-                    750,
-                    false,
-                    true
-                ).show()
-            }
+            Toasty.custom(
+                requireContext(),
+                "开始播放  " + "\"" + StaticData.Songs?.name + "\"",
+                R.mipmap.ic_launcher_round,
+                R.color.material_blue_800,
+                750,
+                false,
+                true
+            ).show()
         }
         rotate_num += 1
         if (rotate_num == 1) {
@@ -753,12 +649,10 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         }
         PlayerActivity.mediaPlayerHelper?.start()
         binding.PlayerIbtn.setImageDrawable(
-            context?.let {
-                ContextCompat.getDrawable(
-                    it,
-                    R.drawable.playbtn2
-                )
-            }
+            ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.playbtn2
+            )
         )
         PlayerActivity.mediaPlayerHelper?.duration?.let { binding.SeekBar.setMax(it) } //将音乐总时间设置为Seekbar的最大值
         Timer().schedule(object : TimerTask() {
@@ -829,7 +723,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                     var Muted: Palette.Swatch? = null
                     pools.execute {
                         StaticData.Songs?.let {
-                            ServiceSongUrl.getLyric(it){
+                            ServiceSongUrl.getLyric(it) {
                                 StaticData.SongLrc = it
                             }
                         }
@@ -850,6 +744,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                         VibrantDark,
                         Muted
                     )
+                    isNew = true
                     StaticData.SongUrl = url
                     initMediaPlayer(url, Position)
                 } else {
@@ -858,7 +753,8 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                 }
             } else {
                 CanPlay = true
-                StaticData.SongUrl = "http://puremusic.com.cn/Cloud/Music/music" + (StaticData.Position +1) + ".mp3"
+                StaticData.SongUrl =
+                    "http://puremusic.com.cn/Cloud/Music/music" + (StaticData.Position + 1) + ".mp3"
                 initMediaPlayer(StaticData.SongUrl!!, Position)
             }
         }.start()
@@ -884,9 +780,10 @@ class PlayerFragment : Fragment(), View.OnClickListener {
             val pools = Executors.newCachedThreadPool()
             pools.execute {
                 ServiceSongUrl.getUrl(StaticData.PlayList_now?.songs?.get(index)) {
-                    if(StaticData.isCloud){
-                        StaticData.SongUrl = "http://puremusic.com.cn/Cloud/Music/music" + (index+1) + ".mp3"
-                    } else{
+                    if (StaticData.isCloud) {
+                        StaticData.SongUrl =
+                            "http://puremusic.com.cn/Cloud/Music/music" + (index + 1) + ".mp3"
+                    } else {
                         StaticData.SongUrl = it
                     }
                     println(StaticData.SongUrl)
@@ -915,10 +812,8 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                             }
 
                             override fun completed(task: BaseDownloadTask) {
-                                context?.let {
-                                    Toasty.success(it, "缓存成功.", Toast.LENGTH_SHORT, true)
-                                        .show()
-                                }
+                                Toasty.success(requireContext(), "缓存成功.", Toast.LENGTH_SHORT, true)
+                                    .show()
                                 StaticData.Position = index
                                 StaticData.Songs = StaticData.PlayList_now?.songs?.get(index)
                                 load(path + "." + style, 0)
@@ -932,14 +827,12 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                             }
 
                             override fun error(task: BaseDownloadTask, e: Throwable) {
-                                context?.let {
-                                    Toasty.error(
-                                        it,
-                                        "网络问题,请稍后再试!",
-                                        Toast.LENGTH_SHORT,
-                                        true
-                                    ).show()
-                                }
+                                Toasty.error(
+                                    requireContext(),
+                                    "网络问题,请稍后再试!",
+                                    Toast.LENGTH_SHORT,
+                                    true
+                                ).show()
                             }
 
                             override fun warn(task: BaseDownloadTask) {}

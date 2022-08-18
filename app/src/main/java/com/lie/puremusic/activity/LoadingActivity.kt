@@ -18,9 +18,6 @@ import com.lie.puremusic.standard.data.StandardPlaylistData
 import com.lie.puremusic.standard.data.StandardSingerData
 import com.lie.puremusic.utils.*
 import es.dmoral.toasty.Toasty
-import okhttp3.*
-import org.json.JSONObject
-import java.io.IOException
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
@@ -28,12 +25,6 @@ class LoadingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoadingBinding
     private var mExitTime: Long = 0
-    private var Pass = true
-
-    companion object {
-        var text: String? = null
-        var fromWho: String? = null
-    }
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -148,10 +139,8 @@ class LoadingActivity : AppCompatActivity() {
             if (style.equals("Search")) {
                 SearchDetail.getSearchResult(this){
                     StaticData.SearchResult = it.getSongArrayList()
-                    if (Pass) {
-                        startActivity(Intent(this@LoadingActivity, SearchActivity::class.java))
-                        finish()
-                    }
+                    startActivity(Intent(this@LoadingActivity, SearchActivity::class.java))
+                    finish()
                 }
             }
             if (style.equals("Square")) {
@@ -168,12 +157,10 @@ class LoadingActivity : AppCompatActivity() {
                     Long.MAX_VALUE,
                     TimeUnit.NANOSECONDS
                 )
-                if (Pass) {
-                    val intent = Intent(this@LoadingActivity, SquareActivity::class.java)
-                    intent.putExtra("style", "Square")
-                    startActivity(intent)
-                    finish()
-                }
+                val intent = Intent(this@LoadingActivity, SquareActivity::class.java)
+                intent.putExtra("style", "Square")
+                startActivity(intent)
+                finish()
             }
         }.start()
     }
@@ -200,7 +187,6 @@ class LoadingActivity : AppCompatActivity() {
                 Toasty.info(this, "再按一次退出加载", Toast.LENGTH_SHORT, true).show()
                 mExitTime = System.currentTimeMillis()
             } else {
-                Pass = false
                 finish()
             }
             return true

@@ -137,17 +137,19 @@ class HomeFragment : BaseFragment() {
                 refreshLayout.finishRefresh()
             }
         }
-        runOnMainThread {
-            val SingerResult = StaticData.SingerRecommend!!
-            val Singer: ArrayList<SingerRecommend.SingerRecommendDataResult> = ArrayList()
-            for (i in 0..4) {
-                Singer.add(SingerResult.get(i))
+        SingerRecommend.getSingerRecommend(requireContext()) {
+            runOnMainThread {
+                val SingerRecommend = it
+                val Singer: ArrayList<SingerRecommend.SingerRecommendDataResult> = ArrayList()
+                for (i in 0..4) {
+                    Singer.add(SingerRecommend.get(i))
+                }
+                val adapter2 = MyRecyclerGridAdapter2(requireContext(), Singer)
+                binding.SingerGroup.adapter = adapter2
+                val layoutManager2 = GridLayoutManager(context, 5)
+                layoutManager2.orientation = RecyclerView.VERTICAL
+                binding.SingerGroup.layoutManager = layoutManager2
             }
-            val adapter2 = MyRecyclerGridAdapter2(requireContext(), Singer)
-            binding.SingerGroup.adapter = adapter2
-            val layoutManager2 = GridLayoutManager(context, 5)
-            layoutManager2.orientation = RecyclerView.VERTICAL
-            binding.SingerGroup.layoutManager = layoutManager2
         }
     }
 
