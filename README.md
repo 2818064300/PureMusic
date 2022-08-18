@@ -30,6 +30,12 @@
 
 ## 📃更新日志
 
+- **2022/8/17**
+
+1. 调整数据结构
+2. 优化请求方式(大幅度降低崩溃概率)
+3. 重构界面跳转逻辑(使更多数据类型被通用)
+
 - **2022/8/16**
 
 1. 优化单选框切换逻辑
@@ -66,6 +72,11 @@
 5. 修复云端歌曲异常bug
 
 ## 🐛已知bug
+
+- **2022/8/17**
+
+1. ~~用户信息无法更新~~(已修复)
+2. ~~搜索结果异常~~(已修复)
 
 - **2022/8/12**
 
@@ -131,3 +142,7 @@
 [mxn21/FlowingDrawer](https://github.com/mxn21/FlowingDrawer)
 
 [linwg1988/LCardView](https://github.com/linwg1988/LCardView)
+
+### 参考项目
+
+[Moriafly/DsoMusic](https://github.com/Moriafly/DsoMusic)
