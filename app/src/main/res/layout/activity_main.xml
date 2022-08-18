@@ -16,7 +16,7 @@
         app:edPosition="1"
         app:edMenuSize="@dimen/x1200"
         app:edMenuBackground="#f7f7ff"
-        app:edTouchBezelSize="@dimen/x560">
+        app:edTouchBezelSize="@dimen/x480">
 
         <!--content-->
         <androidx.constraintlayout.widget.ConstraintLayout

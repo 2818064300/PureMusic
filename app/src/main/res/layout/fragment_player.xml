@@ -104,7 +104,7 @@
     <me.wcy.lrcview.LrcView
         android:id="@+id/LrcView"
         app:lrcCurrentTextColor="@color/blue"
-        app:lrcTextSize="20dp"
+        app:lrcTextSize="18dp"
         app:lrcNormalTextSize="18dp"
         app:lrcPadding="@dimen/x120"
         android:layout_width="@dimen/x1440"

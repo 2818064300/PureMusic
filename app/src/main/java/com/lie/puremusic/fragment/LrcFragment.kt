@@ -33,7 +33,7 @@ class LrcFragment : Fragment() {
         Timer().schedule(object : TimerTask() {
             override fun run() {
                 StaticData.CurrentPosition?.let { binding.LrcView.updateTime(it) }
-                if(!Lrc.equals(StaticData.SongLrc)){
+                if(!Lrc.equals(StaticData.SongLrc?.lyric)){
                     init()
                     val activity = activity as PlayerActivity?
                     activity?.goPlayer()
@@ -43,8 +43,8 @@ class LrcFragment : Fragment() {
     }
 
     private fun init(){
-        Lrc = StaticData.SongLrc
-        binding.LrcView.loadLrc(Lrc)
+        Lrc = StaticData.SongLrc?.lyric
+        binding.LrcView.loadLrc(Lrc,StaticData.SongLrc?.secondLyric)
         if (StaticData.PlayDataEx?.VibrantLight != null && StaticData.PlayDataEx?.Vibrant != null) {
             StaticData.PlayDataEx?.Vibrant?.getRgb()
                 ?.let { BurnUtil.colorBurn(it) }?.let { binding.LrcView.setCurrentColor(it) }

@@ -9,7 +9,7 @@
     <me.wcy.lrcview.LrcView
         android:id="@+id/LrcView"
         app:lrcCurrentTextColor="@color/blue"
-        app:lrcTextSize="24dp"
+        app:lrcTextSize="22dp"
         app:lrcNormalTextSize="18dp"
         app:lrcPadding="@dimen/x100"
         android:layout_width="match_parent"

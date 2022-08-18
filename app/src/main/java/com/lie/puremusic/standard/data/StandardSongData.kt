@@ -43,7 +43,7 @@ data class StandardSongData(
      */
     @Parcelize
     data class NeteaseInfo(
-        val fee: Int, // 是否是网易云 vip 歌曲，1 代表 vip
+        val fee: Int?, // 是否是网易云 vip 歌曲，1 代表 vip
         val pop: Int?, // 热度
         val pl: Int?, // 0 为无效歌曲，就是网易云没版权
         val flag: Int?, //

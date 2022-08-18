@@ -80,18 +80,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             android:adjustViewBounds="true"
                             android:scaleType="centerInside"
-                            android:background="@drawable/btn_pressed2"
-                            android:src="@drawable/button_add_pressed"/>
-                        <ImageButton
-                            android:layout_width="@dimen/x90"
-                            android:layout_height="@dimen/x90"
-                            android:layout_marginBottom="@dimen/x36"
-                            app:layout_constraintLeft_toLeftOf="@+id/btn1"
-                            app:layout_constraintRight_toRightOf="@+id/btn1"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
-                            android:background="@drawable/play"
+                            android:background="@drawable/toplist_item1"
                             android:src="@drawable/button_add_pressed"/>
                         <ImageButton
                             android:id="@+id/btn2"
@@ -103,18 +92,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             android:adjustViewBounds="true"
                             android:scaleType="centerInside"
-                            android:background="@drawable/btn_pressed2"
-                            android:src="@drawable/button_add_pressed"/>
-                        <ImageButton
-                            android:layout_width="@dimen/x90"
-                            android:layout_height="@dimen/x90"
-                            android:layout_marginBottom="@dimen/x36"
-                            app:layout_constraintLeft_toLeftOf="@+id/btn2"
-                            app:layout_constraintRight_toRightOf="@+id/btn2"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
-                            android:background="@drawable/play"
+                            android:background="@drawable/toplist_item2"
                             android:src="@drawable/button_add_pressed"/>
                         <ImageButton
                             android:id="@+id/btn3"
@@ -126,18 +104,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             android:adjustViewBounds="true"
                             android:scaleType="centerInside"
-                            android:background="@drawable/btn_pressed2"
-                            android:src="@drawable/button_add_pressed"/>
-                        <ImageButton
-                            android:layout_width="@dimen/x90"
-                            android:layout_height="@dimen/x90"
-                            android:layout_marginBottom="@dimen/x36"
-                            app:layout_constraintLeft_toLeftOf="@+id/btn3"
-                            app:layout_constraintRight_toRightOf="@+id/btn3"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
-                            android:background="@drawable/play"
+                            android:background="@drawable/toplist_item3"
                             android:src="@drawable/button_add_pressed"/>
                         <ImageButton
                             android:id="@+id/btn4"
@@ -149,18 +116,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             android:adjustViewBounds="true"
                             android:scaleType="centerInside"
-                            android:background="@drawable/btn_pressed2"
-                            android:src="@drawable/button_add_pressed"/>
-                        <ImageButton
-                            android:layout_width="@dimen/x90"
-                            android:layout_height="@dimen/x90"
-                            android:layout_marginBottom="@dimen/x36"
-                            app:layout_constraintLeft_toLeftOf="@+id/btn4"
-                            app:layout_constraintRight_toRightOf="@+id/btn4"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
-                            android:background="@drawable/play"
+                            android:background="@drawable/toplist_item4"
                             android:src="@drawable/button_add_pressed"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -184,121 +140,59 @@
                         android:id="@+id/list_item1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="新歌榜"
+                        android:layout_marginStart="@dimen/x90"
+                        android:layout_marginTop="@dimen/x72"
+                        android:text="新歌速递"
                         android:textColor="#FF011148"
-                        android:textSize="@dimen/x63"
+                        android:textSize="18dp"
                         android:textStyle="normal"
-                        android:paddingTop="@dimen/x72"
-                        android:paddingBottom="@dimen/x40"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="@dimen/x80"/>
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <ImageButton
                         android:id="@+id/play_all1"
                         android:layout_width="@dimen/x175"
                         android:layout_height="@dimen/x60"
-                        app:layout_constraintLeft_toRightOf="@+id/list_item1"
-                        app:layout_constraintBottom_toBottomOf="@+id/list_item1"
-                        app:layout_constraintTop_toTopOf="@+id/list_item1"
                         android:layout_marginStart="@dimen/x44"
-                        android:layout_marginTop="@dimen/x30"
                         android:adjustViewBounds="true"
-                        android:scaleType="centerInside"
                         android:background="@drawable/playall"
-                        android:src="@drawable/button_add_pressed"/>
+                        android:scaleType="centerInside"
+                        android:src="@drawable/button_add_pressed"
+                        app:layout_constraintBottom_toBottomOf="@+id/list_item1"
+                        app:layout_constraintStart_toEndOf="@+id/list_item1"
+                        app:layout_constraintTop_toTopOf="@+id/list_item1" />
 
                     <ImageButton
                         android:layout_width="@dimen/x310"
                         android:layout_height="@dimen/x40"
+                        android:layout_marginEnd="@dimen/x90"
                         android:background="@drawable/viewall"
                         app:layout_constraintBottom_toBottomOf="@+id/play_all1"
-                        app:layout_constraintTop_toTopOf="@+id/play_all1"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="@dimen/x1000"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/play_all1" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingTop="@dimen/x40"
-                    android:paddingBottom="@dimen/x88"
-                    android:orientation="horizontal"
-                    android:gravity="left">
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <ImageButton
-                            android:id="@+id/New_Songs1"
-                            android:layout_width="@dimen/x518"
-                            android:layout_height="@dimen/x345"
-                            android:layout_marginLeft="@dimen/x103"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
-                            android:background="@drawable/btn_pressed3"
-                            android:src="@drawable/button_add_pressed"/>
-                        <ImageButton
-                            android:layout_width="@dimen/x90"
-                            android:layout_height="@dimen/x90"
-                            android:layout_marginBottom="@dimen/x36"
-                            android:layout_marginRight="@dimen/x36"
-                            app:layout_constraintRight_toRightOf="@+id/New_Songs1"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
-                            android:background="@drawable/play"
-                            android:src="@drawable/button_add_pressed"/>
-                        <ImageButton
-                            android:id="@+id/New_Songs2"
-                            android:layout_width="@dimen/x518"
-                            android:layout_height="@dimen/x345"
-                            android:layout_marginLeft="@dimen/x100"
-                            app:layout_constraintLeft_toRightOf="@+id/New_Songs1"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
-                            android:background="@drawable/btn_pressed3"
-                            android:src="@drawable/button_add_pressed"/>
-                        <ImageButton
-                            android:layout_width="@dimen/x90"
-                            android:layout_height="@dimen/x90"
-                            android:layout_marginBottom="@dimen/x36"
-                            android:layout_marginRight="@dimen/x36"
-                            app:layout_constraintRight_toRightOf="@+id/New_Songs2"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
-                            android:background="@drawable/play"
-                            android:src="@drawable/button_add_pressed"/>
-                        <ImageButton
-                            android:id="@+id/New_Songs3"
-                            android:layout_width="@dimen/x518"
-                            android:layout_height="@dimen/x345"
-                            android:layout_marginLeft="@dimen/x100"
-                            app:layout_constraintLeft_toRightOf="@+id/New_Songs2"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
-                            android:background="@drawable/btn_pressed3"
-                            android:src="@drawable/button_add_pressed"/>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_gravity="center">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/NewSongGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:divider="@null"
+                        android:scrollbars="none"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/divider" />
-                </LinearLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/divider" />
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -307,37 +201,37 @@
                         android:id="@+id/list_item2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x90"
+                        android:layout_marginTop="@dimen/x72"
                         android:text="流行趋势"
                         android:textColor="#FF011148"
-                        android:textSize="@dimen/x63"
+                        android:textSize="18dp"
                         android:textStyle="normal"
-                        android:paddingTop="@dimen/x72"
-                        android:paddingBottom="@dimen/x40"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="@dimen/x80"/>
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <ImageButton
                         android:id="@+id/play_all2"
                         android:layout_width="@dimen/x175"
                         android:layout_height="@dimen/x60"
-                        app:layout_constraintLeft_toRightOf="@+id/list_item2"
-                        app:layout_constraintBottom_toBottomOf="@+id/list_item2"
-                        app:layout_constraintTop_toTopOf="@+id/list_item2"
                         android:layout_marginStart="@dimen/x44"
-                        android:layout_marginTop="@dimen/x30"
                         android:adjustViewBounds="true"
-                        android:scaleType="centerInside"
                         android:background="@drawable/playall"
-                        android:src="@drawable/button_add_pressed"/>
+                        android:scaleType="centerInside"
+                        android:src="@drawable/button_add_pressed"
+                        app:layout_constraintBottom_toBottomOf="@+id/list_item2"
+                        app:layout_constraintStart_toEndOf="@+id/list_item2"
+                        app:layout_constraintTop_toTopOf="@+id/list_item2" />
+
                     <ImageButton
                         android:layout_width="@dimen/x310"
                         android:layout_height="@dimen/x40"
+                        android:layout_marginEnd="@dimen/x90"
                         android:background="@drawable/viewall"
                         app:layout_constraintBottom_toBottomOf="@+id/play_all2"
-                        app:layout_constraintTop_toTopOf="@+id/play_all2"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="@dimen/x1000"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/play_all2" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <LinearLayout
                     android:layout_width="match_parent"

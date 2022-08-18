@@ -1,5 +1,6 @@
 package com.lie.puremusic.fragment
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
@@ -22,14 +23,11 @@ import com.lie.puremusic.*
 import com.lie.puremusic.activity.PlayerActivity
 import com.lie.puremusic.adapter.MediaPlayerHelper
 import com.lie.puremusic.databinding.FragmentPlayerBinding
-import com.lie.puremusic.music.netease.SongUrl
-import com.lie.puremusic.standard.SearchLyric
+import com.lie.puremusic.service.ServiceSongUrl
 import com.lie.puremusic.standard.data.SONG_QUALITY_HQ
 import com.lie.puremusic.standard.data.StandardSongDataEx
 import com.lie.puremusic.standard.data.quality
 import com.lie.puremusic.utils.BurnUtil
-import com.lie.puremusic.utils.GetLyricData
-import com.lie.puremusic.utils.GetMusicData
 import com.lie.puremusic.utils.parse
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
@@ -39,7 +37,6 @@ import java.io.File
 import java.util.*
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 class PlayerFragment : Fragment(), View.OnClickListener {
     private var _binding: FragmentPlayerBinding? = null
@@ -325,11 +322,11 @@ class PlayerFragment : Fragment(), View.OnClickListener {
             binding.TvEnd.text = calculateTime(0)
         }
         if (StaticData.SongUrl != null) {
-            StaticData.Songs?.let {
-                SearchLyric.getLyricString(it, {
-                    StaticData.SongLrc = it
-                    binding.LrcView.loadLrc(it)
-                })
+                StaticData.Songs?.let {
+                    ServiceSongUrl.getLyric(it){
+                        StaticData.SongLrc = it
+                        binding.LrcView.loadLrc(it.lyric,it.secondLyric)
+                    }
             }
             if (StaticData.PlayDataEx?.VibrantLight != null && StaticData.PlayDataEx?.Vibrant != null) {
                 StaticData.PlayDataEx?.Vibrant?.getRgb()
@@ -448,7 +445,8 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                 )
             }
         }
-        if (rotate_num > 1) {
+
+        if (rotate_num >= 1) {
             binding.Cover.startAnimation(animation)
         }
         if (StaticData.PlayList_now == null) {
@@ -831,8 +829,8 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                     var Muted: Palette.Swatch? = null
                     pools.execute {
                         StaticData.Songs?.let {
-                            SearchLyric.getLyricString(it) {
-                                StaticData.SongUrl = it
+                            ServiceSongUrl.getLyric(it){
+                                StaticData.SongLrc = it
                             }
                         }
                     }
@@ -885,7 +883,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         Thread {
             val pools = Executors.newCachedThreadPool()
             pools.execute {
-                SongUrl.getSongUrlCookie(StaticData.PlayList_now?.songs?.get(index)?.id.toString()) {
+                ServiceSongUrl.getUrl(StaticData.PlayList_now?.songs?.get(index)) {
                     if(StaticData.isCloud){
                         StaticData.SongUrl = "http://puremusic.com.cn/Cloud/Music/music" + (index+1) + ".mp3"
                     } else{

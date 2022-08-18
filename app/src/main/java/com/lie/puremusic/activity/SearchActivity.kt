@@ -27,7 +27,7 @@ class SearchActivity : AppCompatActivity() {
 
         var alphaAdapter: AlphaInAnimationAdapter? = null
         if (StaticData.SelectID == 0 || StaticData.SelectID == 4) {
-            val adapter = StaticData.Result.getSongs()?.let { MyRecyclerAdapter(this, StaticData.SearchResult) }
+            var adapter = StaticData.Result.getSongs()?.let { MyRecyclerAdapter(this, StaticData.SearchResult) }
             alphaAdapter = adapter?.let { AlphaInAnimationAdapter(it) }
         }
         if (StaticData.SelectID == 2) {

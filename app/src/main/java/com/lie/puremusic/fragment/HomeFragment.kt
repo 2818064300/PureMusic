@@ -26,7 +26,6 @@ import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
 import com.liulishuo.filedownloader.FileDownloader
 import es.dmoral.toasty.Toasty
-import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import java.io.File
 
 class HomeFragment : BaseFragment() {

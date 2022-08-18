@@ -16,6 +16,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.databinding.ActivitySplashBinding
+import com.lie.puremusic.music.netease.NewSong
 import com.lie.puremusic.music.netease.PlaylistRecommend
 import com.lie.puremusic.music.netease.SingerRecommend
 import com.lie.puremusic.pojo.*
@@ -136,6 +137,11 @@ class SplashActivity : AppCompatActivity() {
                         startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                     }
                     finish()
+                }
+            }
+            pools.submit{
+                NewSong.getNewSong(this){
+                    StaticData.NewSong = it
                 }
             }
             pools.submit {
