@@ -13,10 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.lie.puremusic.StaticData
-import com.lie.puremusic.adapter.MyRecyclerGridAdapter3
 import com.lie.puremusic.databinding.ActivitySplashBinding
 import com.lie.puremusic.music.netease.NewSong
 import com.lie.puremusic.music.netease.PlaylistRecommend

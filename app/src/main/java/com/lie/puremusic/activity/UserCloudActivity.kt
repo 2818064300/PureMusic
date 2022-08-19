@@ -22,7 +22,8 @@ class UserCloudActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.top_in, R.anim.top_out)
         val adapter = MyRecyclerAdapter(
             this,
-            StaticData.UserCloudData?.data?.toStandard()
+            StaticData.UserCloudData?.data?.toStandard(),
+            "UserCloud"
         )
         val alphaAdapter = AlphaInAnimationAdapter(adapter)
         binding.rvUserCloudSong.adapter = AlphaInAnimationAdapter(alphaAdapter)

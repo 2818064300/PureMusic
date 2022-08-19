@@ -213,7 +213,9 @@ class HomeFragment : BaseFragment() {
                     .start()
             }.start()
         }
+        StaticData.isFirstPlay = true
         val intent = Intent(activity, PlayerActivity::class.java)
+        StaticData.Style = "Cloud"
         startActivity(intent)
     }
 

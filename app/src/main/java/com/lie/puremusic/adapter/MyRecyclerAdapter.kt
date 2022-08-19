@@ -21,6 +21,7 @@ import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.activity.LoadingActivity
 import com.lie.puremusic.activity.PlayerActivity
+import com.lie.puremusic.activity.SongListActivity
 import com.lie.puremusic.pojo.Record
 import com.lie.puremusic.service.ServiceSongUrl
 import com.lie.puremusic.standard.data.SONG_QUALITY_HQ
@@ -39,7 +40,8 @@ import java.util.concurrent.Executors
 
 class MyRecyclerAdapter(
     private val context: Context,
-    private val List: ArrayList<StandardSongData>?
+    private val List: ArrayList<StandardSongData>?,
+    private val Style:String
 ) :
     RecyclerView.Adapter<MyRecyclerAdapter.InnerHolder>() {
 
@@ -219,6 +221,21 @@ class MyRecyclerAdapter(
                                 StaticData.SongLrc = it
                                 StaticData.isFirstPlay = true
                                 StaticData.Position = position
+                                if (Style.equals("SongList")) {
+                                    StaticData.Style = "SongList"
+                                }
+                                if (Style.equals("SingerList")) {
+                                    StaticData.Style = "SingerList"
+                                }
+                                if (Style.equals("Search")) {
+                                    StaticData.Style = "Search"
+                                }
+                                if (Style.equals("DailyRecommend")) {
+                                    StaticData.Style = "DailyRecommend"
+                                }
+                                if (Style.equals("UserCloud")) {
+                                    StaticData.Style = "UserCloud"
+                                }
                                 context.startActivity(Intent(context, PlayerActivity::class.java))
                             }
                         }

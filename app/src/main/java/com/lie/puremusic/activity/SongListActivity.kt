@@ -259,7 +259,8 @@ class SongListActivity : BaseActivity() {
 //        }.start()
         val adapter = MyRecyclerAdapter(
             this,
-            PlaylistData?.songs
+            PlaylistData?.songs,
+            "SongList"
         )
         val alphaAdapter = AlphaInAnimationAdapter(adapter)
         binding.SonglistRv.adapter = AlphaInAnimationAdapter(alphaAdapter)

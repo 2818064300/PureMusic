@@ -24,6 +24,8 @@ import com.lie.puremusic.activity.PlayerActivity
 import com.lie.puremusic.adapter.MediaPlayerHelper
 import com.lie.puremusic.databinding.FragmentPlayerBinding
 import com.lie.puremusic.music.netease.data.SongUrlData
+import com.lie.puremusic.music.netease.data.toStandard
+import com.lie.puremusic.music.netease.data.toStandardSongDataArrayList
 import com.lie.puremusic.service.ServiceSongUrl
 import com.lie.puremusic.standard.data.StandardSongDataEx
 import com.lie.puremusic.utils.BurnUtil
@@ -123,9 +125,9 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         val file2 = File("$path.mp3")
         if ((file1.exists() || file2.exists()) && StaticData.Songs?.id !== StaticData.Playing_ID) {
             if (file1.exists()) {
-                load("$path.flac","flac", 0)
+                load("$path.flac", "flac", 0)
             } else {
-                load("$path.mp3","mp3", 0)
+                load("$path.mp3", "mp3", 0)
             }
         }
         binding.playbtn4New.setOnClickListener {
@@ -353,8 +355,27 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         if (rotate_num >= 1) {
             binding.Cover.startAnimation(animation)
         }
-        if (StaticData.PlayList_now == null) {
-            StaticData.PlayList_now = StaticData.PlayListData
+        if (StaticData.Style.equals("SongList")) {
+            StaticData.PlayList_now = StaticData.PlayListData?.songs
+        }
+        if (StaticData.Style.equals("SingerList")) {
+            StaticData.PlayList_now = StaticData.SingerData?.songs
+        }
+        if (StaticData.Style.equals("Search")) {
+            StaticData.PlayList_now = StaticData.SearchResult
+        }
+        if (StaticData.Style.equals("Cloud")) {
+            StaticData.PlayList_now = StaticData.Cloud
+        }
+        if (StaticData.Style.equals("TopList")) {
+            StaticData.PlayList_now = StaticData.NewSong
+        }
+        if (StaticData.Style.equals("DailyRecommend")) {
+            StaticData.PlayList_now =
+                StaticData.DailyRecommendSongData?.data?.dailySongs?.toStandardSongDataArrayList()
+        }
+        if (StaticData.Style.equals("UserCloud")) {
+            StaticData.PlayList_now = StaticData.UserCloudData?.data?.toStandard()
         }
     }
 
@@ -378,7 +399,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                     PlayerActivity.mediaPlayerHelper?.start()
                 } else {
                     if (PlayerActivity.mediaPlayerHelper?.currentPosition?.plus(1500)!! >= PlayerActivity.mediaPlayerHelper!!.duration!!) {
-                        if (StaticData.Position < StaticData.PlayList_now!!.songs.size - 1 && CanPlay) {
+                        if (StaticData.Position < StaticData.PlayList_now!!.size - 1 && CanPlay) {
                             CanPlay = false
                             var type: String = if (StaticData.isCloud) {
                                 "Cloud"
@@ -386,19 +407,19 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                                 "Netease"
                             }
                             val path3 =
-                                Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + type + "/" + StaticData.PlayList_now?.songs?.get(
+                                Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + type + "/" + StaticData.PlayList_now?.get(
                                     StaticData.Position + 1
                                 )?.id
                             if (File("$path3.flac").exists() || File("$path3.mp3").exists()) {
                                 StaticData.Position += 1
                                 if (File("$path3.flac").exists()) {
                                     StaticData.Songs =
-                                        StaticData.PlayList_now?.songs?.get(StaticData.Position)
-                                    load("$path3.flac","flac", 0)
+                                        StaticData.PlayList_now?.get(StaticData.Position)
+                                    load("$path3.flac", "flac", 0)
                                 } else {
                                     StaticData.Songs =
-                                        StaticData.PlayList_now?.songs?.get(StaticData.Position)
-                                    load("$path3.mp3","mp3", 0)
+                                        StaticData.PlayList_now?.get(StaticData.Position)
+                                    load("$path3.mp3", "mp3", 0)
                                 }
                             } else {
 //                                if(SongData.Songs.getMusic_url() != null && CanPlay) {
@@ -468,9 +489,9 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                 if (file1.exists() || file2.exists()) {
                     if (StaticData.Songs?.id !== StaticData.Playing_ID) {
                         if (file1.exists()) {
-                            load("$path.flac","flac", 0)
+                            load("$path.flac", "flac", 0)
                         } else {
-                            load("$path.mp3","mp3", 0)
+                            load("$path.mp3", "mp3", 0)
                         }
                     } else {
                         play()
@@ -525,19 +546,19 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                         "Netease"
                     }
                     val path1 =
-                        Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + type + "/" + StaticData.PlayList_now?.songs?.get(
+                        Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + type + "/" + StaticData.PlayList_now?.get(
                             StaticData.Position - 1
                         )?.id
                     if (File("$path1.flac").exists() || File("$path1.mp3").exists()) {
                         StaticData.Position -= 1
                         if (File("$path1.flac").exists()) {
                             StaticData.Songs =
-                                StaticData.PlayList_now?.songs?.get(StaticData.Position)
-                            load("$path1.flac","flac", 0)
+                                StaticData.PlayList_now?.get(StaticData.Position)
+                            load("$path1.flac", "flac", 0)
                         } else {
                             StaticData.Songs =
-                                StaticData.PlayList_now?.songs?.get(StaticData.Position)
-                            load("$path1.mp3","mp3", 0)
+                                StaticData.PlayList_now?.get(StaticData.Position)
+                            load("$path1.mp3", "mp3", 0)
                         }
                     } else {
 //                        if(SongData.Songs.getMusic_url() != null && CanPlay) {
@@ -568,7 +589,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                 }
             }
             R.id.Player_ibtn3 -> {
-                if (StaticData.Position < StaticData.PlayList_now?.songs!!.size - 1 && CanPlay) {
+                if (StaticData.Position < StaticData.PlayList_now!!.size - 1 && CanPlay) {
                     CanPlay = false
                     var type: String = if (StaticData.isCloud) {
                         "Cloud"
@@ -576,19 +597,19 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                         "Netease"
                     }
                     val path2 =
-                        Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + type + "/" + StaticData.PlayList_now?.songs?.get(
+                        Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + type + "/" + StaticData.PlayList_now?.get(
                             StaticData.Position + 1
                         )?.id
                     if (File("$path2.flac").exists() || File("$path2.mp3").exists()) {
                         StaticData.Position += 1
                         if (File("$path2.flac").exists()) {
                             StaticData.Songs =
-                                StaticData.PlayList_now?.songs?.get(StaticData.Position)
-                            load("$path2.flac","flac", 0)
+                                StaticData.PlayList_now?.get(StaticData.Position)
+                            load("$path2.flac", "flac", 0)
                         } else {
                             StaticData.Songs =
-                                StaticData.PlayList_now?.songs?.get(StaticData.Position)
-                            load("$path2.mp3","mp3", 0)
+                                StaticData.PlayList_now?.get(StaticData.Position)
+                            load("$path2.mp3", "mp3", 0)
                         }
                     } else {
 //                        if(SongData.Songs.getMusic_url() != null && CanPlay) {
@@ -626,7 +647,28 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         CanPlay = true
         StaticData.Playing_ID = StaticData.Songs?.id.toString()
         if (StaticData.isFirstPlay) {
-            StaticData.PlayList_now = StaticData.PlayListData
+            if (StaticData.Style.equals("SongList")) {
+                StaticData.PlayList_now = StaticData.PlayListData?.songs
+            }
+            if (StaticData.Style.equals("SingerList")) {
+                StaticData.PlayList_now = StaticData.SingerData?.songs
+            }
+            if (StaticData.Style.equals("TopList")) {
+                StaticData.PlayList_now = StaticData.NewSong
+            }
+            if (StaticData.Style.equals("Search")) {
+                StaticData.PlayList_now = StaticData.SearchResult
+            }
+            if (StaticData.Style.equals("Cloud")) {
+                StaticData.PlayList_now = StaticData.Cloud
+            }
+            if (StaticData.Style.equals("DailyRecommend")) {
+                StaticData.PlayList_now =
+                    StaticData.DailyRecommendSongData?.data?.dailySongs?.toStandardSongDataArrayList()
+            }
+            if (StaticData.Style.equals("UserCloud")) {
+                StaticData.PlayList_now = StaticData.UserCloudData?.data?.toStandard()
+            }
             StaticData.isFirstPlay = false
         }
         if (!PlayerActivity.mediaPlayerHelper?.isPlaying!!) {
@@ -709,7 +751,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun load(url: String,type : String, Position: Int) {
+    private fun load(url: String, type: String, Position: Int) {
         Thread {
             if (!StaticData.isCloud) {
                 if (StaticData.SongUrl == null) {
@@ -741,7 +783,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                         VibrantDark,
                         Muted
                     )
-                    StaticData.SongUrl = SongUrlData.UrlData(-1,url,-1,-1,type)
+                    StaticData.SongUrl = SongUrlData.UrlData(-1, url, -1, -1, type)
                     initMediaPlayer(url, Position)
                 } else {
                     CanPlay = true
@@ -749,7 +791,13 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                 }
             } else {
                 CanPlay = true
-                StaticData.SongUrl = SongUrlData.UrlData(-1,"http://puremusic.com.cn/Cloud/Music/music" + (StaticData.Position + 1) + ".mp3",-1,-1,"mp3")
+                StaticData.SongUrl = SongUrlData.UrlData(
+                    -1,
+                    "http://puremusic.com.cn/Cloud/Music/music" + (StaticData.Position + 1) + ".mp3",
+                    -1,
+                    -1,
+                    "mp3"
+                )
                 initMediaPlayer(url, Position)
             }
         }.start()
@@ -774,9 +822,15 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         Thread {
             val pools = Executors.newCachedThreadPool()
             pools.execute {
-                ServiceSongUrl.getUrl(StaticData.PlayList_now?.songs?.get(index)) {
+                ServiceSongUrl.getUrl(StaticData.PlayList_now?.get(index)) {
                     if (StaticData.isCloud) {
-                        StaticData.SongUrl = SongUrlData.UrlData(-1,"http://puremusic.com.cn/Cloud/Music/music" + (index + 1) + ".mp3",-1,-1,"mp3")
+                        StaticData.SongUrl = SongUrlData.UrlData(
+                            -1,
+                            "http://puremusic.com.cn/Cloud/Music/music" + (index + 1) + ".mp3",
+                            -1,
+                            -1,
+                            "mp3"
+                        )
                     } else {
                         StaticData.SongUrl = it
                     }
@@ -802,8 +856,12 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                                 Toasty.success(requireContext(), "缓存成功.", Toast.LENGTH_SHORT, true)
                                     .show()
                                 StaticData.Position = index
-                                StaticData.Songs = StaticData.PlayList_now?.songs?.get(index)
-                                load(path + "." + StaticData.SongUrl?.type,StaticData.SongUrl?.type ?: "flac", 0)
+                                StaticData.Songs = StaticData.PlayList_now?.get(index)
+                                load(
+                                    path + "." + StaticData.SongUrl?.type,
+                                    StaticData.SongUrl?.type ?: "flac",
+                                    0
+                                )
                             }
 
                             override fun paused(

@@ -20,7 +20,8 @@ class RecommendActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.top_in, R.anim.top_out)
         val adapter = MyRecyclerAdapter(
             this,
-            StaticData.DailyRecommendSongData?.data?.dailySongs?.toStandardSongDataArrayList()
+            StaticData.DailyRecommendSongData?.data?.dailySongs?.toStandardSongDataArrayList(),
+            "DailyRecommend"
         )
         val alphaAdapter = AlphaInAnimationAdapter(adapter)
         binding.rvRecommendSong.adapter = AlphaInAnimationAdapter(alphaAdapter)

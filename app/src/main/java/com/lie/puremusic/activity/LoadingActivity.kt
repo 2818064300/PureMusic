@@ -43,12 +43,12 @@ class LoadingActivity : AppCompatActivity() {
                     GetUser(StaticData.user?.getAccount(), StaticData.user?.getPassword(), this)
                 )
                 pools.submit() {
-                    UserDetail.getUserDetail(this){
+                    UserDetail.getUserDetail(this) {
                         StaticData.UserDetailData = it
                     }
                 }
                 pools.submit() {
-                    UserPlaylist.getUserByCookie(1333576013){
+                    UserPlaylist.getUserByCookie(1333576013) {
                         StaticData.MyFavorite = it.get(0)
                         it.remove(StaticData.MyFavorite)
                         StaticData.UserPlaylistData = it
@@ -71,7 +71,8 @@ class LoadingActivity : AppCompatActivity() {
                                 intent.getLongExtra("playCount", 0),
                                 it
                             )
-                        startActivity(Intent(this@LoadingActivity, SongListActivity::class.java))
+                        val intent = Intent(this@LoadingActivity, SongListActivity::class.java)
+                        startActivity(Intent(intent))
                         finish()
                     }
 //                    if (jedis?.get("SongList_" + id) != null) {
@@ -112,7 +113,8 @@ class LoadingActivity : AppCompatActivity() {
                                 intent.getStringExtra("picUrl").toString(),
                                 it
                             )
-                        startActivity(Intent(this@LoadingActivity, SingerActivity::class.java))
+                        val intent = Intent(this@LoadingActivity, SingerActivity::class.java)
+                        startActivity(intent)
                         finish()
                     }
 //                    if (jedis?.get("Singer_" + Singer?.getId()) != null) {
@@ -138,33 +140,33 @@ class LoadingActivity : AppCompatActivity() {
                 })
             }
             if (style.equals("Search")) {
-                SearchDetail.getSearchResult(this){
+                SearchDetail.getSearchResult(this) {
                     StaticData.SearchResult = it.getSongArrayList()
                     startActivity(Intent(this@LoadingActivity, SearchActivity::class.java))
                     finish()
                 }
             }
             if (style.equals("DailyRecommend")) {
-                if(StaticData.DailyRecommendSongData == null){
-                    RecommendSong.getRecommendSong(this){
+                if (StaticData.DailyRecommendSongData == null) {
+                    RecommendSong.getRecommendSong(this) {
                         StaticData.DailyRecommendSongData = it
                         startActivity(Intent(this@LoadingActivity, RecommendActivity::class.java))
                         finish()
                     }
-                } else{
-                    startActivity(Intent(this@LoadingActivity, RecommendActivity::class.java))
+                } else {
+                    startActivity(Intent(intent))
                     finish()
                 }
             }
             if (style.equals("UserCloud")) {
-                if(StaticData.UserCloudData == null){
-                    UserCloud.getUserCloud{
+                if (StaticData.UserCloudData == null) {
+                    UserCloud.getUserCloud {
                         StaticData.UserCloudData = it
                         startActivity(Intent(this@LoadingActivity, UserCloudActivity::class.java))
                         finish()
                     }
-                } else{
-                    startActivity(Intent(this@LoadingActivity, UserCloudActivity::class.java))
+                } else {
+                    startActivity(Intent(intent))
                     finish()
                 }
             }

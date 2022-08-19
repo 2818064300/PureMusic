@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.activity.PlayerActivity
+import com.lie.puremusic.activity.SongListActivity
 import com.lie.puremusic.service.ServiceSongUrl
 import com.lie.puremusic.standard.data.SONG_QUALITY_HQ
 import com.lie.puremusic.standard.data.StandardSongData
@@ -164,6 +165,7 @@ class MyRecyclerGridAdapter3(
                                 StaticData.SongLrc = it
                                 StaticData.isFirstPlay = true
                                 StaticData.Position = position
+                                StaticData.Style = "TopList"
                                 context.startActivity(Intent(context, PlayerActivity::class.java))
                             }
                         }

@@ -14,16 +14,10 @@ import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.databinding.ActivitySingerBinding
 import com.lie.puremusic.listener.AppBarStateChangeListener
-import com.lie.puremusic.pojo.Singer
-import com.lie.puremusic.standard.data.StandardPlaylistData
 import com.lie.puremusic.standard.data.StandardSingerData
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
-import okhttp3.*
-import org.json.JSONObject
-import java.io.IOException
 import java.util.*
-import java.util.concurrent.Executors
 
 class SingerActivity : AppCompatActivity(){
     private lateinit var binding: ActivitySingerBinding
@@ -101,7 +95,7 @@ class SingerActivity : AppCompatActivity(){
         }
         binding.SingerName.setText(SingerData?.name)
         binding.SingerStyle.setText("华语歌手")
-        val adapter = MyRecyclerAdapter(this, SingerData?.songs)
+        val adapter = MyRecyclerAdapter(this, SingerData?.songs,"SingerList")
         val alphaAdapter = AlphaInAnimationAdapter(adapter)
         binding.SingerRv.setAdapter(AlphaInAnimationAdapter(alphaAdapter))
         binding.SingerRv.setLayoutManager(
