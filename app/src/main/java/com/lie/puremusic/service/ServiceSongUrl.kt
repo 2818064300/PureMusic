@@ -1,6 +1,7 @@
 package com.lie.puremusic.service
 
 import com.google.gson.Gson
+import com.lie.puremusic.StaticData
 import com.lie.puremusic.api.CloudMusicApi
 import com.lie.puremusic.data.LyricViewData
 import com.lie.puremusic.music.netease.SongUrl
@@ -23,13 +24,18 @@ object ServiceSongUrl {
                 GlobalScope.launch {
                     var url = ""
                     if (url.isEmpty())
-                        SongUrl.getSongUrlCookie(song?.id ?: "") {
-                            success.invoke(it)
+                        if (!StaticData.isCloud) {
+                            SongUrl.getSongUrlCookie(song?.id ?: "") {
+                                success.invoke(it)
+                            }
+                        } else{
+                            success.invoke(null)
                         }
                 }
             }
             else -> success.invoke(null)
         }
+        success.invoke(null)
     }
 
     fun getLyric(song: StandardSongData, success: (LyricViewData) -> Unit) {

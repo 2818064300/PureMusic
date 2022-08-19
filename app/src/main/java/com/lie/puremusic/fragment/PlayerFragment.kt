@@ -20,6 +20,7 @@ import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.king.view.arcseekbar.ArcSeekBar
 import com.lie.puremusic.*
+import com.lie.puremusic.activity.MainActivity
 import com.lie.puremusic.activity.PlayerActivity
 import com.lie.puremusic.adapter.MediaPlayerHelper
 import com.lie.puremusic.databinding.FragmentPlayerBinding
@@ -221,9 +222,11 @@ class PlayerFragment : Fragment(), View.OnClickListener {
             binding.SeekBar.setProgressColor(BurnUtil.colorBurn(StaticData.PlayDataEx?.Vibrant!!.getRgb()))
             binding.SeekBar.setNormalColor(StaticData.PlayDataEx?.VibrantLight!!.getRgb())
         }
-        Glide.with(requireActivity())
-            .load(StaticData.Songs?.imageUrl)
-            .into(binding.Cover)
+        context?.let {
+            Glide.with(it)
+                .load(StaticData.Songs?.imageUrl)
+                .into(binding.Cover)
+        }
         if (StaticData.Songs?.id.equals(StaticData.Playing_ID)) {
             if (PlayerActivity.mediaPlayerHelper?.isPlaying == true) {
                 binding.PlayerIbtn.setImageDrawable(
@@ -325,56 +328,63 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         }
         if (isReplay) {
             binding.playbtn4New.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.refresh_pressed)
+                ContextCompat.getDrawable(MainActivity.context, R.drawable.refresh_pressed)
         } else {
             binding.playbtn4New.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.refresh)
+                ContextCompat.getDrawable(MainActivity.context, R.drawable.refresh)
         }
         if (isDownload) {
             binding.playbtn5New.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.download_pressed)
+                ContextCompat.getDrawable(MainActivity.context, R.drawable.download_pressed)
         } else {
             binding.playbtn5New.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.download)
+                ContextCompat.getDrawable(MainActivity.context, R.drawable.download)
         }
         if (isAdd) {
             binding.playbtn6New.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.add_pressed)
+                ContextCompat.getDrawable(MainActivity.context, R.drawable.add_pressed)
         } else {
             binding.playbtn6New.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.add)
+                ContextCompat.getDrawable(MainActivity.context, R.drawable.add)
         }
         if (isMark) {
             binding.playbtn7New.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.heart_pressed)
+                ContextCompat.getDrawable(MainActivity.context, R.drawable.heart_pressed)
         } else {
             binding.playbtn7New.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.heart)
+                ContextCompat.getDrawable(MainActivity.context, R.drawable.heart)
         }
 
         if (rotate_num >= 1) {
             binding.Cover.startAnimation(animation)
         }
         if (StaticData.Style.equals("SongList")) {
+            StaticData.isCloud = false
             StaticData.PlayList_now = StaticData.PlayListData?.songs
         }
         if (StaticData.Style.equals("SingerList")) {
+            StaticData.isCloud = false
             StaticData.PlayList_now = StaticData.SingerData?.songs
         }
         if (StaticData.Style.equals("Search")) {
+            StaticData.isCloud = false
             StaticData.PlayList_now = StaticData.SearchResult
         }
         if (StaticData.Style.equals("Cloud")) {
+            StaticData.isCloud = true
             StaticData.PlayList_now = StaticData.Cloud
         }
         if (StaticData.Style.equals("TopList")) {
+            StaticData.isCloud = false
             StaticData.PlayList_now = StaticData.NewSong
         }
         if (StaticData.Style.equals("DailyRecommend")) {
+            StaticData.isCloud = false
             StaticData.PlayList_now =
                 StaticData.DailyRecommendSongData?.data?.dailySongs?.toStandardSongDataArrayList()
         }
         if (StaticData.Style.equals("UserCloud")) {
+            StaticData.isCloud = false
             StaticData.PlayList_now = StaticData.UserCloudData?.data?.toStandard()
         }
     }
@@ -439,7 +449,12 @@ class PlayerFragment : Fragment(), View.OnClickListener {
 //                                        e.printStackTrace();
 //                                    }
 //                                }
-                                Toasty.info(requireContext(), "开始缓存歌曲.", Toast.LENGTH_SHORT, true)
+                                Toasty.info(
+                                    MainActivity.context,
+                                    "开始缓存歌曲.",
+                                    Toast.LENGTH_SHORT,
+                                    true
+                                )
                                     .show()
                                 download(StaticData.Position + 1, path3)
                             }
@@ -583,7 +598,8 @@ class PlayerFragment : Fragment(), View.OnClickListener {
 //                                }
 //                            }).start();
 //                        }
-                        Toasty.info(requireContext(), "开始缓存歌曲.", Toast.LENGTH_SHORT, true).show()
+                            Toasty.info(MainActivity.context, "开始缓存歌曲.", Toast.LENGTH_SHORT, true)
+                                .show()
                         download(StaticData.Position - 1, path1)
                     }
                 }
@@ -634,7 +650,8 @@ class PlayerFragment : Fragment(), View.OnClickListener {
 //                                }
 //                            }).start();
 //                        }
-                        Toasty.info(requireContext(), "开始缓存歌曲.", Toast.LENGTH_SHORT, true).show()
+                            Toasty.info(MainActivity.context, "开始缓存歌曲.", Toast.LENGTH_SHORT, true)
+                                .show()
                         download(StaticData.Position + 1, path2)
                     }
                 }
@@ -648,39 +665,46 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         StaticData.Playing_ID = StaticData.Songs?.id.toString()
         if (StaticData.isFirstPlay) {
             if (StaticData.Style.equals("SongList")) {
+                StaticData.isCloud = false
                 StaticData.PlayList_now = StaticData.PlayListData?.songs
             }
             if (StaticData.Style.equals("SingerList")) {
+                StaticData.isCloud = false
                 StaticData.PlayList_now = StaticData.SingerData?.songs
             }
-            if (StaticData.Style.equals("TopList")) {
-                StaticData.PlayList_now = StaticData.NewSong
-            }
             if (StaticData.Style.equals("Search")) {
+                StaticData.isCloud = false
                 StaticData.PlayList_now = StaticData.SearchResult
             }
             if (StaticData.Style.equals("Cloud")) {
+                StaticData.isCloud = true
                 StaticData.PlayList_now = StaticData.Cloud
             }
+            if (StaticData.Style.equals("TopList")) {
+                StaticData.isCloud = false
+                StaticData.PlayList_now = StaticData.NewSong
+            }
             if (StaticData.Style.equals("DailyRecommend")) {
+                StaticData.isCloud = false
                 StaticData.PlayList_now =
                     StaticData.DailyRecommendSongData?.data?.dailySongs?.toStandardSongDataArrayList()
             }
             if (StaticData.Style.equals("UserCloud")) {
+                StaticData.isCloud = false
                 StaticData.PlayList_now = StaticData.UserCloudData?.data?.toStandard()
             }
             StaticData.isFirstPlay = false
         }
         if (!PlayerActivity.mediaPlayerHelper?.isPlaying!!) {
-            Toasty.custom(
-                requireContext(),
-                "开始播放  " + "\"" + StaticData.Songs?.name + "\"",
-                R.mipmap.ic_launcher_round,
-                R.color.material_blue_800,
-                750,
-                false,
-                true
-            ).show()
+                    Toasty.custom(
+                        MainActivity.context,
+                        "开始播放  " + "\"" + StaticData.Songs?.name + "\"",
+                        R.mipmap.ic_launcher_round,
+                        R.color.material_blue_800,
+                        750,
+                        false,
+                        true
+                    ).show()
         }
         rotate_num += 1
         if (rotate_num == 1) {
@@ -688,10 +712,12 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         }
         PlayerActivity.mediaPlayerHelper?.start()
         binding.PlayerIbtn.setImageDrawable(
-            ContextCompat.getDrawable(
-                requireContext(),
-                R.drawable.playbtn2
-            )
+            context?.let {
+                ContextCompat.getDrawable(
+                    it,
+                    R.drawable.playbtn2
+                )
+            }
         )
         PlayerActivity.mediaPlayerHelper?.duration?.let { binding.SeekBar.setMax(it) } //将音乐总时间设置为Seekbar的最大值
         Timer().schedule(object : TimerTask() {
@@ -823,6 +849,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
             val pools = Executors.newCachedThreadPool()
             pools.execute {
                 ServiceSongUrl.getUrl(StaticData.PlayList_now?.get(index)) {
+                    println(StaticData.isCloud)
                     if (StaticData.isCloud) {
                         StaticData.SongUrl = SongUrlData.UrlData(
                             -1,
@@ -834,7 +861,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                     } else {
                         StaticData.SongUrl = it
                     }
-                    println(StaticData.SongUrl)
+                    println(StaticData.SongUrl?.url)
                     FileDownloader.getImpl().create(StaticData.SongUrl?.url)
                         .setPath(path + "." + StaticData.SongUrl?.type)
                         .setListener(object : FileDownloadListener() {
@@ -853,8 +880,13 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                             }
 
                             override fun completed(task: BaseDownloadTask) {
-                                Toasty.success(requireContext(), "缓存成功.", Toast.LENGTH_SHORT, true)
-                                    .show()
+                                    Toasty.success(
+                                        MainActivity.context,
+                                        "缓存成功.",
+                                        Toast.LENGTH_SHORT,
+                                        true
+                                    )
+                                        .show()
                                 StaticData.Position = index
                                 StaticData.Songs = StaticData.PlayList_now?.get(index)
                                 load(
@@ -872,12 +904,14 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                             }
 
                             override fun error(task: BaseDownloadTask, e: Throwable) {
-                                Toasty.error(
-                                    requireContext(),
-                                    "网络问题,请稍后再试!",
-                                    Toast.LENGTH_SHORT,
-                                    true
-                                ).show()
+                                if (isAdd) {
+                                    Toasty.error(
+                                        MainActivity.context,
+                                        "网络问题,请稍后再试!",
+                                        Toast.LENGTH_SHORT,
+                                        true
+                                    ).show()
+                                }
                             }
 
                             override fun warn(task: BaseDownloadTask) {}
@@ -888,10 +922,14 @@ class PlayerFragment : Fragment(), View.OnClickListener {
             pools.shutdown()
         }.start()
     }
-
+    override fun onResume() {
+        super.onResume()
+        if (rotate_num >= 1) {
+            binding.Cover.startAnimation(animation)
+        }
+    }
     companion object {
         @JvmStatic
-        fun newInstance() = PlayerFragment()
         var isReplay = false
         var isDownload = false
         var isAdd = false

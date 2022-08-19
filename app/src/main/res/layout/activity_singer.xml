@@ -280,17 +280,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/FAB"
-            android:layout_width="@dimen/x180"
-            android:layout_height="@dimen/x180"
-            android:layout_marginEnd="@dimen/x150"
-            android:layout_marginBottom="@dimen/x240"
-            android:backgroundTint="@color/white"
-            app:elevation="@dimen/x7"
-            app:icon="@android:drawable/stat_notify_sync"
-            app:iconTint="@color/blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        <include
+            android:id="@+id/miniPlayer"
+            layout="@layout/mini_player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x80"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

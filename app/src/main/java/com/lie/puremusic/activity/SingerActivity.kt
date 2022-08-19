@@ -1,10 +1,7 @@
 package com.lie.puremusic.activity
 
-import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.View
 import android.view.View.OnLongClickListener
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
@@ -15,30 +12,34 @@ import com.lie.puremusic.StaticData
 import com.lie.puremusic.databinding.ActivitySingerBinding
 import com.lie.puremusic.listener.AppBarStateChangeListener
 import com.lie.puremusic.standard.data.StandardSingerData
+import com.lie.puremusic.ui.base.BaseActivity
+import com.liulishuo.filedownloader.FileDownloader
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import java.util.*
 
-class SingerActivity : AppCompatActivity(){
+class SingerActivity : BaseActivity(){
     private lateinit var binding: ActivitySingerBinding
     private var SingerData: StandardSingerData? = null
-    @SuppressLint("SetTextI18n")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
+    override fun initBinding() {
         binding = ActivitySingerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        miniPlayer = binding.miniPlayer
+    }
+    override fun initData() {
+        SingerData = StaticData.SingerData
+        FileDownloader.setup(this)
+    }
+    override fun initView() {
+        overridePendingTransition(R.anim.top_in, R.anim.top_out)
         immersionBar {
             statusBarColor(R.color.nullcolor)
             statusBarDarkFont(true)
         }
-
         binding.RadioButtonFirst.isChecked = true
-        SingerData = StaticData.SingerData
-        overridePendingTransition(R.anim.top_in, R.anim.top_out)
         binding.RefreshLayout.autoRefresh(200)
-        val d = Date()
-        val hours = d.hours
+        val hours = Date().hours
         if (hours < 6) {
             binding.Tips.setText("夜深了,月亮都睡了")
         }
@@ -57,33 +58,6 @@ class SingerActivity : AppCompatActivity(){
         if (hours >= 22) {
             binding.Tips.setText("夜深了,请注意休息")
         }
-        binding.FAB.setOnClickListener(View.OnClickListener { binding.RefreshLayout.autoRefresh() })
-        binding.FAB.setOnLongClickListener(OnLongClickListener {
-            binding.SingerRv.smoothScrollToPosition(0)
-            false
-        })
-        binding.FAB.setVisibility(View.GONE)
-        binding.MaterialToolbar.setTitle(SingerData?.name)
-        binding.CenterAppbarLayout.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
-            override fun onStateChanged(appBarLayout: AppBarLayout?, state: State?) {
-                if (state === State.EXPANDED) {
-                    binding.Container.setVisibility(View.VISIBLE)
-                    binding.Container2.setVisibility(View.GONE)
-                    binding.Container3.setVisibility(View.VISIBLE)
-                    binding.FAB.setVisibility(View.GONE)
-                } else if (state === State.COLLAPSED) {
-                    binding.Container.setVisibility(View.GONE)
-                    binding.Container2.setVisibility(View.VISIBLE)
-                    binding.Container3.setVisibility(View.GONE)
-                    binding.FAB.setVisibility(View.VISIBLE)
-                } else {
-                    binding.Container.setVisibility(View.VISIBLE)
-                    binding.Container2.setVisibility(View.GONE)
-                    binding.Container3.setVisibility(View.VISIBLE)
-                    binding.FAB.setVisibility(View.GONE)
-                }
-            }
-        })
         if (SingerData?.picUrl != null) {
             Glide.with(this@SingerActivity)
                 .load(SingerData?.picUrl + "?param=200y200")
@@ -118,7 +92,30 @@ class SingerActivity : AppCompatActivity(){
                     .load(R.drawable.avatar)
                     .into(binding.Avatar)
             }
+            for (i in 0 until alphaAdapter.itemCount) {
+                alphaAdapter.notifyItemChanged(i)
+            }
             refreshLayout.finishRefresh()
+        })
+        binding.MaterialToolbar.setTitle(SingerData?.name)
+    }
+    override fun initListener(){
+        binding.CenterAppbarLayout.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
+            override fun onStateChanged(appBarLayout: AppBarLayout?, state: State?) {
+                if (state === State.EXPANDED) {
+                    binding.Container.setVisibility(View.VISIBLE)
+                    binding.Container2.setVisibility(View.GONE)
+                    binding.Container3.setVisibility(View.VISIBLE)
+                } else if (state === State.COLLAPSED) {
+                    binding.Container.setVisibility(View.GONE)
+                    binding.Container2.setVisibility(View.VISIBLE)
+                    binding.Container3.setVisibility(View.GONE)
+                } else {
+                    binding.Container.setVisibility(View.VISIBLE)
+                    binding.Container2.setVisibility(View.GONE)
+                    binding.Container3.setVisibility(View.VISIBLE)
+                }
+            }
         })
     }
 

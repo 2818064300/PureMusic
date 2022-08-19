@@ -10,9 +10,7 @@ import com.lie.puremusic.StaticData
 import com.lie.puremusic.databinding.ActivityLoginBinding
 import com.lie.puremusic.pojo.PureUser
 import es.dmoral.toasty.Toasty
-import com.lie.puremusic.utils.DBUtils
 import com.lie.puremusic.utils.Dao
-import java.sql.Connection
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <www.linwg.org.lib.LCardView
+        android:id="@+id/Play_bar"
+        android:layout_width="@dimen/x1380"
+        android:layout_height="@dimen/x220"
+        app:cornerRadius="@dimen/x80"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:shadowColor="@color/material_blue_700"
+        app:shadowFluidShape="linear"
+        app:shadowSize="@dimen/x30">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
+            </ImageView>
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x300"
+                android:maxEms="9"
+                android:singleLine="true"
+                android:textColor="#FF3b414c"
+                android:textSize="@dimen/x63"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/Play_bar_ball"
+                android:layout_width="@dimen/x16"
+                android:layout_height="@dimen/x16"
+                android:layout_marginStart="@dimen/x24"
+                android:background="@drawable/search_item_ball"
+                app:layout_constraintStart_toEndOf="@+id/tvTitle"
+                app:layout_constraintTop_toTopOf="@+id/tvTitle" />
+
+            <ImageButton
+                android:id="@+id/Play_button"
+                android:layout_width="@dimen/x140"
+                android:layout_height="@dimen/x140"
+                android:layout_marginEnd="@dimen/x120"
+                android:adjustViewBounds="true"
+                android:background="@drawable/play"
+                android:scaleType="centerInside"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </www.linwg.org.lib.LCardView>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivCover"
+        android:layout_width="@dimen/x200"
+        android:layout_height="@dimen/x200"
+        android:layout_marginStart="@dimen/x20"
+        app:layout_constraintBottom_toBottomOf="@id/Play_bar"
+        app:layout_constraintStart_toStartOf="@id/Play_bar"
+        app:layout_constraintTop_toTopOf="@+id/Play_bar" />
+</androidx.constraintlayout.widget.ConstraintLayout>

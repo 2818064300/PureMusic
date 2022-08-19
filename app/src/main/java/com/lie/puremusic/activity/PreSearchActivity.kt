@@ -10,15 +10,9 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageButton
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dso.ext.visible
-import com.lie.puremusic.adapter.ListAdapter
 import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.adapter.SearchHotAdapter
@@ -27,13 +21,9 @@ import com.lie.puremusic.music.netease.SearchDefault
 import com.lie.puremusic.music.netease.SearchHot
 import com.lie.puremusic.pojo.Record
 import com.lie.puremusic.utils.MagicHttp.runOnMainThread
-import com.lie.puremusic.utils.asDrawable
 import es.dmoral.toasty.Toasty
-import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class PreSearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPreSearchBinding

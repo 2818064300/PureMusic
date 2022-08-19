@@ -1,24 +1,24 @@
 package com.lie.puremusic.activity
 
 import android.graphics.Typeface
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.adapter.MyRecyclerAdapter
-import com.lie.puremusic.databinding.ActivityRecommendBinding
 import com.lie.puremusic.databinding.ActivityUserCloudBinding
 import com.lie.puremusic.music.netease.data.toStandard
-import com.lie.puremusic.music.netease.data.toStandardSongDataArrayList
+import com.lie.puremusic.ui.base.BaseActivity
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 
-class UserCloudActivity : AppCompatActivity() {
+class UserCloudActivity : BaseActivity() {
     private lateinit var binding: ActivityUserCloudBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun initBinding() {
         binding = ActivityUserCloudBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        miniPlayer = binding.miniPlayer
+    }
+    override fun initView(){
         overridePendingTransition(R.anim.top_in, R.anim.top_out)
         val adapter = MyRecyclerAdapter(
             this,

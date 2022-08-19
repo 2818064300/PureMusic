@@ -58,7 +58,6 @@ class PlayerActivity : AppCompatActivity(){
 
     override fun finish() {
         super.finish()
-        StaticData.isCloud = false
         overridePendingTransition(R.anim.bottom_in, R.anim.bottom_out)
     }
 }

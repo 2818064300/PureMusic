@@ -2,24 +2,16 @@ package com.lie.puremusic.activity
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
-import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.view.animation.LinearInterpolator
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import androidx.viewpager2.widget.ViewPager2
-import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationBarView
 import com.lie.puremusic.adapter.FragmentViewPagerAdapter
-import com.lie.puremusic.adapter.MediaPlayerHelper
 import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.databinding.ActivityMainBinding
@@ -27,49 +19,27 @@ import com.lie.puremusic.fragment.HomeFragment
 import com.lie.puremusic.fragment.LeaderboardFragment
 import com.lie.puremusic.fragment.MusicFragment
 import com.lie.puremusic.fragment.VideoFragment
-import com.lie.puremusic.utils.Dao
+import com.lie.puremusic.ui.base.BaseActivity
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer
 import es.dmoral.toasty.Toasty
-import java.text.SimpleDateFormat
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var animation: Animation? = null
-    private val musicFragment: MusicFragment = MusicFragment()
-    private val homeFragment: HomeFragment = HomeFragment()
-    private val leaderboardFragment: LeaderboardFragment = LeaderboardFragment()
-    private val videoFragment: VideoFragment = VideoFragment()
     private var mExitTime: Long = 0
+    companion object {
+        lateinit var context: Context
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun initBinding() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.PlayBar.visibility = View.GONE
-        binding.Avatar.visibility = View.GONE
-
-        animation = AnimationUtils.loadAnimation(this, R.anim.img_animation)
-        animation?.interpolator = LinearInterpolator()
-
-        //初始化控件
-        initBottomNavigationView()
-        initViewPage()
-        binding.PlayButton.setOnClickListener {
-            if (MediaPlayerHelper.getInstance(this@MainActivity)?.isPlaying == true) {
-                MediaPlayerHelper.getInstance(this@MainActivity)?.pause()
-                binding.PlayButton.setBackgroundResource(R.drawable.play)
-            } else {
-                MediaPlayerHelper.getInstance(this@MainActivity)?.start()
-                binding.PlayButton.setBackgroundResource(R.drawable.play_pressed)
-            }
-        }
-        binding.PlayBar.setOnClickListener {
-            this@MainActivity.startActivity(Intent(this@MainActivity, PlayerActivity::class.java))
-        }
+        miniPlayer = binding.miniPlayer
+        context = this
+    }
+    override fun initData() {
         val sharedPreference = getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
         if (StaticData.hasNew){
             Toasty.info(this@MainActivity,"Pure Music新版发布啦!",2500).show()
@@ -96,6 +66,13 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
         }
+    }
+    override fun initView(){
+        //初始化控件
+        initBottomNavigationView()
+        initViewPage()
+    }
+    override fun initListener(){
         binding.tabItem4.setOnClickListener {
             startActivity(Intent(this@MainActivity, SettingActivity::class.java))
         }
@@ -130,6 +107,10 @@ class MainActivity : AppCompatActivity() {
 
     fun initViewPage() {
         val Fragments: MutableList<Fragment> = ArrayList()
+        val musicFragment: MusicFragment = MusicFragment()
+        val homeFragment: HomeFragment = HomeFragment()
+        val leaderboardFragment: LeaderboardFragment = LeaderboardFragment()
+        val videoFragment: VideoFragment = VideoFragment()
         Fragments.add(musicFragment)
         Fragments.add(homeFragment)
         Fragments.add(leaderboardFragment)
@@ -154,25 +135,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
-
-    override fun onResume() {
-        super.onResume()
-        if (StaticData.Songs != null) {
-            if (MediaPlayerHelper.getInstance(this@MainActivity)?.isPlaying == true) {
-                binding.PlayButton.setBackgroundResource(R.drawable.play_pressed)
-            } else {
-                binding.PlayButton.setBackgroundResource(R.drawable.play)
-            }
-            binding.PlayBar.visibility = View.VISIBLE
-            binding.Avatar.visibility = View.VISIBLE
-            binding.Avatar.startAnimation(animation)
-            binding.BarName.setText(StaticData.Songs?.name)
-            Glide.with(this)
-                .load(StaticData.Songs?.imageUrl + "?param=200y200")
-                .into(binding.Avatar)
-        }
-    }
-
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         val period: Long
         if (keyCode == KeyEvent.KEYCODE_BACK) //确定按下返回键

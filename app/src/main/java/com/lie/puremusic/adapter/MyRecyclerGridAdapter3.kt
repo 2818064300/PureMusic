@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
+import com.lie.puremusic.activity.MainActivity
 import com.lie.puremusic.activity.PlayerActivity
-import com.lie.puremusic.activity.SongListActivity
 import com.lie.puremusic.service.ServiceSongUrl
 import com.lie.puremusic.standard.data.SONG_QUALITY_HQ
 import com.lie.puremusic.standard.data.StandardSongData
@@ -81,7 +81,7 @@ class MyRecyclerGridAdapter3(
                     val path =
                         Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + type + "/" + song.id
                     if (!File("$path.flac").exists() && !File("$path.mp3").exists()) {
-                        Toasty.info(context, "开始缓存歌曲.", Toast.LENGTH_SHORT, true).show()
+                        Toasty.info(MainActivity.context, "开始缓存歌曲.", Toast.LENGTH_SHORT, true).show()
                         Thread {
                             val executorService =
                                 Executors.newCachedThreadPool()
@@ -107,7 +107,7 @@ class MyRecyclerGridAdapter3(
 
                                             override fun completed(task: BaseDownloadTask) {
                                                 Toasty.success(
-                                                    context,
+                                                    MainActivity.context,
                                                     "缓存成功.",
                                                     Toast.LENGTH_SHORT,
                                                     true
@@ -126,7 +126,7 @@ class MyRecyclerGridAdapter3(
                                                 e: Throwable
                                             ) {
                                                 Toasty.error(
-                                                    context,
+                                                    MainActivity.context,
                                                     "网络问题,请稍后再试!",
                                                     Toast.LENGTH_SHORT,
                                                     true
