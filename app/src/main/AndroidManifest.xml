@@ -22,12 +22,26 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.UserCloudActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activity.RecommendActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".activity.TestActivity"
             android:exported="false" />
         <activity
             android:name=".activity.SettingActivity"
-            android:launchMode="singleTask"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.InfoActivity"
             android:exported="false"
@@ -102,4 +116,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

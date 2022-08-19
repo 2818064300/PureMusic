@@ -126,17 +126,11 @@ class MyRecyclerAdapter(
             }
             tvSub.text = song?.artists?.parse()
             ibtn.setOnClickListener {
-                if (song?.id != null) {
+                if (song?.id != null && !song.imageUrl.equals("https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg")) {
                     val type: String = if (StaticData.isCloud) {
                         "Cloud"
                     } else {
                         "Netease"
-                    }
-                    val style: String = if (StaticData.Songs?.quality() == SONG_QUALITY_HQ
-                    ) {
-                        "flac"
-                    } else {
-                        "mp3"
                     }
                     val path =
                         Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + type + "/" + song.id
@@ -148,8 +142,8 @@ class MyRecyclerAdapter(
                             executorService.execute {
                                 ServiceSongUrl.getUrl(song) {
                                     StaticData.SongUrl = it
-                                    FileDownloader.getImpl().create(StaticData.SongUrl)
-                                        .setPath(path + "." + style)
+                                    FileDownloader.getImpl().create(StaticData.SongUrl?.url)
+                                        .setPath(path + "." + StaticData.SongUrl?.type)
                                         .setListener(object : FileDownloadListener() {
                                             override fun pending(
                                                 task: BaseDownloadTask,

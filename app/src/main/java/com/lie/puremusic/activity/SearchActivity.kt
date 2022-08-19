@@ -57,7 +57,6 @@ class SearchActivity : AppCompatActivity() {
             false
         })
         binding.Keywords.setText(StaticData.KeyWords)
-        binding.RefreshLayout.autoRefresh(2500)
         val finalAlphaAdapter = alphaAdapter
         binding.RefreshLayout.setOnRefreshListener(OnRefreshListener { refreshLayout ->
             for (i in 0 until finalAlphaAdapter.itemCount) {

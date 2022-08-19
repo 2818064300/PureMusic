@@ -12,9 +12,8 @@ class SpacesItemDecoration2 : ItemDecoration() {
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        val count = parent.adapter!!.itemCount
         if (parent.getChildAdapterPosition(view) == 0) {
-            outRect.left = 45
+            outRect.left = 36
         }
     }
 }

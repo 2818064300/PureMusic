@@ -23,10 +23,9 @@ import com.lie.puremusic.*
 import com.lie.puremusic.activity.PlayerActivity
 import com.lie.puremusic.adapter.MediaPlayerHelper
 import com.lie.puremusic.databinding.FragmentPlayerBinding
+import com.lie.puremusic.music.netease.data.SongUrlData
 import com.lie.puremusic.service.ServiceSongUrl
-import com.lie.puremusic.standard.data.SONG_QUALITY_HQ
 import com.lie.puremusic.standard.data.StandardSongDataEx
-import com.lie.puremusic.standard.data.quality
 import com.lie.puremusic.utils.BurnUtil
 import com.lie.puremusic.utils.MagicHttp
 import com.lie.puremusic.utils.parse
@@ -45,7 +44,6 @@ class PlayerFragment : Fragment(), View.OnClickListener {
     private var animation: Animation? = null
     private var isSeekbarChaning = false
     private var CanPlay = true
-    private var isNew = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -125,9 +123,9 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         val file2 = File("$path.mp3")
         if ((file1.exists() || file2.exists()) && StaticData.Songs?.id !== StaticData.Playing_ID) {
             if (file1.exists()) {
-                load("$path.flac", 0)
+                load("$path.flac","flac", 0)
             } else {
-                load("$path.mp3", 0)
+                load("$path.mp3","mp3", 0)
             }
         }
         binding.playbtn4New.setOnClickListener {
@@ -266,8 +264,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                     binding.LrcView.loadLrc(it.lyric, it.secondLyric)
                 }
             }
-            if (StaticData.PlayDataEx?.VibrantLight != null && StaticData.PlayDataEx?.Vibrant != null || isNew) {
-                isNew = false
+            if (StaticData.PlayDataEx?.VibrantLight != null && StaticData.PlayDataEx?.Vibrant != null) {
                 StaticData.PlayDataEx?.Vibrant?.getRgb()
                     ?.let { BurnUtil.colorBurn(it) }?.let { binding.LrcView.setCurrentColor(it) }
                 StaticData.PlayDataEx?.VibrantLight?.getRgb()
@@ -397,11 +394,11 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                                 if (File("$path3.flac").exists()) {
                                     StaticData.Songs =
                                         StaticData.PlayList_now?.songs?.get(StaticData.Position)
-                                    load("$path3.flac", 0)
+                                    load("$path3.flac","flac", 0)
                                 } else {
                                     StaticData.Songs =
                                         StaticData.PlayList_now?.songs?.get(StaticData.Position)
-                                    load("$path3.mp3", 0)
+                                    load("$path3.mp3","mp3", 0)
                                 }
                             } else {
 //                                if(SongData.Songs.getMusic_url() != null && CanPlay) {
@@ -471,9 +468,9 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                 if (file1.exists() || file2.exists()) {
                     if (StaticData.Songs?.id !== StaticData.Playing_ID) {
                         if (file1.exists()) {
-                            load("$path.flac", 0)
+                            load("$path.flac","flac", 0)
                         } else {
-                            load("$path.mp3", 0)
+                            load("$path.mp3","mp3", 0)
                         }
                     } else {
                         play()
@@ -536,11 +533,11 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                         if (File("$path1.flac").exists()) {
                             StaticData.Songs =
                                 StaticData.PlayList_now?.songs?.get(StaticData.Position)
-                            load("$path1.flac", 0)
+                            load("$path1.flac","flac", 0)
                         } else {
                             StaticData.Songs =
                                 StaticData.PlayList_now?.songs?.get(StaticData.Position)
-                            load("$path1.mp3", 0)
+                            load("$path1.mp3","mp3", 0)
                         }
                     } else {
 //                        if(SongData.Songs.getMusic_url() != null && CanPlay) {
@@ -587,11 +584,11 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                         if (File("$path2.flac").exists()) {
                             StaticData.Songs =
                                 StaticData.PlayList_now?.songs?.get(StaticData.Position)
-                            load("$path2.flac", 0)
+                            load("$path2.flac","flac", 0)
                         } else {
                             StaticData.Songs =
                                 StaticData.PlayList_now?.songs?.get(StaticData.Position)
-                            load("$path2.mp3", 0)
+                            load("$path2.mp3","mp3", 0)
                         }
                     } else {
 //                        if(SongData.Songs.getMusic_url() != null && CanPlay) {
@@ -712,7 +709,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun load(url: String, Position: Int) {
+    private fun load(url: String,type : String, Position: Int) {
         Thread {
             if (!StaticData.isCloud) {
                 if (StaticData.SongUrl == null) {
@@ -744,8 +741,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                         VibrantDark,
                         Muted
                     )
-                    isNew = true
-                    StaticData.SongUrl = url
+                    StaticData.SongUrl = SongUrlData.UrlData(-1,url,-1,-1,type)
                     initMediaPlayer(url, Position)
                 } else {
                     CanPlay = true
@@ -753,9 +749,8 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                 }
             } else {
                 CanPlay = true
-                StaticData.SongUrl =
-                    "http://puremusic.com.cn/Cloud/Music/music" + (StaticData.Position + 1) + ".mp3"
-                initMediaPlayer(StaticData.SongUrl!!, Position)
+                StaticData.SongUrl = SongUrlData.UrlData(-1,"http://puremusic.com.cn/Cloud/Music/music" + (StaticData.Position + 1) + ".mp3",-1,-1,"mp3")
+                initMediaPlayer(url, Position)
             }
         }.start()
     }
@@ -781,21 +776,13 @@ class PlayerFragment : Fragment(), View.OnClickListener {
             pools.execute {
                 ServiceSongUrl.getUrl(StaticData.PlayList_now?.songs?.get(index)) {
                     if (StaticData.isCloud) {
-                        StaticData.SongUrl =
-                            "http://puremusic.com.cn/Cloud/Music/music" + (index + 1) + ".mp3"
+                        StaticData.SongUrl = SongUrlData.UrlData(-1,"http://puremusic.com.cn/Cloud/Music/music" + (index + 1) + ".mp3",-1,-1,"mp3")
                     } else {
                         StaticData.SongUrl = it
                     }
                     println(StaticData.SongUrl)
-                    val style: String = if (StaticData.PlayList_now?.songs?.get(index)
-                            ?.quality() == SONG_QUALITY_HQ
-                    ) {
-                        "flac"
-                    } else {
-                        "mp3"
-                    }
-                    FileDownloader.getImpl().create(StaticData.SongUrl)
-                        .setPath(path + "." + style)
+                    FileDownloader.getImpl().create(StaticData.SongUrl?.url)
+                        .setPath(path + "." + StaticData.SongUrl?.type)
                         .setListener(object : FileDownloadListener() {
                             override fun pending(
                                 task: BaseDownloadTask,
@@ -816,7 +803,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                                     .show()
                                 StaticData.Position = index
                                 StaticData.Songs = StaticData.PlayList_now?.songs?.get(index)
-                                load(path + "." + style, 0)
+                                load(path + "." + StaticData.SongUrl?.type,StaticData.SongUrl?.type ?: "flac", 0)
                             }
 
                             override fun paused(

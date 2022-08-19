@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.lie.puremusic.api.CloudMusicApi
 import com.lie.puremusic.data.LyricViewData
 import com.lie.puremusic.music.netease.SongUrl
+import com.lie.puremusic.music.netease.data.SongUrlData
 import com.lie.puremusic.standard.SearchLyric
 import com.lie.puremusic.standard.data.SOURCE_NETEASE
 import com.lie.puremusic.standard.data.StandardSongData
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
  */
 object ServiceSongUrl {
 
-    inline fun getUrl(song: StandardSongData?, crossinline success: (String?) -> Unit) {
+    inline fun getUrl(song: StandardSongData?, crossinline success: (SongUrlData.UrlData?) -> Unit) {
         when (song?.source) {
             SOURCE_NETEASE -> {
                 GlobalScope.launch {

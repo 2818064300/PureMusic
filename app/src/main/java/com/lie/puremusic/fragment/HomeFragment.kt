@@ -16,6 +16,7 @@ import com.lie.puremusic.adapter.MyRecyclerGridAdapter
 import com.lie.puremusic.adapter.MyRecyclerGridAdapter2
 import com.lie.puremusic.databinding.FragmentHomeBinding
 import com.lie.puremusic.music.netease.*
+import com.lie.puremusic.music.netease.data.SongUrlData
 import com.lie.puremusic.standard.data.SONG_QUALITY_HQ
 import com.lie.puremusic.standard.data.StandardPlaylistData
 import com.lie.puremusic.standard.data.quality
@@ -65,28 +66,28 @@ class HomeFragment : BaseFragment() {
             StaticData.Position = 0
             StaticData.isCloud = true
             StaticData.Songs = StaticData.Cloud.get(0)
-            StaticData.SongUrl = "http://puremusic.com.cn/Cloud/Music/music" + 1 + ".mp3"
+            StaticData.SongUrl = SongUrlData.UrlData(-1,"http://puremusic.com.cn/Cloud/Music/music" + 1 + ".mp3",-1,-1,"mp3")
             ClickLocalMusic()
         }
         binding.Card8Iv.setOnClickListener {
             StaticData.Position = 1
             StaticData.isCloud = true
             StaticData.Songs = StaticData.Cloud.get(1)
-            StaticData.SongUrl = "http://puremusic.com.cn/Cloud/Music/music" + 2 + ".mp3"
+            StaticData.SongUrl = SongUrlData.UrlData(-1,"http://puremusic.com.cn/Cloud/Music/music" + 2 + ".mp3",-1,-1,"mp3")
             ClickLocalMusic()
         }
         binding.Card9Iv.setOnClickListener {
             StaticData.Position = 2
             StaticData.isCloud = true
             StaticData.Songs = StaticData.Cloud.get(2)
-            StaticData.SongUrl = "http://puremusic.com.cn/Cloud/Music/music" + 3 + ".mp3"
+            StaticData.SongUrl = SongUrlData.UrlData(-1,"http://puremusic.com.cn/Cloud/Music/music" + 3 + ".mp3",-1,-1,"mp3")
             ClickLocalMusic()
         }
         binding.Card10Iv.setOnClickListener {
             StaticData.Position = 3
             StaticData.isCloud = true
             StaticData.Songs = StaticData.Cloud.get(3)
-            StaticData.SongUrl = "http://puremusic.com.cn/Cloud/Music/music" + 4 + ".mp3"
+            StaticData.SongUrl = SongUrlData.UrlData(-1,"http://puremusic.com.cn/Cloud/Music/music" + 4 + ".mp3",-1,-1,"mp3")
             ClickLocalMusic()
         }
         binding.ViewAll.setOnClickListener {
@@ -102,6 +103,8 @@ class HomeFragment : BaseFragment() {
     private fun update() {
         // 推荐歌单
         refreshPlaylistRecommend()
+        // 推荐歌手
+        refreshSingerRecommend()
     }
 
 
@@ -120,7 +123,7 @@ class HomeFragment : BaseFragment() {
             binding.CardGroup.addItemDecoration(SpacesItemDecoration())
 
             binding.RefreshLayout.setOnRefreshListener { refreshLayout ->
-                if (StaticData.offset < PlaylistResult?.size / 6 - 1) {
+                if (StaticData.offset < PlaylistResult.size / 6 - 1) {
                     StaticData.offset += 1
                 } else {
                     StaticData.offset = 0
@@ -137,12 +140,13 @@ class HomeFragment : BaseFragment() {
                 refreshLayout.finishRefresh()
             }
         }
+    }
+    private fun refreshSingerRecommend() {
         SingerRecommend.getSingerRecommend(requireContext()) {
             runOnMainThread {
-                val SingerRecommend = it
                 val Singer: ArrayList<SingerRecommend.SingerRecommendDataResult> = ArrayList()
                 for (i in 0..4) {
-                    Singer.add(SingerRecommend.get(i))
+                    Singer.add(it.get(i))
                 }
                 val adapter2 = MyRecyclerGridAdapter2(requireContext(), Singer)
                 binding.SingerGroup.adapter = adapter2
@@ -166,19 +170,13 @@ class HomeFragment : BaseFragment() {
         } else {
             "Netease"
         }
-        val style: String = if (StaticData.Songs?.quality() == SONG_QUALITY_HQ
-        ) {
-            "flac"
-        } else {
-            "mp3"
-        }
         val path =
             Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + type + "/" + StaticData.Songs?.id
         if (!File("$path.mp3").exists()) {
             context?.let { Toasty.info(it, "开始缓存歌曲.", Toast.LENGTH_SHORT, true).show() }
             Thread {
-                FileDownloader.getImpl().create(StaticData.SongUrl)
-                    .setPath(path + "." + style)
+                FileDownloader.getImpl().create(StaticData.SongUrl?.url)
+                    .setPath(path + "." + StaticData.SongUrl?.type)
                     .setListener(object : FileDownloadListener() {
                         override fun pending(
                             task: BaseDownloadTask,
@@ -195,7 +193,7 @@ class HomeFragment : BaseFragment() {
                         }
 
                         override fun completed(task: BaseDownloadTask) {
-                            Toasty.success(context!!, "缓存成功.", Toast.LENGTH_SHORT, true).show()
+                            Toasty.success(requireContext(), "缓存成功.", Toast.LENGTH_SHORT, true).show()
                         }
 
                         override fun paused(
@@ -206,7 +204,7 @@ class HomeFragment : BaseFragment() {
                         }
 
                         override fun error(task: BaseDownloadTask, e: Throwable) {
-                            Toasty.error(context!!, "网络问题,请稍后再试!", Toast.LENGTH_SHORT, true)
+                            Toasty.error(requireContext(), "网络问题,请稍后再试!", Toast.LENGTH_SHORT, true)
                                 .show()
                         }
 

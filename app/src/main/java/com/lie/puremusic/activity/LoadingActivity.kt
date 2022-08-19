@@ -7,17 +7,18 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lie.puremusic.*
+import com.lie.puremusic.adapter.MyRecyclerAdapter
 import com.lie.puremusic.databinding.ActivityLoadingBinding
-import com.lie.puremusic.music.netease.Playlist
-import com.lie.puremusic.music.netease.SearchDetail
-import com.lie.puremusic.music.netease.UserDetail
-import com.lie.puremusic.music.netease.UserPlaylist
+import com.lie.puremusic.music.netease.*
+import com.lie.puremusic.music.netease.data.toStandardSongDataArrayList
 import com.lie.puremusic.pojo.SquareSongList
 import com.lie.puremusic.standard.data.StandardPlaylistData
 import com.lie.puremusic.standard.data.StandardSingerData
 import com.lie.puremusic.utils.*
 import es.dmoral.toasty.Toasty
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
@@ -140,6 +141,30 @@ class LoadingActivity : AppCompatActivity() {
                 SearchDetail.getSearchResult(this){
                     StaticData.SearchResult = it.getSongArrayList()
                     startActivity(Intent(this@LoadingActivity, SearchActivity::class.java))
+                    finish()
+                }
+            }
+            if (style.equals("DailyRecommend")) {
+                if(StaticData.DailyRecommendSongData == null){
+                    RecommendSong.getRecommendSong(this){
+                        StaticData.DailyRecommendSongData = it
+                        startActivity(Intent(this@LoadingActivity, RecommendActivity::class.java))
+                        finish()
+                    }
+                } else{
+                    startActivity(Intent(this@LoadingActivity, RecommendActivity::class.java))
+                    finish()
+                }
+            }
+            if (style.equals("UserCloud")) {
+                if(StaticData.UserCloudData == null){
+                    UserCloud.getUserCloud{
+                        StaticData.UserCloudData = it
+                        startActivity(Intent(this@LoadingActivity, UserCloudActivity::class.java))
+                        finish()
+                    }
+                } else{
+                    startActivity(Intent(this@LoadingActivity, UserCloudActivity::class.java))
                     finish()
                 }
             }

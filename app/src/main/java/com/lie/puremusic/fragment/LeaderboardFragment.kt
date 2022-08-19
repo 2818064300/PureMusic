@@ -42,19 +42,32 @@ class LeaderboardFragment : Fragment() {
             val intent = Intent(activity, PreSearchActivity::class.java)
             startActivity(intent)
         })
-        NewSong.getNewSong(requireContext()) {
-            MagicHttp.runOnMainThread {
-                val NewSongList: ArrayList<StandardSongData> = ArrayList()
-                for (i in 0..5) {
-                    NewSongList.add(it.get(i))
+        if(StaticData.NewSong == null){
+            NewSong.getNewSong(requireContext()) {
+                MagicHttp.runOnMainThread {
+                    val NewSongList: ArrayList<StandardSongData> = ArrayList()
+                    for (i in 0..5) {
+                        NewSongList.add(it.get(i))
+                    }
+                    val adapter = MyRecyclerGridAdapter3(requireContext(), NewSongList)
+                    binding.NewSongGroup.adapter = adapter
+                    val layoutManager = GridLayoutManager(context, 1)
+                    layoutManager.orientation = RecyclerView.HORIZONTAL
+                    binding.NewSongGroup.layoutManager = layoutManager
+                    binding.NewSongGroup.addItemDecoration(SpacesItemDecoration2())
                 }
-                val adapter = MyRecyclerGridAdapter3(requireContext(), NewSongList)
-                binding.NewSongGroup.adapter = adapter
-                val layoutManager = GridLayoutManager(context, 1)
-                layoutManager.orientation = RecyclerView.HORIZONTAL
-                binding.NewSongGroup.layoutManager = layoutManager
-                binding.NewSongGroup.addItemDecoration(SpacesItemDecoration2())
             }
+        } else{
+            val NewSongList: ArrayList<StandardSongData> = ArrayList()
+            for (i in 0..5) {
+                NewSongList.add(StaticData.NewSong!!.get(i))
+            }
+            val adapter = MyRecyclerGridAdapter3(requireContext(), NewSongList)
+            binding.NewSongGroup.adapter = adapter
+            val layoutManager = GridLayoutManager(context, 1)
+            layoutManager.orientation = RecyclerView.HORIZONTAL
+            binding.NewSongGroup.layoutManager = layoutManager
+            binding.NewSongGroup.addItemDecoration(SpacesItemDecoration2())
         }
         TopList.getTopList(requireContext()){
             val TopList = it

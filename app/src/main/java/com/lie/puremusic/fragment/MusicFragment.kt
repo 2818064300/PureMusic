@@ -61,6 +61,16 @@ class MusicFragment : Fragment() {
             val activity = activity as MainActivity?
             activity?.open()
         }
+        binding.DailyRecommend.setOnClickListener {
+            val intent = Intent(context, LoadingActivity::class.java)
+            intent.putExtra("style", "DailyRecommend")
+            startActivity(intent)
+        }
+        binding.UserCloud.setOnClickListener {
+            val intent = Intent(context, LoadingActivity::class.java)
+            intent.putExtra("style", "UserCloud")
+            startActivity(intent)
+        }
         val d = Date()
         val hours = d.hours
         if (hours < 6) {

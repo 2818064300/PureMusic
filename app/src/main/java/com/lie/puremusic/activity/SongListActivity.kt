@@ -53,6 +53,7 @@ class SongListActivity : BaseActivity() {
 
         binding = ActivitySongListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        overridePendingTransition(R.anim.top_in, R.anim.top_out)
         immersionBar {
             statusBarColor(R.color.nullcolor)
             statusBarDarkFont(true)
@@ -64,7 +65,6 @@ class SongListActivity : BaseActivity() {
         animation = AnimationUtils.loadAnimation(this, R.anim.img_animation)
         animation?.interpolator = LinearInterpolator()
         PlaylistData = StaticData.PlayListData
-        overridePendingTransition(R.anim.top_in, R.anim.top_out)
         binding.RefreshLayout.autoRefresh(200)
         binding.SonglistName.text = PlaylistData?.name
         binding.SonglistCount.text = "共 " + PlaylistData?.songs?.size + " 首"

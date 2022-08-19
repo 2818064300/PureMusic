@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +22,7 @@ import com.lie.puremusic.standard.data.SONG_QUALITY_HQ
 import com.lie.puremusic.standard.data.StandardSongData
 import com.lie.puremusic.standard.data.StandardSongDataEx
 import com.lie.puremusic.standard.data.quality
+import com.lie.puremusic.utils.parse
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
 import com.liulishuo.filedownloader.FileDownloader
@@ -35,7 +37,9 @@ class MyRecyclerGridAdapter3(
 ) : RecyclerView.Adapter<MyRecyclerGridAdapter3.InnerHolder>() {
 
     inner class InnerHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val ivCover: ImageView = view.findViewById(R.id.ivCover)
+        val ivCover: ImageView = view.findViewById(R.id.ivCover_bg)
+        val Card_tv1: TextView = view.findViewById(R.id.Card_tv1)
+        val Card_tv2: TextView = view.findViewById(R.id.Card_tv2)
         var Vibrant: Palette.Swatch? = null
         var VibrantLight: Palette.Swatch? = null
         var VibrantDark: Palette.Swatch? = null
@@ -58,6 +62,8 @@ class MyRecyclerGridAdapter3(
                 .load(song.imageUrl)
                 .centerCrop()
                 .into(ivCover)
+            Card_tv1.text = song.name
+            Card_tv2.text = song?.artists?.parse()
             ivCover.setOnClickListener {
                 if (song.id != null) {
                     val type: String = if (StaticData.isCloud) {
@@ -81,7 +87,7 @@ class MyRecyclerGridAdapter3(
                             executorService.execute {
                                 ServiceSongUrl.getUrl(song) {
                                     StaticData.SongUrl = it
-                                    FileDownloader.getImpl().create(StaticData.SongUrl)
+                                    FileDownloader.getImpl().create(StaticData.SongUrl?.url)
                                         .setPath(path + "." + style)
                                         .setListener(object : FileDownloadListener() {
                                             override fun pending(

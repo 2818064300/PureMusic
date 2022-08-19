@@ -13,15 +13,17 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.lie.puremusic.StaticData
+import com.lie.puremusic.adapter.MyRecyclerGridAdapter3
 import com.lie.puremusic.databinding.ActivitySplashBinding
+import com.lie.puremusic.music.netease.NewSong
 import com.lie.puremusic.music.netease.PlaylistRecommend
 import com.lie.puremusic.pojo.*
 import com.lie.puremusic.standard.data.SOURCE_NETEASE
 import com.lie.puremusic.standard.data.StandardSongData
-import com.lie.puremusic.utils.DBUtils
-import com.lie.puremusic.utils.Dao
-import com.lie.puremusic.utils.RedisUtils
+import com.lie.puremusic.utils.*
 import es.dmoral.toasty.Toasty
 import java.text.SimpleDateFormat
 import java.util.*
@@ -128,6 +130,11 @@ class SplashActivity : AppCompatActivity() {
                         startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                     }
                     finish()
+                }
+            }
+            pools.submit{
+                NewSong.getNewSong(this) {
+                    StaticData.NewSong = it
                 }
             }
             pools.submit(Runnable {

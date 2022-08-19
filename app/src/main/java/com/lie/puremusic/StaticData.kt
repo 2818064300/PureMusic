@@ -2,9 +2,7 @@ package com.lie.puremusic
 
 import com.lie.puremusic.data.LyricViewData
 import com.lie.puremusic.music.netease.*
-import com.lie.puremusic.music.netease.data.TopListData
-import com.lie.puremusic.music.netease.data.UserDetailData
-import com.lie.puremusic.music.netease.data.UserPlaylistData
+import com.lie.puremusic.music.netease.data.*
 import com.lie.puremusic.pojo.*
 import com.lie.puremusic.standard.data.StandardPlaylistData
 import com.lie.puremusic.standard.data.StandardSingerData
@@ -41,13 +39,16 @@ class StaticData {
         var hasNew = false
         val Cloud: ArrayList<StandardSongData> = ArrayList()
         var SearchResult: ArrayList<StandardSongData> = ArrayList()
+        var DailyRecommendSongData : DailyRecommendSongData? = null
+        var NewSong : ArrayList<StandardSongData>? = null
+        var UserCloudData : UserCloudData? = null
         var CurrentPosition: Long? = null
         var Songs: StandardSongData? = null
         var PlayListData: StandardPlaylistData? = null
         var SingerData: StandardSingerData? = null
         var PlayList_now: StandardPlaylistData? = null
         var PlayDataEx: StandardSongDataEx? = null
-        var SongUrl: String? = null
+        var SongUrl: SongUrlData.UrlData? = null
         var SongLrc: LyricViewData? = null
         var Position = 0
         var isCloud: Boolean = false

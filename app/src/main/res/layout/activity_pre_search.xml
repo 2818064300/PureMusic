@@ -5,178 +5,242 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/titleBar"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="@dimen/x60"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:alpha="0.75"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="返回"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_back"
+            tools:ignore="VectorDrawableCompat" />
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="56dp"
+            android:background="#00000000"
+            android:imeOptions="actionSearch"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/text_cursor_drawable"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnSearch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="68dp"
+            android:layout_height="56dp"
+            android:background="@drawable/background_button_icon"
+            android:minWidth="0dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:text="搜索"
+            android:textAllCaps="false"
+            android:textColor="@color/blue"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivClear"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:alpha="0.6"
+            android:contentDescription="清除"
+            android:padding="11dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/etSearch"
+            app:layout_constraintEnd_toEndOf="@+id/etSearch"
+            app:layout_constraintTop_toTopOf="@+id/etSearch"
+            app:srcCompat="@drawable/ic_cancel"
+            tools:ignore="VectorDrawableCompat" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clPanel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/x100"
-        android:orientation="vertical">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/container1"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clTip">
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/Search_bar"
-                android:layout_width="@dimen/x1271"
-                android:layout_height="@dimen/x144"
-                android:background="@drawable/search"
-                app:layout_constraintStart_toStartOf="@id/Search"
-                app:layout_constraintEnd_toEndOf="@id/Search"
-                app:layout_constraintTop_toTopOf="@id/Search"/>
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/Search"
-                android:layout_width="@dimen/x1271"
-                android:layout_height="@dimen/x144"
-                app:defaultQueryHint="请输入关键字"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="match_parent"
+            tools:ignore="ContentDescription"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                tools:ignore="ContentDescription">
+                <TextView
+                    android:id="@+id/tvSearchHot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:height="28dp"
+                    android:contentDescription="热门搜索"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="热门搜索"
+                    android:textColor="#050505"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSearchHot"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never" />
+            </LinearLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clTip"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleBar"
+        tools:ignore="ContentDescription">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/x30">
-            <www.linwg.org.lib.LCardView
-                android:id="@+id/Card1"
-                android:layout_width="@dimen/x1331"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/x30"
-                app:shadowFluidShape="linear"
-                app:shadowSize="@dimen/x30"
-                app:shadowColor="@color/material_blue_700"
-                app:layout_constraintTop_toBottomOf="@+id/container1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:cornerRadius="@dimen/x48"
-                tools:ignore="NotSibling">
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/container2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@id/tv"
-                        android:text="搜索类型"
-                        android:textSize="@dimen/x63"
-                        android:textStyle="bold"
-                        android:textColor="#dce1e8"
-                        android:layout_marginTop="@dimen/x56"
-                        android:layout_marginStart="@dimen/x80"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/Container3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@+id/tv">
-                        <RadioGroup
-                            android:id="@+id/RadioGroup"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/x200"
-                            android:orientation="horizontal"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:gravity="center">
-                            <RadioButton
-                                android:id="@+id/RadioButton1"
-                                android:layout_width="@dimen/x230"
-                                android:layout_height="@dimen/x111"
-                                android:button="@null"
-                                android:text="单曲"
-                                android:textSize="56px"
-                                android:gravity="center"
-                                android:layout_marginEnd="@dimen/x16"
-                                android:textColor="@drawable/radiobutton_tv_bg"
-                                android:background="@drawable/radiobutton_bg"/>
-                            <RadioButton
-                                android:id="@+id/RadioButton2"
-                                android:layout_width="@dimen/x230"
-                                android:layout_height="@dimen/x111"
-                                android:button="@null"
-                                android:text="专辑"
-                                android:textSize="56px"
-                                android:gravity="center"
-                                android:layout_marginEnd="@dimen/x16"
-                                android:textColor="@drawable/radiobutton_tv_bg"
-                                android:background="@drawable/radiobutton_bg"/>
-                            <RadioButton
-                                android:id="@+id/RadioButton3"
-                                android:layout_width="@dimen/x230"
-                                android:layout_height="@dimen/x111"
-                                android:button="@null"
-                                android:text="歌手"
-                                android:textSize="56px"
-                                android:gravity="center"
-                                android:textColor="@drawable/radiobutton_tv_bg"
-                                android:background="@drawable/radiobutton_bg"/>
-                            <RadioButton
-                                android:id="@+id/RadioButton4"
-                                android:layout_width="@dimen/x230"
-                                android:layout_height="@dimen/x111"
-                                android:button="@null"
-                                android:text="歌单"
-                                android:textSize="16dp"
-                                android:gravity="center"
-                                android:layout_marginStart="@dimen/x16"
-                                android:textColor="@drawable/radiobutton_tv_bg"
-                                android:background="@drawable/radiobutton_bg"/>
-                            <RadioButton
-                                android:id="@+id/RadioButton5"
-                                android:layout_width="@dimen/x230"
-                                android:layout_height="@dimen/x111"
-                                android:button="@null"
-                                android:text="歌词"
-                                android:textSize="56px"
-                                android:gravity="center"
-                                android:layout_marginStart="@dimen/x16"
-                                android:textColor="@drawable/radiobutton_tv_bg"
-                                android:background="@drawable/radiobutton_bg"/>
-                        </RadioGroup>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </www.linwg.org.lib.LCardView>
-            <www.linwg.org.lib.LCardView
-                android:id="@+id/Card2"
-                android:layout_width="@dimen/x1331"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/x30"
-                app:shadowFluidShape="linear"
-                app:shadowSize="@dimen/x30"
-                app:shadowColor="@color/material_blue_700"
-                app:layout_constraintTop_toBottomOf="@+id/Card1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:cornerRadius="@dimen/x48">
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/container4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@id/tv6"
-                        android:text="历史搜索"
-                        android:textSize="@dimen/x63"
-                        android:textStyle="bold"
-                        android:textColor="#dce1e8"
-                        android:layout_marginTop="@dimen/x56"
-                        android:layout_marginStart="@dimen/x80"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <androidx.recyclerview.widget.RecyclerView
-                        app:layout_constraintTop_toBottomOf="@+id/tv6"
-                        android:id="@+id/Pre_search_rv"
-                        android:layout_marginTop="@dimen/x30"
-                        android:layout_marginBottom="@dimen/x30"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </www.linwg.org.lib.LCardView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/dividerTip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clNetease"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="网易音源搜索">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_cloud_music_engine"
+                    tools:ignore="VectorDrawableCompat" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clQQ"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="QQ 音源搜索">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_qq_music_engine"
+                    tools:ignore="VectorDrawableCompat" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clKuwo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/ivKuwo"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_kuwo_music_engine"
+                    tools:ignore="VectorDrawableCompat" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clBilibili"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/ivBilibili"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_bilibili_music_engine"
+                    tools:ignore="VectorDrawableCompat" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/dividerTip"
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:background="#E6E6E6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/FAB"
             android:layout_width="@dimen/x200"
@@ -188,6 +252,6 @@
             app:icon="@drawable/icon2"
             app:iconTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

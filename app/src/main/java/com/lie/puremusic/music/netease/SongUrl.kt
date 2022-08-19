@@ -9,7 +9,7 @@ import okhttp3.FormBody
 
 object SongUrl {
 
-    fun getSongUrlCookie(id: String, success: (String) -> Unit) {
+    fun getSongUrlCookie(id: String, success: (SongUrlData.UrlData) -> Unit) {
         if (!StaticData.isCloud) {
             val requestBody = FormBody.Builder()
                 .add("crypto", "api")
@@ -23,7 +23,7 @@ object SongUrl {
             MagicHttp.OkHttpManager().newPost("$API_DEFAULT/song/url", requestBody, {
                 try {
                     val songUrlData = Gson().fromJson(it, SongUrlData::class.java)
-                    success.invoke(songUrlData.data[0].url ?: "")
+                    success.invoke(songUrlData.data[0])
                 } catch (e: Exception) {
                 }
             }, {

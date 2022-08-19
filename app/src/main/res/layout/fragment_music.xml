@@ -343,6 +343,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
                     <TextView
+                        android:id="@+id/DailyRecommend"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="每日推荐"
@@ -374,6 +375,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/separation2"/>
                     <TextView
+                        android:id="@+id/UserCloud"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="我的云盘"
