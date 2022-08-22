@@ -6,62 +6,52 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lie.puremusic.R
-import com.lie.puremusic.StaticData
 import com.lie.puremusic.activity.LoadingActivity
-import com.lie.puremusic.pojo.Singer
-import de.hdodenhof.circleimageview.CircleImageView
+import com.lie.puremusic.music.netease.data.UserPlaylistData
 
-class MyRecyclerAdapter2(private val context: Context, List: MutableList<Singer?>) :
+class MyRecyclerAdapter2(private val context: Context, private val List : ArrayList<UserPlaylistData.Playlist>?) :
     RecyclerView.Adapter<MyRecyclerAdapter2.InnerHolder>() {
-    private var List: MutableList<Singer?> = ArrayList()
-
-    init {
-        this.List = List
+    inner class InnerHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var ivCover: ImageView = view.findViewById(R.id.ivCover)
+        var tvTitle: TextView = view.findViewById(R.id.tvTitle)
+        var tvSub: TextView = view.findViewById(R.id.tvSub)
+        var ibtn: ConstraintLayout = view.findViewById(R.id.ibtn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InnerHolder {
         val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.list_item3, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.list_item6, parent, false)
         return InnerHolder(view)
     }
 
-    override fun onBindViewHolder(
-        holder: InnerHolder,
-        @SuppressLint("RecyclerView") position: Int
-    ) {
-        holder.tv1.setText(List[position]?.getName())
-        val url: String? = List[position]?.getCover_url()
-        Glide.with(context)
-            .load(url)
-            .into(holder.avatar)
-        holder.ibtn.setOnClickListener {
-            val intent = Intent(context, LoadingActivity::class.java)
-            intent.putExtra("style","SingerList")
-            intent.putExtra("id",StaticData.Result.getSingers()?.get(position)?.getId())
-            context.startActivity(intent)
+    @SuppressLint("RecyclerView")
+    override fun onBindViewHolder(holder: InnerHolder, position: Int) {
+        with(holder) {
+            val UserPlaylist = List?.get(position)
+            tvTitle.text = UserPlaylist?.name
+            tvSub.text = UserPlaylist?.creator?.nickname
+                Glide.with(context)
+                    .load(UserPlaylist?.coverImgUrl)
+                    .into(holder.ivCover)
+            ibtn.setOnClickListener {
+                val intent = Intent(context, LoadingActivity::class.java)
+                intent.putExtra("style", "SongList")
+                intent.putExtra("id", UserPlaylist?.id)
+                intent.putExtra("picUrl", UserPlaylist?.coverImgUrl)
+                intent.putExtra("name", UserPlaylist?.name)
+                intent.putExtra("playCount", 0)
+                context.startActivity(intent)
+            }
         }
     }
 
     override fun getItemCount(): Int {
-        return List.size
-    }
-
-    inner class InnerHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var tv1: TextView
-        var avatar: CircleImageView
-        var ibtn: ImageButton
-        var mark: ImageButton
-
-        init {
-            tv1 = view.findViewById(R.id.tv1)
-            avatar = view.findViewById(R.id.avatar)
-            ibtn = view.findViewById(R.id.ibtn)
-            mark = view.findViewById(R.id.mark)
-        }
+        return List?.size!!
     }
 }

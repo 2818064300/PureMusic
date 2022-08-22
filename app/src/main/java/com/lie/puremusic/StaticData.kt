@@ -22,16 +22,12 @@ class StaticData {
         var KeyWords: String? = null
         var isFirstPlay = false
         var Root = "网易云音乐"
-        var Containr: MutableList<String?> = ArrayList()
-        var Result: Result = Result()
         var Playing_ID = ""
-        var Square: MutableList<SquareSongList?> = ArrayList()
         var PlaylistRecommend: ArrayList<PlaylistRecommend.PlaylistRecommendDataResult>? = null
         var UserDetailData: UserDetailData? = null
         var MyFavorite: UserPlaylistData.Playlist? = null
         var UserPlaylistData: ArrayList<UserPlaylistData.Playlist>? = null
         var user: PureUser? = null
-        var PlayList: MutableList<Song?> = ArrayList()
         var Records: MutableList<Record?> = ArrayList()
         var connection: Connection? = null
         var jedis: Jedis? = null

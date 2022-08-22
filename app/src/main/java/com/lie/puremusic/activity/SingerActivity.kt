@@ -13,7 +13,6 @@ import com.lie.puremusic.databinding.ActivitySingerBinding
 import com.lie.puremusic.listener.AppBarStateChangeListener
 import com.lie.puremusic.standard.data.StandardSingerData
 import com.lie.puremusic.ui.base.BaseActivity
-import com.liulishuo.filedownloader.FileDownloader
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import java.util.*
@@ -29,7 +28,6 @@ class SingerActivity : BaseActivity(){
     }
     override fun initData() {
         SingerData = StaticData.SingerData
-        FileDownloader.setup(this)
     }
     override fun initView() {
         overridePendingTransition(R.anim.top_in, R.anim.top_out)
@@ -62,10 +60,16 @@ class SingerActivity : BaseActivity(){
             Glide.with(this@SingerActivity)
                 .load(SingerData?.picUrl + "?param=200y200")
                 .into(binding.Avatar)
+            Glide.with(this@SingerActivity)
+                .load(SingerData?.picUrl + "?param=200y200")
+                .into(binding.ivCover)
         } else {
             Glide.with(this@SingerActivity)
                 .load(R.drawable.avatar)
                 .into(binding.Avatar)
+            Glide.with(this@SingerActivity)
+                .load(R.drawable.avatar)
+                .into(binding.ivCover)
         }
         binding.SingerName.setText(SingerData?.name)
         binding.SingerStyle.setText("华语歌手")
@@ -87,17 +91,23 @@ class SingerActivity : BaseActivity(){
                 Glide.with(this@SingerActivity)
                     .load(SingerData?.picUrl + "?param=200y200")
                     .into(binding.Avatar)
+                Glide.with(this@SingerActivity)
+                    .load(SingerData?.picUrl + "?param=200y200")
+                    .into(binding.ivCover)
             } else {
                 Glide.with(this@SingerActivity)
                     .load(R.drawable.avatar)
                     .into(binding.Avatar)
+                Glide.with(this@SingerActivity)
+                    .load(R.drawable.avatar)
+                    .into(binding.ivCover)
             }
             for (i in 0 until alphaAdapter.itemCount) {
                 alphaAdapter.notifyItemChanged(i)
             }
             refreshLayout.finishRefresh()
         })
-        binding.MaterialToolbar.setTitle(SingerData?.name)
+        binding.tvTitle.text = SingerData?.name
     }
     override fun initListener(){
         binding.CenterAppbarLayout.addOnOffsetChangedListener(object : AppBarStateChangeListener() {

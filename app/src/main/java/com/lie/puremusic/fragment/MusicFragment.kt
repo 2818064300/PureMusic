@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lie.puremusic.*
 import com.lie.puremusic.activity.*
-import com.lie.puremusic.adapter.MyRecyclerAdapter4
+import com.lie.puremusic.adapter.MyRecyclerAdapter2
 import com.lie.puremusic.databinding.FragmentMusicBinding
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import java.util.*
@@ -43,7 +43,7 @@ class MusicFragment : Fragment() {
         val typeface = Typeface.createFromAsset(MusicFragmentContext?.assets, "汉仪雅酷黑65W.ttf")
         binding.tv1.typeface = typeface
         binding.tv2.typeface = typeface
-        val adapter = context?.let { MyRecyclerAdapter4(it,StaticData.UserPlaylistData) }
+        val adapter = context?.let { MyRecyclerAdapter2(it,StaticData.UserPlaylistData) }
         val alphaAdapter = adapter?.let { AlphaInAnimationAdapter(it) }
         binding.CardGroup.adapter = alphaAdapter?.let { AlphaInAnimationAdapter(it) }
         binding.CardGroup.layoutManager =

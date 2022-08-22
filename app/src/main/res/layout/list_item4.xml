@@ -1,171 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ibtn"
+    android:layout_width="@dimen/x264"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/x400">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/CircleImageView"
+        android:layout_width="@dimen/x200"
+        android:layout_height="@dimen/x200"
+        android:layout_marginTop="@dimen/x56"
+        android:elevation="2dp"
+        app:civ_border_color="#FFFFFFFF"
+        app:civ_border_width="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/ibtn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#00000000" />
-        <www.linwg.org.lib.LCardView
-            android:id="@+id/cover"
-            android:layout_width="@dimen/x300"
-            android:layout_height="@dimen/x300"
-            android:layout_marginStart="@dimen/x60"
-            android:layout_marginTop="@dimen/x30"
-            app:shadowFluidShape="linear"
-            app:shadowSize="@dimen/x30"
-            app:shadowColor="@color/material_blue_700"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:cornerRadius="@dimen/x48">
-            <ImageView
-                android:id="@+id/SongsList_bg"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </www.linwg.org.lib.LCardView>
-        <ImageView
-            android:id="@+id/avatar_ball"
-            android:layout_width="@dimen/x16"
-            android:layout_height="@dimen/x16"
-            android:background="@drawable/search_item_ball"
-            app:layout_constraintStart_toEndOf="@+id/cover"
-            app:layout_constraintTop_toTopOf="@+id/cover" />
+    <TextView
+        android:id="@+id/CircleImageView_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x50"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="@+id/CircleImageView"
+        app:layout_constraintStart_toStartOf="@+id/CircleImageView"
+        app:layout_constraintTop_toBottomOf="@+id/CircleImageView" />
 
-        <TextView
-            android:id="@+id/tv1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/x100"
-            android:layout_marginTop="@dimen/x120"
-            android:text="待定"
-            android:maxWidth="@dimen/x640"
-            android:singleLine="true"
-            android:textColor="#FF3b414c"
-            android:textSize="@dimen/x63"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/cover"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/x100"
-            android:layout_marginTop="@dimen/x20"
-            android:text="待定"
-            android:singleLine="true"
-            android:maxWidth="@dimen/x560"
-            android:textColor="#FFc1c1c3"
-            android:textSize="@dimen/x49"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/cover"
-            app:layout_constraintTop_toBottomOf="@+id/tv1" />
-        <ImageButton
-            android:id="@+id/tvbg"
-            android:layout_marginTop="@dimen/x80"
-            android:layout_width="@dimen/x180"
-            android:layout_height="@dimen/x60"
-            android:layout_marginEnd="@dimen/x120"
-            app:layout_constraintTop_toTopOf="@+id/cover"
-            app:layout_constraintBottom_toBottomOf="@+id/cover"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/play_count"/>
-        <TextView
-            android:id="@+id/tv4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/x42"
-            android:textColor="#FF4c60f8"
-            app:layout_constraintStart_toStartOf="@+id/tvbg"
-            app:layout_constraintEnd_toEndOf="@+id/tvbg"
-            app:layout_constraintTop_toTopOf="@+id/tvbg"
-            app:layout_constraintBottom_toBottomOf="@+id/tvbg"/>
-        <TextView
-            android:id="@+id/tv5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/x42"
-            android:layout_marginBottom="@dimen/x20"
-            android:textColor="#FFdbdbdb"
-            app:layout_constraintStart_toStartOf="@+id/tvbg"
-            app:layout_constraintEnd_toEndOf="@+id/tvbg"
-            app:layout_constraintBottom_toTopOf="@+id/tvbg"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_width="@dimen/x180"
-            android:layout_height="@dimen/x10"
-            android:src="@drawable/search_item_line"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/x55"
-            android:background="#00000000"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/comment"
-            android:layout_width="@dimen/x56"
-            android:layout_height="@dimen/x54"
-            android:layout_marginStart="@dimen/x140"
-            android:background="@drawable/book"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/fly"
-            android:layout_width="@dimen/x56"
-            android:layout_height="@dimen/x54"
-            android:layout_marginEnd="@dimen/x360"
-            android:background="@drawable/fly"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/Book"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/x30"
-            android:text="0"
-            android:textColor="#FFfcd072"
-            android:textSize="@dimen/x38"
-            app:layout_constraintStart_toEndOf="@+id/comment"
-            app:layout_constraintTop_toTopOf="@+id/comment" />
-
-        <TextView
-            android:id="@+id/tv3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/x40"
-            android:text="网易云音乐"
-            android:textColor="#FFb0b6c6"
-            android:textSize="@dimen/x38"
-            app:layout_constraintStart_toEndOf="@+id/fly"
-            app:layout_constraintTop_toTopOf="@+id/comment" />
-
-        <ImageView
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/x75"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:src="@drawable/divider"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

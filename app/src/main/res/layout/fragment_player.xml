@@ -113,23 +113,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Cover"/>
-
-    <ImageView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/seekbar3"
-        android:layout_width="@dimen/x120"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/x16"
-        android:src="@drawable/seekbar3"
         android:layout_marginTop="@dimen/x80"
         app:layout_constraintTop_toBottomOf="@+id/tv5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-    <ImageView
-        android:layout_width="@dimen/x1440"
-        android:layout_height="@dimen/x480"
-        android:background="@drawable/seekbar4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
+        <ImageView
+            android:id="@+id/seekbar3_item1"
+            android:layout_width="@dimen/x64"
+            android:layout_height="match_parent"
+            android:src="@drawable/seekbar3_item1"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <ImageView
+            android:id="@+id/seekbar3_item2"
+            android:layout_width="@dimen/x24"
+            android:layout_height="match_parent"
+            android:src="@drawable/seekbar3_item2"
+            android:layout_marginStart="@dimen/x32"
+            app:layout_constraintStart_toEndOf="@+id/seekbar3_item1"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <ImageView
         android:id="@+id/play_btn"
         android:layout_width="@dimen/x240"
@@ -248,4 +253,33 @@
         app:layout_constraintStart_toEndOf="@+id/playbtn8_new"
         app:layout_constraintTop_toTopOf="@+id/playbtn7_new"
         app:layout_constraintBottom_toBottomOf="@+id/playbtn7_new"/>
+<!--    <ImageView-->
+<!--        android:layout_width="@dimen/x1440"-->
+<!--        android:layout_height="@dimen/x480"-->
+<!--        android:background="@drawable/seekbar4"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"/>-->
+    <com.lie.puremusic.view.MyWaveView
+        android:id="@+id/MyWave2"
+        android:layout_width="@dimen/x1440"
+        android:layout_height="@dimen/x480"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <com.lie.puremusic.view.MyWaveView
+        android:id="@+id/MyWave"
+        android:layout_width="@dimen/x1440"
+        android:layout_height="@dimen/x480"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <com.lie.puremusic.view.MyWaveView
+        android:id="@+id/MyWave3"
+        android:layout_width="@dimen/x1440"
+        android:layout_height="@dimen/x480"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

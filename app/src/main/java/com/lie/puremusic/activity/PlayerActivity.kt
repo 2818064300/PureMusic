@@ -2,13 +2,13 @@ package com.lie.puremusic.activity
 
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.lie.puremusic.adapter.FragmentAdapter
 import com.lie.puremusic.fragment.LrcFragment
-import com.lie.puremusic.adapter.MediaPlayerHelper
+import com.lie.puremusic.utils.MediaPlayerHelper
 import com.lie.puremusic.R
-import com.lie.puremusic.StaticData
 import com.lie.puremusic.databinding.ActivityPlayerBinding
 import com.lie.puremusic.fragment.PlayerFragment
 import com.lie.puremusic.fragment.TestFragment1
@@ -27,7 +27,7 @@ class PlayerActivity : AppCompatActivity(){
         setContentView(binding.root)
 
         overridePendingTransition(R.anim.top_in, R.anim.top_out)
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mediaPlayerHelper = MediaPlayerHelper.getInstance(this)
         val Fragments: MutableList<Fragment?> = ArrayList()
         Fragments.add(lrcFragment)

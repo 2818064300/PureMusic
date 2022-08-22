@@ -1,12 +1,12 @@
 package com.lie.puremusic.fragment
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Environment
+import android.os.Vibrator
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +22,7 @@ import com.king.view.arcseekbar.ArcSeekBar
 import com.lie.puremusic.*
 import com.lie.puremusic.activity.MainActivity
 import com.lie.puremusic.activity.PlayerActivity
-import com.lie.puremusic.adapter.MediaPlayerHelper
+import com.lie.puremusic.utils.MediaPlayerHelper
 import com.lie.puremusic.databinding.FragmentPlayerBinding
 import com.lie.puremusic.music.netease.data.SongUrlData
 import com.lie.puremusic.music.netease.data.toStandard
@@ -31,6 +31,7 @@ import com.lie.puremusic.service.ServiceSongUrl
 import com.lie.puremusic.standard.data.StandardSongDataEx
 import com.lie.puremusic.utils.BurnUtil
 import com.lie.puremusic.utils.MagicHttp
+import com.lie.puremusic.utils.MagicHttp.runOnMainThread
 import com.lie.puremusic.utils.parse
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
@@ -64,6 +65,18 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         binding.PlayerIbtn.setOnClickListener(this)
         binding.PlayerIbtn2.setOnClickListener(this)
         binding.PlayerIbtn3.setOnClickListener(this)
+        binding.MyWave.waveHeight = 180
+        binding.MyWave.setStrokeWidth(6f)
+        binding.MyWave.setWaveColor("#72bcce")
+        binding.MyWave.waveSpeed = 40
+        binding.MyWave2.waveHeight = 320
+        binding.MyWave2.setStrokeWidth(6f)
+        binding.MyWave2.setWaveColor("#eff9fa")
+        binding.MyWave2.waveSpeed = 40
+        binding.MyWave2.setReverse(true)
+        binding.MyWave3.waveHeight = 12
+        binding.MyWave3.setWaveColor("#f1f5f6")
+        binding.MyWave3.waveSpeed = 40
 
         animation = AnimationUtils.loadAnimation(context, R.anim.img_animation)
         animation?.interpolator = LinearInterpolator()
@@ -210,6 +223,67 @@ class PlayerFragment : Fragment(), View.OnClickListener {
             val activity = activity as PlayerActivity?
             activity?.goLrc()
         }
+        binding.Cover.setOnLongClickListener {
+            //震动
+            ContextCompat.getSystemService(requireContext(), Vibrator::class.java)?.vibrate(100)
+            if (!File(Environment.getExternalStorageDirectory().path + "/PureMusic/Picture/Song/" + StaticData.Songs?.id + ".png").exists()) {
+                File(Environment.getExternalStorageDirectory().path + "/PureMusic/Picture/Song/")
+                    .mkdirs()
+                FileDownloader.getImpl().create(StaticData.Songs?.imageUrl)
+                    .setPath(Environment.getExternalStorageDirectory().path + "/PureMusic/Picture/Song/" + "${StaticData.Songs?.id}.png")
+                    .setListener(object : FileDownloadListener() {
+                        override fun pending(
+                            task: BaseDownloadTask,
+                            soFarBytes: Int,
+                            totalBytes: Int
+                        ) {
+                        }
+
+                        override fun progress(
+                            task: BaseDownloadTask,
+                            soFarBytes: Int,
+                            totalBytes: Int
+                        ) {
+                        }
+
+                        override fun completed(task: BaseDownloadTask) {
+                            Toasty.success(
+                                MainActivity.context,
+                                "封面保存成功",
+                                Toast.LENGTH_SHORT,
+                                true
+                            ).show()
+                        }
+
+                        override fun paused(
+                            task: BaseDownloadTask,
+                            soFarBytes: Int,
+                            totalBytes: Int
+                        ) {
+                        }
+
+                        override fun error(task: BaseDownloadTask, e: Throwable) {
+                            Toasty.error(
+                                MainActivity.context,
+                                "网络问题,请稍后再试!",
+                                Toast.LENGTH_SHORT,
+                                true
+                            ).show()
+                        }
+
+                        override fun warn(task: BaseDownloadTask) {}
+                    })
+                    .start()
+            } else {
+                Toasty.info(
+                    MainActivity.context,
+                    "已为您保存过了哦QWQ.",
+                    Toast.LENGTH_SHORT,
+                    true
+                ).show()
+            }
+            true
+        }
     }
 
     @SuppressLint("ResourceType")
@@ -274,6 +348,24 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                     ?.let { BurnUtil.colorBurn(it) }?.let { binding.LrcView.setCurrentColor(it) }
                 StaticData.PlayDataEx?.VibrantLight?.getRgb()
                     ?.let { binding.LrcView.setNormalColor(it) }
+                StaticData.PlayDataEx?.Vibrant?.getRgb()
+                    ?.let { binding.MyWave.setWaveColor(it) }
+                StaticData.PlayDataEx?.VibrantLight?.getRgb()
+                    ?.let { binding.MyWave2.setWaveColor(it) }
+                binding.seekbar3Item1.setImageTintList(
+                    StaticData.PlayDataEx?.Vibrant?.getRgb()?.let {
+                        ColorStateList.valueOf(
+                            it
+                        )
+                    }
+                )
+                binding.seekbar3Item2.setImageTintList(
+                    StaticData.PlayDataEx?.VibrantLight?.getRgb()?.let {
+                        ColorStateList.valueOf(
+                            it
+                        )
+                    }
+                )
                 binding.playBtn.setImageTintList(
                     StaticData.PlayDataEx?.VibrantLight?.getRgb()?.let {
                         ColorStateList.valueOf(
@@ -302,6 +394,24 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                         ?.let { binding.LrcView.setCurrentColor(it) }
                     StaticData.PlayDataEx?.VibrantDark?.getRgb()
                         ?.let { binding.LrcView.setNormalColor(it) }
+                    StaticData.PlayDataEx?.Vibrant?.getRgb()
+                        ?.let { binding.MyWave.setWaveColor(it) }
+                    StaticData.PlayDataEx?.VibrantLight?.getRgb()
+                        ?.let { binding.MyWave2.setWaveColor(it) }
+                    binding.seekbar3Item1.setImageTintList(
+                        StaticData.PlayDataEx?.Muted?.getRgb()?.let {
+                            ColorStateList.valueOf(
+                                it
+                            )
+                        }
+                    )
+                    binding.seekbar3Item2.setImageTintList(
+                        StaticData.PlayDataEx?.VibrantDark?.getRgb()?.let {
+                            ColorStateList.valueOf(
+                                it
+                            )
+                        }
+                    )
                     binding.playBtn.setImageTintList(
                         StaticData.PlayDataEx?.VibrantDark?.getRgb()?.let {
                             ColorStateList.valueOf(
@@ -449,13 +559,6 @@ class PlayerFragment : Fragment(), View.OnClickListener {
 //                                        e.printStackTrace();
 //                                    }
 //                                }
-                                Toasty.info(
-                                    MainActivity.context,
-                                    "开始缓存歌曲.",
-                                    Toast.LENGTH_SHORT,
-                                    true
-                                )
-                                    .show()
                                 download(StaticData.Position + 1, path3)
                             }
                         }
@@ -598,8 +701,6 @@ class PlayerFragment : Fragment(), View.OnClickListener {
 //                                }
 //                            }).start();
 //                        }
-                            Toasty.info(MainActivity.context, "开始缓存歌曲.", Toast.LENGTH_SHORT, true)
-                                .show()
                         download(StaticData.Position - 1, path1)
                     }
                 }
@@ -650,8 +751,6 @@ class PlayerFragment : Fragment(), View.OnClickListener {
 //                                }
 //                            }).start();
 //                        }
-                            Toasty.info(MainActivity.context, "开始缓存歌曲.", Toast.LENGTH_SHORT, true)
-                                .show()
                         download(StaticData.Position + 1, path2)
                     }
                 }
@@ -696,15 +795,15 @@ class PlayerFragment : Fragment(), View.OnClickListener {
             StaticData.isFirstPlay = false
         }
         if (!PlayerActivity.mediaPlayerHelper?.isPlaying!!) {
-                    Toasty.custom(
-                        MainActivity.context,
-                        "开始播放  " + "\"" + StaticData.Songs?.name + "\"",
-                        R.mipmap.ic_launcher_round,
-                        R.color.material_blue_800,
-                        750,
-                        false,
-                        true
-                    ).show()
+            Toasty.custom(
+                MainActivity.context,
+                "开始播放  " + "\"" + StaticData.Songs?.name + "\"",
+                R.mipmap.ic_launcher_round,
+                R.color.material_blue_800,
+                750,
+                false,
+                true
+            ).show()
         }
         rotate_num += 1
         if (rotate_num == 1) {
@@ -778,7 +877,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
     }
 
     private fun load(url: String, type: String, Position: Int) {
-        Thread {
+        runOnMainThread {
             if (!StaticData.isCloud) {
                 if (StaticData.SongUrl == null) {
                     val pools = Executors.newCachedThreadPool()
@@ -826,7 +925,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                 )
                 initMediaPlayer(url, Position)
             }
-        }.start()
+        }
     }
 
     fun getBitmapGlide(url: String?): Bitmap? {
@@ -845,11 +944,16 @@ class PlayerFragment : Fragment(), View.OnClickListener {
     }
 
     fun download(index: Int, path: String) {
+        Toasty.info(
+            MainActivity.context,
+            "开始缓存歌曲.",
+            Toast.LENGTH_SHORT,
+            true
+        ).show()
         Thread {
             val pools = Executors.newCachedThreadPool()
             pools.execute {
                 ServiceSongUrl.getUrl(StaticData.PlayList_now?.get(index)) {
-                    println(StaticData.isCloud)
                     if (StaticData.isCloud) {
                         StaticData.SongUrl = SongUrlData.UrlData(
                             -1,
@@ -861,7 +965,6 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                     } else {
                         StaticData.SongUrl = it
                     }
-                    println(StaticData.SongUrl?.url)
                     FileDownloader.getImpl().create(StaticData.SongUrl?.url)
                         .setPath(path + "." + StaticData.SongUrl?.type)
                         .setListener(object : FileDownloadListener() {
@@ -880,13 +983,13 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                             }
 
                             override fun completed(task: BaseDownloadTask) {
-                                    Toasty.success(
-                                        MainActivity.context,
-                                        "缓存成功.",
-                                        Toast.LENGTH_SHORT,
-                                        true
-                                    )
-                                        .show()
+                                Toasty.success(
+                                    MainActivity.context,
+                                    "缓存成功.",
+                                    Toast.LENGTH_SHORT,
+                                    true
+                                )
+                                    .show()
                                 StaticData.Position = index
                                 StaticData.Songs = StaticData.PlayList_now?.get(index)
                                 load(
@@ -904,30 +1007,31 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                             }
 
                             override fun error(task: BaseDownloadTask, e: Throwable) {
-                                if (isAdd) {
-                                    Toasty.error(
-                                        MainActivity.context,
-                                        "网络问题,请稍后再试!",
-                                        Toast.LENGTH_SHORT,
-                                        true
-                                    ).show()
-                                }
+                                Toasty.error(
+                                    MainActivity.context,
+                                    "网络问题,请稍后再试!",
+                                    Toast.LENGTH_SHORT,
+                                    true
+                                ).show()
                             }
 
                             override fun warn(task: BaseDownloadTask) {}
                         })
                         .start()
+
                 }
             }
             pools.shutdown()
         }.start()
     }
+
     override fun onResume() {
         super.onResume()
         if (rotate_num >= 1) {
             binding.Cover.startAnimation(animation)
         }
     }
+
     companion object {
         @JvmStatic
         var isReplay = false

@@ -1,4 +1,4 @@
-package com.lie.puremusic.adapter
+package com.lie.puremusic.utils
 
 import android.content.Context
 import android.media.MediaPlayer
@@ -10,7 +10,7 @@ class MediaPlayerHelper{
     private var instance: MediaPlayerHelper? = null
     private var mContext : Context? = null
     private var mMediaPlayer //MediaPlayer媒体类
-            : MediaPlayer? = null
+            : AudioPlayer? = null
     private var mPath //歌曲路径
             : String? = null
 
@@ -30,7 +30,7 @@ class MediaPlayerHelper{
     private var onMeidaPlayerHelperListener : OnMeidaPlayerHelperListener? = null
     constructor(context: Context){
         mContext = context
-        mMediaPlayer = MediaPlayer()
+        mMediaPlayer = AudioPlayer()
     }
     /**
      * 媒体监听接口，播放准备和播放完成
@@ -98,7 +98,7 @@ class MediaPlayerHelper{
         if (mMediaPlayer?.isPlaying == true) {
             return
         }
-        mMediaPlayer?.start()
+        mMediaPlayer?.startSmooth()
     }
 
     /**
@@ -111,7 +111,7 @@ class MediaPlayerHelper{
      * 暂停播放
      */
     fun pause() {
-        mMediaPlayer?.pause()
+        mMediaPlayer?.pauseSmooth()
     }
 
     fun release() {

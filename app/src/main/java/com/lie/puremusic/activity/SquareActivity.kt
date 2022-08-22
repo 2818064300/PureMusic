@@ -13,11 +13,6 @@ import com.lie.puremusic.databinding.ActivitySquareBinding
 
 class SquareActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySquareBinding
-    private val squareFragment1: SquareFragment1 = SquareFragment1()
-    private val squareFragment2: SquareFragment2 = SquareFragment2()
-    private val squareFragment3: SquareFragment3 = SquareFragment3()
-    private val squareFragment4: SquareFragment4 = SquareFragment4()
-    private val squareFragment5: SquareFragment5 = SquareFragment5()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +29,11 @@ class SquareActivity : AppCompatActivity() {
 
     private fun initPage() {
         val Fragments: MutableList<Fragment?> = ArrayList()
-        Fragments.add(squareFragment1)
-        Fragments.add(squareFragment2)
-        Fragments.add(squareFragment3)
-        Fragments.add(squareFragment4)
-        Fragments.add(squareFragment5)
+//        Fragments.add(squareFragment1)
+//        Fragments.add(squareFragment2)
+//        Fragments.add(squareFragment3)
+//        Fragments.add(squareFragment4)
+//        Fragments.add(squareFragment5)
 
         binding.ViewPaper.setAdapter(FragmentAdapter(supportFragmentManager, lifecycle, Fragments))
         binding.ViewPaper.setCurrentItem(0)

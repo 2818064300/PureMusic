@@ -99,26 +99,46 @@
                     <ImageView
                         android:id="@+id/iv"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/x220"
+                        android:layout_height="@dimen/x164"
                         app:layout_constraintTop_toTopOf="parent"
                         android:background="@color/white"/>
-                    <com.google.android.material.appbar.MaterialToolbar
-                        android:id="@+id/MaterialToolbar"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/x200"
+                        android:layout_height="@dimen/x256"
                         app:layout_constraintTop_toBottomOf="@+id/iv"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:titleCentered="true"
-                        app:titleTextColor="@color/blue">
-                    </com.google.android.material.appbar.MaterialToolbar>
-                    <ImageView
-                        android:id="@+id/divider2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/divider"
-                        app:layout_constraintBottom_toBottomOf="@+id/MaterialToolbar"/>
+                        app:layout_constraintStart_toStartOf="parent">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/ivCover"
+                            android:layout_width="@dimen/x160"
+                            android:layout_height="@dimen/x160"
+                            android:layout_marginStart="@dimen/x175"
+                            android:layout_marginBottom="@dimen/x48"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                        <ImageButton
+                            android:id="@+id/Back"
+                            android:layout_width="@dimen/x36"
+                            android:layout_height="@dimen/x64"
+                            android:background="@drawable/back"
+                            android:layout_marginEnd="@dimen/x42"
+                            app:layout_constraintEnd_toStartOf="@+id/ivCover"
+                            app:layout_constraintTop_toTopOf="@+id/ivCover"
+                            app:layout_constraintBottom_toBottomOf="@+id/ivCover"/>
+                        <TextView
+                            android:id="@+id/tvTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/x48"
+                            app:layout_constraintStart_toEndOf="@+id/ivCover"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:text="歌手名"
+                            android:textSize="18dp"
+                            android:maxWidth="@dimen/x960"
+                            android:singleLine="true"
+                            android:textColor="#FF6399fd"
+                            android:textStyle="bold"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout

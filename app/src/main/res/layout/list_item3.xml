@@ -1,69 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/x240">
-        <ImageButton
-            android:id="@+id/ibtn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#00000000" />
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/avatar"
-            android:layout_width="@dimen/x160"
-            android:layout_height="@dimen/x160"
-            android:layout_marginStart="@dimen/x110"
-            app:civ_border_width="@dimen/x7"
-            android:elevation="@dimen/x3"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:civ_border_color="#FFFFFFFF"/>
-        <ImageView
-            android:id="@+id/avatar_ball"
-            android:layout_width="@dimen/x16"
-            android:layout_height="@dimen/x16"
-            android:background="@drawable/search_item_ball"
-            app:layout_constraintStart_toEndOf="@+id/avatar"
-            app:layout_constraintTop_toTopOf="@+id/avatar" />
+    android:id="@+id/ibtn"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <www.linwg.org.lib.LCardView
+        android:id="@+id/ivCard"
+        android:layout_width="@dimen/x680"
+        android:layout_height="@dimen/x435"
+        android:layout_marginStart="@dimen/x16"
+        android:layout_marginTop="@dimen/x34"
+        android:layout_marginBottom="@dimen/x50"
+        app:cornerRadius="@dimen/x48"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shadowColor="@color/material_blue_700"
+        app:shadowFluidShape="linear"
+        app:shadowSize="@dimen/x30">
 
-        <TextView
-            android:id="@+id/tv1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/x100"
-            android:text="待定"
-            android:singleLine="true"
-            android:maxWidth="@dimen/x640"
-            android:textColor="#FF3b414c"
-            android:textSize="@dimen/x63"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/avatar"
-            app:layout_constraintTop_toTopOf="@+id/avatar"
-            app:layout_constraintBottom_toBottomOf="@+id/avatar"/>
-
-        <ImageButton
-            android:id="@+id/mark"
-            android:layout_width="@dimen/x64"
-            android:layout_height="@dimen/x54"
-            android:layout_marginEnd="@dimen/x140"
-            android:layout_marginBottom="@dimen/x84"
-            android:adjustViewBounds="true"
-            android:background="@drawable/mark"
-            android:scaleType="centerInside"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-        <ImageView
-            android:id="@+id/divider"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:src="@drawable/divider"
-            app:layout_constraintBottom_toBottomOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</LinearLayout>
+            android:layout_height="match_parent">
+
+            <www.linwg.org.lib.LCardView
+                android:id="@+id/ivCover"
+                android:layout_width="@dimen/x570"
+                android:layout_height="@dimen/x220"
+                android:layout_marginTop="@dimen/x25"
+                app:cornerRadius="@dimen/x36"
+                app:shadowColor="@color/material_blue_700"
+                app:shadowFluidShape="linear"
+                app:shadowSize="@dimen/x15"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <ImageView
+                    android:id="@+id/ivCover_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </www.linwg.org.lib.LCardView>
+
+            <TextView
+                android:id="@+id/Card_tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x67"
+                android:layout_marginTop="@dimen/x15"
+                android:text="反方向的钟"
+                android:textColor="#FF171837"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivCover" />
+
+            <TextView
+                android:id="@+id/Card_tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x70"
+                android:layout_marginTop="@dimen/x6"
+                android:text="九三 (cover: 周杰伦)"
+                android:textColor="#FF8a8d9c"
+                android:textSize="8dp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Card_tv1" />
+
+            <ImageButton
+                android:layout_width="@dimen/x100"
+                android:layout_height="@dimen/x100"
+                android:layout_marginEnd="@dimen/x56"
+                android:layout_marginBottom="@dimen/x30"
+                android:adjustViewBounds="true"
+                android:background="@drawable/play"
+                android:scaleType="centerInside"
+                android:src="@drawable/button_add_pressed"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </www.linwg.org.lib.LCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

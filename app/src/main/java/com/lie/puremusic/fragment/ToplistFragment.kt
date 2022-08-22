@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lie.puremusic.activity.PreSearchActivity
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.activity.LoadingActivity
 import com.lie.puremusic.adapter.MyRecyclerGridAdapter3
-import com.lie.puremusic.databinding.FragmentLeaderboardBinding
+import com.lie.puremusic.databinding.FragmentToplistBinding
 import com.lie.puremusic.music.netease.NewSong
 import com.lie.puremusic.music.netease.TopList
 import com.lie.puremusic.standard.data.StandardSongData
@@ -21,9 +20,9 @@ import com.lie.puremusic.utils.MagicHttp
 import com.lie.puremusic.utils.SpacesItemDecoration2
 
 
-class LeaderboardFragment : Fragment() {
+class ToplistFragment : Fragment() {
 
-    private var _binding: FragmentLeaderboardBinding? = null
+    private var _binding: FragmentToplistBinding? = null
 
     private val binding get() = _binding!!
 
@@ -32,7 +31,7 @@ class LeaderboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentLeaderboardBinding.inflate(inflater, container, false)
+        _binding = FragmentToplistBinding.inflate(inflater, container, false)
         return binding.root
 
     }

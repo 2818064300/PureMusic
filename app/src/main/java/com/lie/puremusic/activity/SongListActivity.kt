@@ -1,10 +1,13 @@
 package com.lie.puremusic.activity
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.os.Environment
+import android.os.Vibrator
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
@@ -129,10 +132,12 @@ class SongListActivity : BaseActivity() {
             }
         })
         binding.SonglistBg.setOnLongClickListener {
+            //震动
+            ContextCompat.getSystemService(this, Vibrator::class.java)?.vibrate(1000)
             File(Environment.getExternalStorageDirectory().path + "/PureMusic/Picture/SongList/")
                 .mkdirs()
             FileDownloader.getImpl().create(PlaylistData?.picUrl)
-                .setPath(Environment.getExternalStorageDirectory().path + "/PureMusic/Picture/SongList/" + PlaylistData?.id + ".png")
+                .setPath(Environment.getExternalStorageDirectory().path + "/PureMusic/Picture/SongList/" + "${PlaylistData?.id}.png")
                 .setListener(object : FileDownloadListener() {
                     override fun pending(
                         task: BaseDownloadTask,
@@ -151,7 +156,7 @@ class SongListActivity : BaseActivity() {
                     override fun completed(task: BaseDownloadTask) {
                         Toasty.success(
                             MainActivity.context,
-                            "缓存成功.",
+                            "封面保存成功",
                             Toast.LENGTH_SHORT,
                             true
                         ).show()
@@ -176,7 +181,7 @@ class SongListActivity : BaseActivity() {
                     override fun warn(task: BaseDownloadTask) {}
                 })
                 .start()
-            false
+            true
         }
     }
     override fun finish() {

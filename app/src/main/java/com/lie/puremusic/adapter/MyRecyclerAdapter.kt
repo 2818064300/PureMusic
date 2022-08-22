@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Environment
+import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -33,13 +35,15 @@ import com.liulishuo.filedownloader.FileDownloader
 import de.hdodenhof.circleimageview.CircleImageView
 import es.dmoral.toasty.Toasty
 import java.io.File
+import java.lang.Exception
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executors
+
 
 class MyRecyclerAdapter(
     private val context: Context,
     private val List: ArrayList<StandardSongData>?,
-    private val Style:String
+    private val Style: String
 ) :
     RecyclerView.Adapter<MyRecyclerAdapter.InnerHolder>() {
 
@@ -81,13 +85,6 @@ class MyRecyclerAdapter(
             val song = List?.get(position)
             tvTitle.setText(song?.name)
             pop.setText(song?.neteaseInfo?.pop.toString())
-//            if (song?.neteaseInfo?.pl == 0) {
-//                tvTitle.alpha = 0.25f
-//                tvSub.alpha = 0.25f
-//            } else {
-//                tvTitle.alpha = 1f
-//                tvSub.alpha = 1f
-//            }
             if (song?.neteaseInfo?.fee == 1) {
                 holder.tv3.text = "VIP 歌曲"
             }
@@ -116,29 +113,25 @@ class MyRecyclerAdapter(
                 StaticData.KeyWords = song?.name
                 StaticData.Records.add(Record(StaticData.SelectID, song?.name))
                 StaticData.Root = "网易云音乐"
-//                if (List[position]?.getStyle().equals("网易云音乐")) {
-//                    StaticData.Root = "网易云音乐"
-//                } else {
-//                    StaticData.Root = "QQ音乐"
-//                }
+                //震动
+                getSystemService(context, Vibrator::class.java)?.vibrate(100)
                 context.startActivity(intent)
-                false
+                true
             }
             tvSub.text = song?.artists?.parse()
             ibtn.setOnClickListener {
                 if (song?.id != null && !song.imageUrl.equals("https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg")) {
-                    val type: String = if (StaticData.isCloud) {
-                        "Cloud"
-                    } else {
-                        "Netease"
-                    }
                     val path =
-                        Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + type + "/" + song.id
+                        Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + "Netease" + "/" + song.id
                     if (!File("$path.flac").exists() && !File("$path.mp3").exists()) {
-                        Toasty.info(MainActivity.context, "开始缓存歌曲.", Toast.LENGTH_SHORT, true).show()
+                        Toasty.info(
+                            MainActivity.context,
+                            "开始缓存歌曲.",
+                            Toast.LENGTH_SHORT,
+                            true
+                        ).show()
                         Thread {
-                            val executorService =
-                                Executors.newCachedThreadPool()
+                            val executorService = Executors.newCachedThreadPool()
                             executorService.execute {
                                 ServiceSongUrl.getUrl(song) {
                                     StaticData.SongUrl = it
@@ -162,7 +155,7 @@ class MyRecyclerAdapter(
                                             override fun completed(task: BaseDownloadTask) {
                                                 Toasty.success(
                                                     MainActivity.context,
-                                                    "缓存成功.",
+                                                    "缓存成功",
                                                     Toast.LENGTH_SHORT,
                                                     true
                                                 ).show()
@@ -175,10 +168,7 @@ class MyRecyclerAdapter(
                                             ) {
                                             }
 
-                                            override fun error(
-                                                task: BaseDownloadTask,
-                                                e: Throwable
-                                            ) {
+                                            override fun error(task: BaseDownloadTask, e: Throwable) {
                                                 Toasty.error(
                                                     MainActivity.context,
                                                     "网络问题,请稍后再试!",
@@ -198,7 +188,7 @@ class MyRecyclerAdapter(
                     Thread {
                         StaticData.Songs = song
                         val executorService = Executors.newCachedThreadPool()
-                        executorService.execute{
+                        executorService.execute {
                             val p: Palette? =
                                 getBitmapGlide(StaticData.Songs?.imageUrl)?.let { it1 ->
                                     Palette.from(it1)
@@ -215,7 +205,7 @@ class MyRecyclerAdapter(
                                 VibrantDark,
                                 Muted
                             )
-                            ServiceSongUrl.getLyric(song){
+                            ServiceSongUrl.getLyric(song) {
                                 StaticData.SongLrc = it
                                 StaticData.isFirstPlay = true
                                 StaticData.Position = position
@@ -293,12 +283,14 @@ class MyRecyclerAdapter(
             )
         )
     }
+
     private fun setAnimation(viewToAnimate: View, position: Int) {
         // If the bound view wasn't previously displayed on screen, it's animated
         val animation: Animation =
             AnimationUtils.loadAnimation(viewToAnimate.context, R.anim.anim_recycle_item)
         viewToAnimate.startAnimation(animation)
     }
+
     override fun getItemCount(): Int {
         return List?.size!!
     }

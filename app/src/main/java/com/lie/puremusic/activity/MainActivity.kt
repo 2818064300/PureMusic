@@ -16,7 +16,7 @@ import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.databinding.ActivityMainBinding
 import com.lie.puremusic.fragment.HomeFragment
-import com.lie.puremusic.fragment.LeaderboardFragment
+import com.lie.puremusic.fragment.ToplistFragment
 import com.lie.puremusic.fragment.MusicFragment
 import com.lie.puremusic.fragment.VideoFragment
 import com.lie.puremusic.ui.base.BaseActivity
@@ -109,7 +109,7 @@ class MainActivity : BaseActivity() {
         val Fragments: MutableList<Fragment> = ArrayList()
         val musicFragment: MusicFragment = MusicFragment()
         val homeFragment: HomeFragment = HomeFragment()
-        val leaderboardFragment: LeaderboardFragment = LeaderboardFragment()
+        val leaderboardFragment: ToplistFragment = ToplistFragment()
         val videoFragment: VideoFragment = VideoFragment()
         Fragments.add(musicFragment)
         Fragments.add(homeFragment)

@@ -3,20 +3,15 @@ package com.lie.puremusic.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lie.puremusic.R
-import com.lie.puremusic.StaticData
 import com.lie.puremusic.activity.LoadingActivity
-import com.lie.puremusic.music.netease.PlaylistRecommend
 import com.lie.puremusic.music.netease.SingerRecommend
-import com.lie.puremusic.pojo.Singer
 import de.hdodenhof.circleimageview.CircleImageView
 
 class MyRecyclerGridAdapter2(
@@ -25,7 +20,7 @@ class MyRecyclerGridAdapter2(
 ) : RecyclerView.Adapter<MyRecyclerGridAdapter2.InnerHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InnerHolder {
         val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.list_item7, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.list_item4, parent, false)
         return InnerHolder(view)
     }
 

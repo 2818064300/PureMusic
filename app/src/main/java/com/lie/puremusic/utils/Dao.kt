@@ -1,6 +1,5 @@
 package com.lie.puremusic.utils
 
-import com.lie.puremusic.pojo.Cloud
 import com.lie.puremusic.pojo.PureUser
 import com.lie.puremusic.utils.DBUtils.closeConnection
 import java.sql.Connection
@@ -54,30 +53,6 @@ object Dao {
                     resultSet.getString(2)
                 } else {
                     "null"
-                }
-            }
-        } catch (e: SQLException) {
-            e.printStackTrace()
-        } finally {
-            closeConnection()
-        }
-        return null
-    }
-
-    fun getCloud_info(connection: Connection?, id : String): Cloud? {
-        try {
-            val sql = "select * from cloud_music where id = ?"
-            val preparedStatement = connection?.prepareStatement(sql)
-            preparedStatement?.setString(1, id)
-            val resultSet = preparedStatement?.executeQuery()
-            println(resultSet)
-            if (resultSet != null) {
-                return if (resultSet.next()) {
-                    println(resultSet.getInt(1))
-                    println(resultSet.getString(1))
-                    Cloud(resultSet.getInt(1), resultSet.getString(1), resultSet.getString(2),resultSet.getString(3))
-                } else {
-                    Cloud(-1,"null","null","null")
                 }
             }
         } catch (e: SQLException) {

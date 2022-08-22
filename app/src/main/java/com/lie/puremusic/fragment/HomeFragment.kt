@@ -45,6 +45,7 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initView() {
+        FileDownloader.setup(context)
         update()
         Thread {
             while (true) {
@@ -63,25 +64,49 @@ class HomeFragment : BaseFragment() {
         binding.Card7Iv.setOnClickListener {
             StaticData.Position = 0
             StaticData.Songs = StaticData.Cloud.get(0)
-            StaticData.SongUrl = SongUrlData.UrlData(-1,"http://puremusic.com.cn/Cloud/Music/music" + 1 + ".mp3",-1,-1,"mp3")
+            StaticData.SongUrl = SongUrlData.UrlData(
+                -1,
+                "http://puremusic.com.cn/Cloud/Music/music" + 1 + ".mp3",
+                -1,
+                -1,
+                "mp3"
+            )
             ClickLocalMusic()
         }
         binding.Card8Iv.setOnClickListener {
             StaticData.Position = 1
             StaticData.Songs = StaticData.Cloud.get(1)
-            StaticData.SongUrl = SongUrlData.UrlData(-1,"http://puremusic.com.cn/Cloud/Music/music" + 2 + ".mp3",-1,-1,"mp3")
+            StaticData.SongUrl = SongUrlData.UrlData(
+                -1,
+                "http://puremusic.com.cn/Cloud/Music/music" + 2 + ".mp3",
+                -1,
+                -1,
+                "mp3"
+            )
             ClickLocalMusic()
         }
         binding.Card9Iv.setOnClickListener {
             StaticData.Position = 2
             StaticData.Songs = StaticData.Cloud.get(2)
-            StaticData.SongUrl = SongUrlData.UrlData(-1,"http://puremusic.com.cn/Cloud/Music/music" + 3 + ".mp3",-1,-1,"mp3")
+            StaticData.SongUrl = SongUrlData.UrlData(
+                -1,
+                "http://puremusic.com.cn/Cloud/Music/music" + 3 + ".mp3",
+                -1,
+                -1,
+                "mp3"
+            )
             ClickLocalMusic()
         }
         binding.Card10Iv.setOnClickListener {
             StaticData.Position = 3
             StaticData.Songs = StaticData.Cloud.get(3)
-            StaticData.SongUrl = SongUrlData.UrlData(-1,"http://puremusic.com.cn/Cloud/Music/music" + 4 + ".mp3",-1,-1,"mp3")
+            StaticData.SongUrl = SongUrlData.UrlData(
+                -1,
+                "http://puremusic.com.cn/Cloud/Music/music" + 4 + ".mp3",
+                -1,
+                -1,
+                "mp3"
+            )
             ClickLocalMusic()
         }
         binding.ViewAll.setOnClickListener {
@@ -135,6 +160,7 @@ class HomeFragment : BaseFragment() {
             }
         }
     }
+
     private fun refreshSingerRecommend() {
         SingerRecommend.getSingerRecommend(requireContext()) {
             runOnMainThread {
@@ -182,7 +208,12 @@ class HomeFragment : BaseFragment() {
                         }
 
                         override fun completed(task: BaseDownloadTask) {
-                            Toasty.success(MainActivity.context, "缓存成功.", Toast.LENGTH_SHORT, true).show()
+                            Toasty.success(
+                                MainActivity.context,
+                                "缓存成功",
+                                Toast.LENGTH_SHORT,
+                                true
+                            ).show()
                         }
 
                         override fun paused(
@@ -193,8 +224,12 @@ class HomeFragment : BaseFragment() {
                         }
 
                         override fun error(task: BaseDownloadTask, e: Throwable) {
-                            Toasty.error(MainActivity.context, "网络问题,请稍后再试!", Toast.LENGTH_SHORT, true)
-                                .show()
+                            Toasty.error(
+                                MainActivity.context,
+                                "网络问题,请稍后再试!",
+                                Toast.LENGTH_SHORT,
+                                true
+                            ).show()
                         }
 
                         override fun warn(task: BaseDownloadTask) {}

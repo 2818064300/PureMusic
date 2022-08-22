@@ -19,10 +19,8 @@ import com.lie.puremusic.StaticData
 import com.lie.puremusic.activity.MainActivity
 import com.lie.puremusic.activity.PlayerActivity
 import com.lie.puremusic.service.ServiceSongUrl
-import com.lie.puremusic.standard.data.SONG_QUALITY_HQ
 import com.lie.puremusic.standard.data.StandardSongData
 import com.lie.puremusic.standard.data.StandardSongDataEx
-import com.lie.puremusic.standard.data.quality
 import com.lie.puremusic.utils.parse
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
@@ -48,8 +46,9 @@ class MyRecyclerGridAdapter3(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InnerHolder {
+        FileDownloader.setup(parent.context)
         val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.list_item8, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.list_item3, parent, false)
         return InnerHolder(view)
     }
 
@@ -57,7 +56,7 @@ class MyRecyclerGridAdapter3(
         holder: InnerHolder,
         @SuppressLint("RecyclerView") position: Int
     ) {
-        with(holder){
+        with(holder) {
             val song = newSongDataResult[position]
             Glide.with(context)
                 .load(song.imageUrl)
@@ -67,29 +66,23 @@ class MyRecyclerGridAdapter3(
             Card_tv2.text = song?.artists?.parse()
             ivCover.setOnClickListener {
                 if (song.id != null) {
-                    val type: String = if (StaticData.isCloud) {
-                        "Cloud"
-                    } else {
-                        "Netease"
-                    }
-                    val style: String = if (StaticData.Songs?.quality() == SONG_QUALITY_HQ
-                    ) {
-                        "flac"
-                    } else {
-                        "mp3"
-                    }
                     val path =
-                        Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + type + "/" + song.id
+                        Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + "Netease" + "/" + song.id
                     if (!File("$path.flac").exists() && !File("$path.mp3").exists()) {
-                        Toasty.info(MainActivity.context, "开始缓存歌曲.", Toast.LENGTH_SHORT, true).show()
                         Thread {
                             val executorService =
                                 Executors.newCachedThreadPool()
                             executorService.execute {
                                 ServiceSongUrl.getUrl(song) {
                                     StaticData.SongUrl = it
+                                    Toasty.info(
+                                        MainActivity.context,
+                                        "开始缓存歌曲.",
+                                        Toast.LENGTH_SHORT,
+                                        true
+                                    ).show()
                                     FileDownloader.getImpl().create(StaticData.SongUrl?.url)
-                                        .setPath(path + "." + style)
+                                        .setPath(path + "." + StaticData.SongUrl?.type)
                                         .setListener(object : FileDownloadListener() {
                                             override fun pending(
                                                 task: BaseDownloadTask,
@@ -108,7 +101,7 @@ class MyRecyclerGridAdapter3(
                                             override fun completed(task: BaseDownloadTask) {
                                                 Toasty.success(
                                                     MainActivity.context,
-                                                    "缓存成功.",
+                                                    "缓存成功",
                                                     Toast.LENGTH_SHORT,
                                                     true
                                                 ).show()
@@ -121,10 +114,7 @@ class MyRecyclerGridAdapter3(
                                             ) {
                                             }
 
-                                            override fun error(
-                                                task: BaseDownloadTask,
-                                                e: Throwable
-                                            ) {
+                                            override fun error(task: BaseDownloadTask, e: Throwable) {
                                                 Toasty.error(
                                                     MainActivity.context,
                                                     "网络问题,请稍后再试!",
@@ -144,7 +134,7 @@ class MyRecyclerGridAdapter3(
                     Thread {
                         StaticData.Songs = song
                         val executorService = Executors.newCachedThreadPool()
-                        executorService.execute{
+                        executorService.execute {
                             val p: Palette? =
                                 getBitmapGlide(StaticData.Songs?.imageUrl)?.let { it1 ->
                                     Palette.from(it1)
@@ -161,7 +151,7 @@ class MyRecyclerGridAdapter3(
                                 VibrantDark,
                                 Muted
                             )
-                            ServiceSongUrl.getLyric(song){
+                            ServiceSongUrl.getLyric(song) {
                                 StaticData.SongLrc = it
                                 StaticData.isFirstPlay = true
                                 StaticData.Position = position

@@ -5,7 +5,6 @@ import android.graphics.Color
 class BurnUtil {
     companion object {
         fun colorBurn(RGBValues: Int): Int {
-            val alpha = RGBValues shr 24
             var red = RGBValues shr 16 and 0xFF
             var green = RGBValues shr 8 and 0xFF
             var blue = RGBValues and 0xFF

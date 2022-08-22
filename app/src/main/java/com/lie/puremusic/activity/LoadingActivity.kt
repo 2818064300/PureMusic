@@ -10,13 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.lie.puremusic.*
 import com.lie.puremusic.databinding.ActivityLoadingBinding
 import com.lie.puremusic.music.netease.*
-import com.lie.puremusic.pojo.SquareSongList
 import com.lie.puremusic.standard.data.StandardPlaylistData
 import com.lie.puremusic.standard.data.StandardSingerData
 import com.lie.puremusic.utils.*
 import es.dmoral.toasty.Toasty
 import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 class LoadingActivity : AppCompatActivity() {
 
@@ -30,6 +28,10 @@ class LoadingActivity : AppCompatActivity() {
         binding = ActivityLoadingBinding.inflate(layoutInflater)
         setContentView(binding.root)
         overridePendingTransition(R.anim.top_in, R.anim.top_out)
+
+        binding.mLottieAnimationView.imageAssetsFolder = "lottie/comm/images"
+        binding.mLottieAnimationView.setAnimation("lottie/comm/paperplane.json")
+
         Thread {
             val pools = Executors.newCachedThreadPool()
             var jedis = StaticData.jedis
@@ -165,25 +167,6 @@ class LoadingActivity : AppCompatActivity() {
                     startActivity(Intent(intent))
                     finish()
                 }
-            }
-            if (style.equals("Square")) {
-                for (i in 0..4) {
-                    StaticData.Square.add(SquareSongList())
-                }
-                pools.submit(GetSquare("华语", 0))
-                pools.submit(GetSquare("欧美", 1))
-                pools.submit(GetSquare("流行", 2))
-                pools.submit(GetSquare("古风", 3))
-                pools.submit(GetSquare("轻音乐", 4))
-                pools.shutdown()
-                pools.awaitTermination(
-                    Long.MAX_VALUE,
-                    TimeUnit.NANOSECONDS
-                )
-                val intent = Intent(this@LoadingActivity, SquareActivity::class.java)
-                intent.putExtra("style", "Square")
-                startActivity(intent)
-                finish()
             }
         }.start()
     }

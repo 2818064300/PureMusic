@@ -1,46 +1,37 @@
 package com.lie.puremusic.activity
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
-import android.view.View.OnLongClickListener
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lie.puremusic.*
 import com.lie.puremusic.adapter.MyRecyclerAdapter
-import com.lie.puremusic.adapter.MyRecyclerAdapter2
-import com.lie.puremusic.adapter.MyRecyclerAdapter3
 import com.lie.puremusic.databinding.ActivitySearchBinding
+import com.lie.puremusic.ui.base.BaseActivity
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySearchBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun initBinding() {
+        WindowCompat.setDecorFitsSystemWindows(window, true)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        miniPlayer = binding.miniPlayer
         overridePendingTransition(R.anim.top_in, R.anim.top_out)
+    }
 
+    override fun initView() {
         var alphaAdapter: AlphaInAnimationAdapter? = null
         if (StaticData.SelectID == 0 || StaticData.SelectID == 4) {
-            var adapter = StaticData.Result.getSongs()?.let { MyRecyclerAdapter(
+            val adapter = MyRecyclerAdapter(
                 this,
                 StaticData.SearchResult,
                 "Search"
-            ) }
-            alphaAdapter = adapter?.let { AlphaInAnimationAdapter(it) }
-        }
-        if (StaticData.SelectID == 2) {
-            val adapter2 = StaticData.Result.getSingers()?.let { MyRecyclerAdapter2(this, it) }
-            alphaAdapter = adapter2?.let { AlphaInAnimationAdapter(it) }
-        }
-        if (StaticData.SelectID == 3) {
-            val adapter3 = StaticData.Result.getSongLists()?.let { MyRecyclerAdapter3(this, it) }
-            alphaAdapter = adapter3?.let { AlphaInAnimationAdapter(it) }
+            )
+            alphaAdapter = AlphaInAnimationAdapter(adapter)
         }
         binding.SearchRv.setAdapter(AlphaInAnimationAdapter(alphaAdapter!!))
         binding.SearchRv.setLayoutManager(
@@ -50,23 +41,20 @@ class SearchActivity : AppCompatActivity() {
                 false
             )
         )
+        binding.RefreshLayout.setOnRefreshListener(OnRefreshListener { refreshLayout ->
+            for (i in 0 until alphaAdapter.itemCount) {
+                alphaAdapter.notifyItemChanged(i)
+            }
+            refreshLayout.finishRefresh()
+        })
+        binding.Keywords.text = StaticData.KeyWords
+    }
+
+    override fun initListener() {
         binding.Search.setOnClickListener(View.OnClickListener {
             val intent = Intent(this@SearchActivity, PreSearchActivity::class.java)
             startActivity(intent)
             finish()
-        })
-        binding.FAB.setOnClickListener(View.OnClickListener { binding.RefreshLayout.autoRefresh() })
-        binding.FAB.setOnLongClickListener(OnLongClickListener {
-            binding.SearchRv.smoothScrollToPosition(0)
-            false
-        })
-        binding.Keywords.setText(StaticData.KeyWords)
-        val finalAlphaAdapter = alphaAdapter
-        binding.RefreshLayout.setOnRefreshListener(OnRefreshListener { refreshLayout ->
-            for (i in 0 until finalAlphaAdapter.itemCount) {
-                finalAlphaAdapter.notifyItemChanged(i)
-            }
-            refreshLayout.finishRefresh()
         })
     }
 
