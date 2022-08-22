@@ -12,6 +12,8 @@
 
 - 需要 Android 10.0 以上 环境
 
+  <!--不支持IOS系统-->
+
 ## 🚀 特点功能
 
 - 极致简约的设计
@@ -29,6 +31,18 @@
 ![PureMusic/screenshot_3.jpg at master · 2818064300/PureMusic (github.com)](https://github.com/2818064300/PureMusic/blob/master/app/src/main/assets/screenshot_3.jpg)
 
 ## 📃更新日志
+
+- **2022/8/22**
+
+1. 重新封装数据(pojo类)
+2. 优化播放界面UI
+3. MediaPlayer实现淡入淡出效果
+4. 调整加载动画
+
+- **2022/8/20**
+
+1. 新增歌单,歌曲封面保存功能
+2. 查找类似歌曲功能增加震动反馈
 
 - **2022/8/19**
 
@@ -92,6 +106,11 @@
 5. 修复云端歌曲异常bug
 
 ## 🐛已知bug
+
+- **2022/8/22**
+
+1. UI取色异常
+2. 无法更新UI
 
 - **2022/8/17**
 
@@ -162,6 +181,8 @@
 [mxn21/FlowingDrawer](https://github.com/mxn21/FlowingDrawer)
 
 [linwg1988/LCardView](https://github.com/linwg1988/LCardView)
+
+[airbnb/lottie-android](https://github.com/airbnb/lottie-android)
 
 ### 参考项目
 
