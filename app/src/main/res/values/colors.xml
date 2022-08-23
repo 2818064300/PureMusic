@@ -9,6 +9,11 @@
     <color name="yellow">#FFf6be1a</color>
     <color name="gery">#787878</color>
 
+    <color name="colorTransparency">#00000000</color>
+    <color name="colorTextForeground">#050505</color>
+    <color name="colorPageBackground">#FFFFFF</color>
+    <color name="colorItemPressedBackground">#F0F0F0</color>
+
     <color name="material_Lime_100">#f0f4c3</color>
     <color name="material_Lime_200">#e6ee9c</color>
     <color name="material_Lime_300">#dce775</color>

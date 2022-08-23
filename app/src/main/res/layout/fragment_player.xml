@@ -101,23 +101,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv4"/>
-    <me.wcy.lrcview.LrcView
+    <com.dirror.lyricviewx.LyricViewX
         android:id="@+id/LrcView"
-        app:lrcCurrentTextColor="@color/blue"
-        app:lrcTextSize="18dp"
-        app:lrcNormalTextSize="18dp"
         app:lrcPadding="@dimen/x120"
         android:layout_width="@dimen/x1440"
-        android:layout_height="@dimen/x360"
+        android:layout_height="@dimen/x380"
         android:layout_marginTop="@dimen/x180"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Cover"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/seekbar3"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/x16"
-        android:layout_marginTop="@dimen/x80"
+        android:layout_marginTop="@dimen/x96"
         app:layout_constraintTop_toBottomOf="@+id/tv5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -140,7 +138,7 @@
         android:layout_width="@dimen/x240"
         android:layout_height="@dimen/x240"
         android:src="@drawable/seekbar5"
-        android:layout_marginTop="@dimen/x420"
+        android:layout_marginTop="@dimen/x400"
         app:layout_constraintStart_toStartOf="@+id/Seek_bar"
         app:layout_constraintEnd_toEndOf="@+id/Seek_bar"
         app:layout_constraintTop_toBottomOf="@+id/seekbar3"/>
@@ -219,7 +217,7 @@
         android:layout_width="@dimen/x84"
         android:layout_height="@dimen/x84"
         android:background="@drawable/add"
-        android:layout_marginTop="@dimen/x200"
+        android:layout_marginTop="@dimen/x180"
         android:layout_marginEnd="@dimen/x180"
         app:layout_constraintEnd_toEndOf="@+id/play_btn"
         app:layout_constraintTop_toBottomOf="@+id/seekbar3"/>
@@ -229,13 +227,13 @@
         android:layout_width="@dimen/x84"
         android:layout_height="@dimen/x84"
         android:background="@drawable/heart_pressed"
-        android:layout_marginTop="@dimen/x200"
+        android:layout_marginTop="@dimen/x180"
         android:layout_marginStart="@dimen/x180"
         app:layout_constraintStart_toStartOf="@+id/play_btn"
         app:layout_constraintTop_toBottomOf="@+id/seekbar3"/>
 
     <ImageButton
-        android:id="@+id/playbtn8_new"
+        android:id="@+id/ivComment"
         android:layout_width="@dimen/x84"
         android:layout_height="@dimen/x84"
         android:background="@drawable/chat"
@@ -250,7 +248,7 @@
         android:layout_height="@dimen/x84"
         android:background="@drawable/list"
         android:layout_marginStart="@dimen/x120"
-        app:layout_constraintStart_toEndOf="@+id/playbtn8_new"
+        app:layout_constraintStart_toEndOf="@+id/ivComment"
         app:layout_constraintTop_toTopOf="@+id/playbtn7_new"
         app:layout_constraintBottom_toBottomOf="@+id/playbtn7_new"/>
 <!--    <ImageView-->

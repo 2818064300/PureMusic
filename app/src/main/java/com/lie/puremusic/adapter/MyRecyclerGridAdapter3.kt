@@ -69,18 +69,18 @@ class MyRecyclerGridAdapter3(
                     val path =
                         Environment.getExternalStorageDirectory().path + "/PureMusic/Music/" + "Netease" + "/" + song.id
                     if (!File("$path.flac").exists() && !File("$path.mp3").exists()) {
+                        Toasty.info(
+                            MainActivity.context,
+                            "开始缓存歌曲.",
+                            Toast.LENGTH_SHORT,
+                            true
+                        ).show()
                         Thread {
                             val executorService =
                                 Executors.newCachedThreadPool()
                             executorService.execute {
                                 ServiceSongUrl.getUrl(song) {
                                     StaticData.SongUrl = it
-                                    Toasty.info(
-                                        MainActivity.context,
-                                        "开始缓存歌曲.",
-                                        Toast.LENGTH_SHORT,
-                                        true
-                                    ).show()
                                     FileDownloader.getImpl().create(StaticData.SongUrl?.url)
                                         .setPath(path + "." + StaticData.SongUrl?.type)
                                         .setListener(object : FileDownloadListener() {

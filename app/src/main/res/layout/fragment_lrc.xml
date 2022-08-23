@@ -6,16 +6,26 @@
     tools:context=".fragment.LrcFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <me.wcy.lrcview.LrcView
-        android:id="@+id/LrcView"
-        app:lrcCurrentTextColor="@color/blue"
-        app:lrcTextSize="22dp"
-        app:lrcNormalTextSize="18dp"
-        app:lrcPadding="@dimen/x100"
+    <me.qinc.lib.edgetranslucent.EdgeTransparentView
+        android:id="@+id/edgeTransparentView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="56dp"
+        app:edge_position="top|bottom"
+        app:edge_width="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Cover"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.dirror.lyricviewx.LyricViewX
+            android:id="@+id/LrcView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:lrcPadding="31dp">
+        </com.dirror.lyricviewx.LyricViewX>
+
+    </me.qinc.lib.edgetranslucent.EdgeTransparentView>
 
 </FrameLayout>
