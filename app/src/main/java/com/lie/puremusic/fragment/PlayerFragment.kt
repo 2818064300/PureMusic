@@ -1,14 +1,17 @@
 package com.lie.puremusic.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Environment
 import android.os.Vibrator
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
@@ -16,23 +19,24 @@ import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
+import com.dirror.lyricviewx.OnPlayClickListener
 import com.king.view.arcseekbar.ArcSeekBar
 import com.lie.puremusic.*
+import com.lie.puremusic.activity.CommentActivity
 import com.lie.puremusic.activity.MainActivity
 import com.lie.puremusic.activity.PlayerActivity
-import com.lie.puremusic.utils.MediaPlayerHelper
 import com.lie.puremusic.databinding.FragmentPlayerBinding
 import com.lie.puremusic.music.netease.data.SongUrlData
 import com.lie.puremusic.music.netease.data.toStandard
 import com.lie.puremusic.music.netease.data.toStandardSongDataArrayList
 import com.lie.puremusic.service.ServiceSongUrl
 import com.lie.puremusic.standard.data.StandardSongDataEx
-import com.lie.puremusic.utils.BurnUtil
-import com.lie.puremusic.utils.MagicHttp
+import com.lie.puremusic.ui.dialog.PlaylistDialog
+import com.lie.puremusic.utils.*
 import com.lie.puremusic.utils.MagicHttp.runOnMainThread
-import com.lie.puremusic.utils.parse
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
 import com.liulishuo.filedownloader.FileDownloader
@@ -48,7 +52,6 @@ class PlayerFragment : Fragment(), View.OnClickListener {
     private var animation: Animation? = null
     private var isSeekbarChaning = false
     private var CanPlay = true
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -78,6 +81,8 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         binding.MyWave3.setWaveColor("#f1f5f6")
         binding.MyWave3.waveSpeed = 40
 
+        binding.LrcView.setLabel("聆听好音乐")
+        binding.LrcView.setCurrentColor(Color.parseColor("#6399fd"))
         animation = AnimationUtils.loadAnimation(context, R.anim.img_animation)
         animation?.interpolator = LinearInterpolator()
         binding.SeekBar.setOnChangeListener(object : ArcSeekBar.OnChangeListener {
@@ -195,28 +200,18 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                 Toasty.warning(requireContext(), "取消收藏!", Toast.LENGTH_SHORT, true).show()
             }
         }
-        binding.playbtn8New.setOnClickListener {
-            if (!isComment) {
-                isComment = true
-                binding.playbtn8New.background =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.chat_pressed)
-                //展开评论区
-            } else {
-                isComment = false
-                binding.playbtn8New.background =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.chat)
+        binding.ivComment.setOnClickListener {
+            if(!StaticData.isCloud) {
+                startActivity(Intent(activity, CommentActivity::class.java))
+                activity?.overridePendingTransition(
+                    R.anim.anim_slide_enter_bottom,
+                    R.anim.anim_no_anim
+                )
             }
         }
         binding.playbtn9New.setOnClickListener {
-            if (!isList) {
-                isList = true
-                binding.playbtn9New.background =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.list_pressed)
-                //展开播放列表
-            } else {
-                isList = false
-                binding.playbtn9New.background =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.list)
+            singleClick {
+                PlaylistDialog().show(PlayerActivity.fragmentManager, null)
             }
         }
         binding.Cover.setOnClickListener {
@@ -340,7 +335,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
             StaticData.Songs?.let {
                 ServiceSongUrl.getLyric(it) {
                     StaticData.SongLrc = it
-                    binding.LrcView.loadLrc(it.lyric, it.secondLyric)
+                    binding.LrcView.loadLyric(it.lyric, it.secondLyric)
                 }
             }
             if (StaticData.PlayDataEx?.VibrantLight != null && StaticData.PlayDataEx?.Vibrant != null) {
@@ -1038,9 +1033,6 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         var isDownload = false
         var isAdd = false
         var isMark = true
-        var isComment = false
-        var isList = false
-        var isRotate = false
         var rotate_num = 0
     }
 }

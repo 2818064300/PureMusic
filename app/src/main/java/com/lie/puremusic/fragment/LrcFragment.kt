@@ -1,10 +1,12 @@
 package com.lie.puremusic.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.dirror.lyricviewx.OnPlayClickListener
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.activity.PlayerActivity
 import com.lie.puremusic.databinding.FragmentLrcBinding
@@ -29,6 +31,14 @@ class LrcFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.LrcView.setLabel("聆听好音乐")
+        binding.LrcView.setCurrentColor(Color.parseColor("#6399fd"))
+        binding.LrcView.setDraggable(true, object : OnPlayClickListener {
+            override fun onPlayClick(time: Long): Boolean {
+                PlayerActivity.mediaPlayerHelper?.seekTo(time.toInt())
+                return true
+            }
+        })
         init()
         Timer().schedule(object : TimerTask() {
             override fun run() {
@@ -44,7 +54,7 @@ class LrcFragment : Fragment() {
 
     private fun init(){
         Lrc = StaticData.SongLrc?.lyric
-        binding.LrcView.loadLrc(Lrc,StaticData.SongLrc?.secondLyric)
+        binding.LrcView.loadLyric(Lrc,StaticData.SongLrc?.secondLyric)
         if (StaticData.PlayDataEx?.VibrantLight != null && StaticData.PlayDataEx?.Vibrant != null) {
             StaticData.PlayDataEx?.Vibrant?.getRgb()
                 ?.let { BurnUtil.colorBurn(it) }?.let { binding.LrcView.setCurrentColor(it) }
