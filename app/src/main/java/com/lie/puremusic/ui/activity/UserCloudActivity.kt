@@ -1,4 +1,4 @@
-package com.lie.puremusic.activity
+package com.lie.puremusic.ui.activity
 
 import android.graphics.Typeface
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +19,6 @@ class UserCloudActivity : BaseActivity() {
         miniPlayer = binding.miniPlayer
     }
     override fun initView(){
-        overridePendingTransition(R.anim.top_in, R.anim.top_out)
         val adapter = MyRecyclerAdapter(
             this,
             StaticData.UserCloudData?.data?.toStandard(),
@@ -31,9 +30,5 @@ class UserCloudActivity : BaseActivity() {
             LinearLayoutManager(this@UserCloudActivity, LinearLayoutManager.VERTICAL, false)
         val typeface = Typeface.createFromAsset(this.assets, "汉仪雅酷黑65W.ttf")
         binding.tvUserCloud.setTypeface(typeface)
-    }
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.bottom_in, R.anim.bottom_out)
     }
 }

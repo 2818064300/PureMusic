@@ -1,149 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
+
     <ScrollView
         android:id="@+id/ScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white">
+
             <www.linwg.org.lib.LCardView
                 android:id="@+id/rect1"
                 android:layout_width="700px"
                 android:layout_height="@dimen/x220"
-                android:layout_marginTop="@dimen/x170"
                 android:layout_marginStart="@dimen/x66"
+                android:layout_marginTop="@dimen/x170"
                 app:cornerRadius="@dimen/x80"
-                app:shadowStartAlpha="8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:shadowColor="#FF455ede"
                 app:shadowFluidShape="linear"
                 app:shadowSize="@dimen/x30"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:shadowStartAlpha="8">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <ImageView
                         android:layout_width="@dimen/x56"
                         android:layout_height="@dimen/x56"
-                        android:background="@drawable/account"
                         android:layout_marginStart="@dimen/x72"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:background="@drawable/account"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="执意画红尘z"
+                        android:textColor="#FF011148"
                         android:textSize="16dp"
                         android:textStyle="bold"
-                        android:textColor="#FF011148"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <ImageView
                         android:layout_width="@dimen/x48"
                         android:layout_height="@dimen/x48"
-                        android:background="@drawable/expand"
                         android:layout_marginEnd="@dimen/x76"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:background="@drawable/expand"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </www.linwg.org.lib.LCardView>
+
             <ImageButton
                 android:layout_width="@dimen/x71"
                 android:layout_height="@dimen/x82"
-                android:background="@drawable/tips"
                 android:layout_marginEnd="@dimen/x150"
-                app:layout_constraintTop_toTopOf="@id/rect1"
+                android:background="@drawable/tips"
                 app:layout_constraintBottom_toBottomOf="@id/rect1"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/rect1" />
+
             <TextView
                 android:id="@+id/tv1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="早上好!"
-                android:textSize="18dp"
-                android:textColor="#b3b9c9"
-                android:layout_marginTop="@dimen/x40"
                 android:layout_marginStart="@dimen/x60"
-                app:layout_constraintTop_toBottomOf="@id/rect1"
-                app:layout_constraintStart_toStartOf="@id/rect1"/>
+                android:layout_marginTop="@dimen/x40"
+                android:text="早上好!"
+                android:textColor="#b3b9c9"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="@id/rect1"
+                app:layout_constraintTop_toBottomOf="@id/rect1" />
+
             <TextView
                 android:id="@+id/tv2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="欢迎来到我的音乐小屋"
-                android:textSize="32dp"
-                android:textColor="@color/black"
                 android:layout_marginTop="@dimen/x30"
-                app:layout_constraintTop_toBottomOf="@+id/tv1"
-                app:layout_constraintStart_toStartOf="@+id/tv1"/>
+                android:text="欢迎来到我的音乐小屋"
+                android:textColor="@color/black"
+                android:textSize="32dp"
+                app:layout_constraintStart_toStartOf="@+id/tv1"
+                app:layout_constraintTop_toBottomOf="@+id/tv1" />
+
             <ImageButton
                 android:id="@+id/search"
                 android:layout_width="@dimen/x1200"
                 android:layout_height="@dimen/x144"
-                android:background="@drawable/search3"
                 android:layout_marginTop="@dimen/x60"
+                android:background="@drawable/search3"
                 android:src="@drawable/button_add_pressed2"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv2"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv2" />
+
             <ImageView
                 android:id="@+id/search_item"
                 android:layout_width="@dimen/x55"
                 android:layout_height="@dimen/x58"
-                android:background="@drawable/search_item"
                 android:layout_marginStart="@dimen/x80"
-                app:layout_constraintTop_toTopOf="@+id/search"
+                android:background="@drawable/search_item"
                 app:layout_constraintBottom_toBottomOf="@+id/search"
-                app:layout_constraintStart_toStartOf="@+id/search"/>
+                app:layout_constraintStart_toStartOf="@+id/search"
+                app:layout_constraintTop_toTopOf="@+id/search" />
+
             <ImageView
                 android:layout_width="@dimen/x56"
                 android:layout_height="@dimen/x56"
                 android:layout_marginEnd="@dimen/x80"
                 android:background="@drawable/search_item2"
-                app:layout_constraintTop_toTopOf="@+id/search"
                 app:layout_constraintBottom_toBottomOf="@+id/search"
-                app:layout_constraintEnd_toEndOf="@+id/search"/>
+                app:layout_constraintEnd_toEndOf="@+id/search"
+                app:layout_constraintTop_toTopOf="@+id/search" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="搜索"
-                android:textSize="18dp"
-                android:textColor="#dadde4"
                 android:layout_marginStart="@dimen/x42"
-                app:layout_constraintTop_toTopOf="@+id/search"
+                android:text="搜索"
+                android:textColor="#dadde4"
+                android:textSize="18dp"
                 app:layout_constraintBottom_toBottomOf="@+id/search"
-                app:layout_constraintStart_toEndOf="@+id/search_item"/>
+                app:layout_constraintStart_toEndOf="@+id/search_item"
+                app:layout_constraintTop_toTopOf="@+id/search" />
+
             <TextView
                 android:id="@+id/tv3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我喜欢的音乐"
-                android:textSize="18dp"
-                android:textColor="#FF011148"
                 android:layout_marginStart="@dimen/x90"
                 android:layout_marginTop="@dimen/x72"
+                android:text="我喜欢的音乐"
+                android:textColor="#FF011148"
+                android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/search"/>
+                app:layout_constraintTop_toBottomOf="@+id/search" />
+
             <ImageView
                 android:layout_width="@dimen/x180"
                 android:layout_height="@dimen/x56"
-                android:background="@drawable/vip"
                 android:layout_marginStart="@dimen/x44"
+                android:background="@drawable/vip"
+                app:layout_constraintBottom_toBottomOf="@+id/tv3"
                 app:layout_constraintStart_toEndOf="@+id/tv3"
-                app:layout_constraintTop_toTopOf="@id/tv3"
-                app:layout_constraintBottom_toBottomOf="@+id/tv3"/>
+                app:layout_constraintTop_toTopOf="@id/tv3" />
+
             <www.linwg.org.lib.LCardView
                 android:id="@id/rect2"
                 android:layout_width="@dimen/x1030"
@@ -151,290 +168,333 @@
                 android:layout_marginStart="@dimen/x64"
                 android:layout_marginTop="@dimen/x12"
                 app:cornerRadius="@dimen/x72"
-                app:shadowStartAlpha="8"
-                app:layout_constraintTop_toBottomOf="@+id/tv3"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv3"
                 app:shadowColor="@color/material_blue_700"
                 app:shadowFluidShape="linear"
-                app:shadowSize="@dimen/x45">
+                app:shadowSize="@dimen/x45"
+                app:shadowStartAlpha="8">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:background="@color/white"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="@color/white">
+
                     <ImageButton
                         android:id="@+id/rect3"
                         android:layout_width="@dimen/x880"
                         android:layout_height="@dimen/x380"
-                        android:background="@drawable/pic1"
                         android:layout_marginTop="@dimen/x30"
+                        android:background="@drawable/pic1"
                         android:scaleType="centerInside"
                         android:src="@drawable/button_add_pressed3"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
                     <ImageButton
                         android:layout_width="@dimen/x80"
                         android:layout_height="@dimen/x80"
-                        android:background="@drawable/play3"
                         android:layout_marginEnd="@dimen/x42"
                         android:layout_marginBottom="@dimen/x36"
-                        app:layout_constraintEnd_toEndOf="@+id/rect3"
-                        app:layout_constraintBottom_toBottomOf="@+id/rect3"/>
+                        android:background="@drawable/play3"
+                        app:layout_constraintBottom_toBottomOf="@+id/rect3"
+                        app:layout_constraintEnd_toEndOf="@+id/rect3" />
+
                     <TextView
                         android:id="@+id/tv4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="最近添加的歌曲"
-                        android:textSize="16dp"
-                        android:textColor="@color/black"
-                        android:layout_marginTop="@dimen/x48"
                         android:layout_marginStart="@dimen/x84"
+                        android:layout_marginTop="@dimen/x48"
+                        android:text="最近添加的歌曲"
+                        android:textColor="@color/black"
+                        android:textSize="16dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/rect3"/>
+                        app:layout_constraintTop_toBottomOf="@+id/rect3" />
+
                     <TextView
                         android:id="@+id/tv5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="新地球 - 林俊杰"
-                        android:textSize="15dp"
-                        android:textColor="#c1c7d4"
                         android:layout_marginTop="@dimen/x20"
-                        app:layout_constraintTop_toBottomOf="@+id/tv4"
-                        app:layout_constraintStart_toStartOf="@+id/tv4"/>
+                        android:text="新地球 - 林俊杰"
+                        android:textColor="#c1c7d4"
+                        android:textSize="15dp"
+                        app:layout_constraintStart_toStartOf="@+id/tv4"
+                        app:layout_constraintTop_toBottomOf="@+id/tv4" />
+
                     <ImageButton
                         android:id="@+id/musicbtn"
                         android:layout_width="@dimen/x240"
                         android:layout_height="@dimen/x72"
                         android:layout_marginTop="@dimen/x48"
                         android:layout_marginEnd="@dimen/x72"
+                        android:background="@drawable/musicbtn"
                         android:src="@drawable/button_add_pressed2"
                         app:layout_constraintEnd_toEndOf="@+id/rect3"
-                        android:background="@drawable/musicbtn"
-                        app:layout_constraintTop_toBottomOf="@+id/rect3"/>
+                        app:layout_constraintTop_toBottomOf="@+id/rect3" />
+
                     <ImageView
                         android:layout_width="@dimen/x42"
                         android:layout_height="@dimen/x42"
-                        android:background="@drawable/music_icon6"
                         android:layout_marginEnd="@dimen/x8"
+                        android:background="@drawable/music_icon6"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv9"
                         app:layout_constraintEnd_toStartOf="@+id/tv9"
-                        app:layout_constraintTop_toTopOf="@id/tv9"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv9"/>
+                        app:layout_constraintTop_toTopOf="@id/tv9" />
+
                     <TextView
                         android:id="@+id/tv9"
-                        android:text="歌曲数"
-                        android:textSize="12dp"
-                        android:textColor="#c1c7d4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/x24"
                         android:layout_marginEnd="@dimen/x24"
-                        app:layout_constraintTop_toBottomOf="@+id/musicbtn"
-                        app:layout_constraintEnd_toEndOf="@+id/musicbtn"/>
+                        android:text="歌曲数"
+                        android:textColor="#c1c7d4"
+                        android:textSize="12dp"
+                        app:layout_constraintEnd_toEndOf="@+id/musicbtn"
+                        app:layout_constraintTop_toBottomOf="@+id/musicbtn" />
+
                     <ImageView
                         android:id="@+id/separation"
                         android:layout_width="@dimen/x880"
                         android:layout_height="@dimen/x8"
-                        android:background="@drawable/separation"
                         android:layout_marginTop="@dimen/x36"
-                        app:layout_constraintStart_toStartOf="@id/rect3"
+                        android:background="@drawable/separation"
                         app:layout_constraintEnd_toEndOf="@+id/rect3"
-                        app:layout_constraintTop_toBottomOf="@+id/tv5"/>
+                        app:layout_constraintStart_toStartOf="@id/rect3"
+                        app:layout_constraintTop_toBottomOf="@+id/tv5" />
+
                     <ImageView
                         android:id="@+id/music_icon1"
                         android:layout_width="@dimen/x48"
                         android:layout_height="@dimen/x36"
-                        android:background="@drawable/music_icon1"
                         android:layout_marginStart="@dimen/x72"
                         android:layout_marginTop="@dimen/x48"
+                        android:background="@drawable/music_icon1"
                         app:layout_constraintStart_toStartOf="@+id/rect3"
-                        app:layout_constraintTop_toBottomOf="@+id/separation"/>
+                        app:layout_constraintTop_toBottomOf="@+id/separation" />
+
                     <TextView
                         android:id="@+id/tv7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x20"
                         android:text="0 Focus on"
                         android:textColor="#FFbcc1d0"
                         android:textSize="10dp"
-                        android:layout_marginStart="@dimen/x20"
+                        app:layout_constraintBottom_toBottomOf="@+id/music_icon1"
                         app:layout_constraintStart_toEndOf="@+id/music_icon1"
-                        app:layout_constraintTop_toTopOf="@+id/music_icon1"
-                        app:layout_constraintBottom_toBottomOf="@+id/music_icon1" />
+                        app:layout_constraintTop_toTopOf="@+id/music_icon1" />
+
                     <ImageView
                         android:layout_width="@dimen/x12"
                         android:layout_height="@dimen/x12"
                         android:background="@drawable/ball"
-                        app:layout_constraintStart_toEndOf="@+id/tv7"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv7"
                         app:layout_constraintEnd_toStartOf="@+id/music_icon2"
-                        app:layout_constraintTop_toTopOf="@+id/tv7"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv7" />
+                        app:layout_constraintStart_toEndOf="@+id/tv7"
+                        app:layout_constraintTop_toTopOf="@+id/tv7" />
+
                     <ImageView
                         android:id="@+id/music_icon2"
                         android:layout_width="@dimen/x40"
                         android:layout_height="@dimen/x37"
-                        android:background="@drawable/music_icon2"
                         android:layout_marginStart="@dimen/x390"
+                        android:background="@drawable/music_icon2"
+                        app:layout_constraintBottom_toBottomOf="@+id/music_icon1"
                         app:layout_constraintStart_toStartOf="@+id/rect3"
-                        app:layout_constraintTop_toTopOf="@+id/music_icon1"
-                        app:layout_constraintBottom_toBottomOf="@+id/music_icon1"/>
+                        app:layout_constraintTop_toTopOf="@+id/music_icon1" />
+
                     <TextView
                         android:id="@+id/tv8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x20"
                         android:text="0 Fans"
                         android:textColor="#FFbcc1d0"
                         android:textSize="10dp"
-                        android:layout_marginStart="@dimen/x20"
+                        app:layout_constraintBottom_toBottomOf="@+id/music_icon2"
                         app:layout_constraintStart_toEndOf="@+id/music_icon2"
-                        app:layout_constraintTop_toTopOf="@+id/music_icon2"
-                        app:layout_constraintBottom_toBottomOf="@+id/music_icon2" />
+                        app:layout_constraintTop_toTopOf="@+id/music_icon2" />
+
                     <ImageView
                         android:layout_width="@dimen/x12"
                         android:layout_height="@dimen/x12"
                         android:background="@drawable/ball"
-                        app:layout_constraintStart_toEndOf="@+id/tv8"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv8"
                         app:layout_constraintEnd_toStartOf="@+id/music_icon3"
-                        app:layout_constraintTop_toTopOf="@+id/tv8"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv8" />
+                        app:layout_constraintStart_toEndOf="@+id/tv8"
+                        app:layout_constraintTop_toTopOf="@+id/tv8" />
+
                     <ImageView
                         android:id="@+id/music_icon3"
                         android:layout_width="@dimen/x48"
                         android:layout_height="@dimen/x39"
-                        android:background="@drawable/music_icon3"
                         android:layout_marginStart="@dimen/x650"
+                        android:background="@drawable/music_icon3"
+                        app:layout_constraintBottom_toBottomOf="@+id/music_icon1"
                         app:layout_constraintStart_toStartOf="@+id/rect3"
-                        app:layout_constraintTop_toTopOf="@+id/music_icon1"
-                        app:layout_constraintBottom_toBottomOf="@+id/music_icon1"/>
+                        app:layout_constraintTop_toTopOf="@+id/music_icon1" />
+
                     <TextView
                         android:id="@+id/tv10"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x20"
                         android:text="0 Level"
                         android:textColor="#FFbcc1d0"
                         android:textSize="10dp"
-                        android:layout_marginStart="@dimen/x20"
+                        app:layout_constraintBottom_toBottomOf="@+id/music_icon3"
                         app:layout_constraintStart_toEndOf="@+id/music_icon3"
-                        app:layout_constraintTop_toTopOf="@+id/music_icon3"
-                        app:layout_constraintBottom_toBottomOf="@+id/music_icon3" />
+                        app:layout_constraintTop_toTopOf="@+id/music_icon3" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </www.linwg.org.lib.LCardView>
+
             <www.linwg.org.lib.LCardView
                 android:id="@+id/rect4"
                 android:layout_width="@dimen/x265"
                 android:layout_height="@dimen/x890"
                 app:cornerRadius="@dimen/x64"
+                app:layout_constraintBottom_toBottomOf="@+id/rect2"
+                app:layout_constraintStart_toEndOf="@+id/rect2"
+                app:layout_constraintTop_toTopOf="@+id/rect2"
                 app:shadowColor="@color/material_blue_700"
                 app:shadowFluidShape="linear"
                 app:shadowSize="@dimen/x45"
-                app:shadowStartAlpha="8"
-                app:layout_constraintTop_toTopOf="@+id/rect2"
-                app:layout_constraintBottom_toBottomOf="@+id/rect2"
-                app:layout_constraintStart_toEndOf="@+id/rect2">
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:background="@color/white"
+                app:shadowStartAlpha="8">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <ImageView
-                        android:id="@+id/musicIcon4"
-                        android:layout_width="@dimen/x78"
-                        android:layout_height="@dimen/x83"
-                        android:background="@drawable/music_icon4"
-                        android:layout_marginTop="@dimen/x54"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
-                    <TextView
-                        android:id="@+id/DailyRecommend"
-                        android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_DailyRecommend"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="每日推荐"
-                        android:textSize="14dp"
-                        android:textColor="#bcc1d0"
-                        android:ems="1"
-                        android:lineSpacingMultiplier="0.8"
-                        android:layout_marginTop="@dimen/x36"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/musicIcon4"/>
+                        android:background="@color/white">
+
+                        <ImageView
+                            android:id="@+id/ic_DailyRecommend"
+                            android:layout_width="@dimen/x78"
+                            android:layout_height="@dimen/x83"
+                            android:layout_marginTop="@dimen/x24"
+                            android:background="@drawable/music_icon4"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/DailyRecommend"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/x36"
+                            android:ems="1"
+                            android:lineSpacingMultiplier="0.8"
+                            android:text="每日推荐"
+                            android:textColor="#bcc1d0"
+                            android:textSize="14dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ic_DailyRecommend" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
                     <ImageView
                         android:id="@+id/separation2"
                         android:layout_width="@dimen/x96"
                         android:layout_height="@dimen/x8"
-                        android:layout_marginTop="@dimen/x64"
+                        android:layout_marginTop="@dimen/x48"
                         android:background="@drawable/separation2"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
-                    <ImageView
-                        android:id="@+id/musicIcon5"
-                        android:layout_width="@dimen/x72"
-                        android:layout_height="@dimen/x72"
-                        android:layout_marginTop="@dimen/x32"
-                        android:background="@drawable/music_icon5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/separation2"/>
-                    <TextView
-                        android:id="@+id/UserCloud"
-                        android:layout_width="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_UserCloud"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="我的云盘"
-                        android:textSize="14dp"
-                        android:textColor="#bcc1d0"
-                        android:ems="1"
-                        android:lineSpacingMultiplier="0.8"
-                        android:layout_marginTop="@dimen/x12"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/musicIcon5"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:background="@color/white">
+
+                        <ImageView
+                            android:id="@+id/ic_UserCloud"
+                            android:layout_width="@dimen/x72"
+                            android:layout_height="@dimen/x72"
+                            android:layout_marginTop="@dimen/x32"
+                            android:background="@drawable/music_icon5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/UserCloud"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/x12"
+                            android:ems="1"
+                            android:lineSpacingMultiplier="0.8"
+                            android:text="我的云盘"
+                            android:textColor="#bcc1d0"
+                            android:textSize="14dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ic_UserCloud" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
             </www.linwg.org.lib.LCardView>
+
             <TextView
                 android:id="@+id/tv6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的歌单"
-                android:textSize="18dp"
-                android:textColor="#FF011148"
                 android:layout_marginTop="@dimen/x32"
+                android:text="我的歌单"
+                android:textColor="#FF011148"
+                android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="@+id/tv3"
                 app:layout_constraintTop_toBottomOf="@+id/rect2" />
+
             <ImageButton
                 android:layout_width="@dimen/x320"
                 android:layout_height="@dimen/x90"
-                android:background="@drawable/musicbtn2"
                 android:layout_marginEnd="@dimen/x132"
+                android:background="@drawable/musicbtn2"
                 android:src="@drawable/button_add_pressed2"
-                app:layout_constraintTop_toTopOf="@+id/tv6"
                 app:layout_constraintBottom_toBottomOf="@+id/tv6"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv6" />
+
             <ImageButton
                 android:id="@+id/rect5"
                 android:layout_width="@dimen/x1320"
                 android:layout_height="@dimen/x150"
-                android:background="@drawable/rect5"
                 android:layout_marginTop="@dimen/x24"
-                app:layout_constraintStart_toStartOf="parent"
+                android:background="@drawable/rect5"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv6"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv6" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x108"
                 android:text="创建歌单(6个)"
                 android:textColor="#bcc1d0"
                 android:textSize="15dp"
-                android:layout_marginStart="@dimen/x108"
-                app:layout_constraintStart_toStartOf="@+id/rect5"
-                app:layout_constraintBottom_toBottomOf="@+id/rect5"/>
+                app:layout_constraintBottom_toBottomOf="@+id/rect5"
+                app:layout_constraintStart_toStartOf="@+id/rect5" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/CardGroup"
                 android:layout_width="@dimen/x1320"
                 android:layout_height="wrap_content"
                 android:divider="@null"
                 android:scrollbars="none"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rect5"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rect5" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

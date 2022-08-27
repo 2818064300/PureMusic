@@ -1,4 +1,4 @@
-package com.lie.puremusic.activity
+package com.lie.puremusic.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -28,7 +28,6 @@ class LoadingActivity : AppCompatActivity() {
         binding = ActivityLoadingBinding.inflate(layoutInflater)
         setContentView(binding.root)
         overridePendingTransition(R.anim.top_in, R.anim.top_out)
-
         binding.mLottieAnimationView.imageAssetsFolder = "lottie/comm/images"
         binding.mLottieAnimationView.setAnimation("lottie/comm/paperplane.json")
 
@@ -66,7 +65,7 @@ class LoadingActivity : AppCompatActivity() {
                                 id,
                                 intent.getStringExtra("name").toString(),
                                 intent.getStringExtra("picUrl").toString(),
-                                intent.getLongExtra("playCount", 0),
+                                intent.getLongExtra("playCount", -1),
                                 it
                             )
                         val intent = Intent(this@LoadingActivity, SongListActivity::class.java)
@@ -152,7 +151,7 @@ class LoadingActivity : AppCompatActivity() {
                         finish()
                     }
                 } else {
-                    startActivity(Intent(intent))
+                    startActivity(Intent(this@LoadingActivity, RecommendActivity::class.java))
                     finish()
                 }
             }
@@ -164,7 +163,7 @@ class LoadingActivity : AppCompatActivity() {
                         finish()
                     }
                 } else {
-                    startActivity(Intent(intent))
+                    startActivity(Intent(this@LoadingActivity, UserCloudActivity::class.java))
                     finish()
                 }
             }

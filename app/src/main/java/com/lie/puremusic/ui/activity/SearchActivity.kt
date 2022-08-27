@@ -1,4 +1,4 @@
-package com.lie.puremusic.activity
+package com.lie.puremusic.ui.activity
 
 import android.content.Intent
 import android.view.View
@@ -20,7 +20,6 @@ class SearchActivity : BaseActivity() {
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
         miniPlayer = binding.miniPlayer
-        overridePendingTransition(R.anim.top_in, R.anim.top_out)
     }
 
     override fun initView() {
@@ -60,6 +59,5 @@ class SearchActivity : BaseActivity() {
 
     override fun finish() {
         super.finish()
-        overridePendingTransition(R.anim.bottom_in, R.anim.bottom_out)
     }
 }

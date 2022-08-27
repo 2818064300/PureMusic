@@ -10,8 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lie.puremusic.R
-import com.lie.puremusic.activity.LoadingActivity
 import com.lie.puremusic.music.netease.SingerRecommend
+import com.lie.puremusic.ui.activity.LoadingActivity
 import de.hdodenhof.circleimageview.CircleImageView
 
 class MyRecyclerGridAdapter2(

@@ -1,4 +1,4 @@
-package com.lie.puremusic.fragment
+package com.lie.puremusic.ui.fragment
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,9 +11,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lie.puremusic.*
-import com.lie.puremusic.activity.*
 import com.lie.puremusic.adapter.MyRecyclerAdapter2
 import com.lie.puremusic.databinding.FragmentMusicBinding
+import com.lie.puremusic.ui.activity.LoadingActivity
+import com.lie.puremusic.ui.activity.MainActivity
+import com.lie.puremusic.ui.activity.PreSearchActivity
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import java.util.*
 
@@ -61,18 +63,17 @@ class MusicFragment : Fragment() {
             val activity = activity as MainActivity?
             activity?.open()
         }
-        binding.DailyRecommend.setOnClickListener {
-            val intent = Intent(context, LoadingActivity::class.java)
+        binding.clDailyRecommend.setOnClickListener {
+            val intent = Intent(activity, LoadingActivity::class.java)
             intent.putExtra("style", "DailyRecommend")
             startActivity(intent)
         }
-        binding.UserCloud.setOnClickListener {
-            val intent = Intent(context, LoadingActivity::class.java)
+        binding.clUserCloud.setOnClickListener {
+            val intent = Intent(activity, LoadingActivity::class.java)
             intent.putExtra("style", "UserCloud")
             startActivity(intent)
         }
-        val d = Date()
-        val hours = d.hours
+        val hours = Date().hours
         if (hours < 6) {
             binding.tv1.text = "夜深了,月亮都睡了"
             binding.rect3.setImageResource(R.drawable.pic3)

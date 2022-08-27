@@ -18,9 +18,8 @@ import com.google.android.material.card.MaterialCardView
 import com.lie.puremusic.utils.CropTransformation
 import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
-import com.lie.puremusic.activity.LoadingActivity
 import com.lie.puremusic.music.netease.PlaylistRecommend
-import com.lie.puremusic.standard.data.StandardPlaylistData
+import com.lie.puremusic.ui.activity.LoadingActivity
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 class MyRecyclerGridAdapter(

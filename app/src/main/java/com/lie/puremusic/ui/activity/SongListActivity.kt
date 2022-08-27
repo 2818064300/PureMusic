@@ -1,4 +1,4 @@
-package com.lie.puremusic.activity
+package com.lie.puremusic.ui.activity
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -44,7 +44,6 @@ class SongListActivity : BaseActivity() {
         FileDownloader.setup(this)
     }
     override fun initView(){
-        overridePendingTransition(R.anim.top_in, R.anim.top_out)
         immersionBar {
             statusBarColor(R.color.nullcolor)
             statusBarDarkFont(true)
@@ -183,9 +182,5 @@ class SongListActivity : BaseActivity() {
                 .start()
             true
         }
-    }
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.bottom_in, R.anim.bottom_out)
     }
 }

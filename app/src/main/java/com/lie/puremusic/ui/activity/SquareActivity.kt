@@ -1,14 +1,11 @@
-package com.lie.puremusic.activity
+package com.lie.puremusic.ui.activity
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.lie.puremusic.adapter.FragmentAdapter
-import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
-import com.lie.puremusic.fragment.*
 import com.lie.puremusic.databinding.ActivitySquareBinding
 
 class SquareActivity : AppCompatActivity() {
@@ -18,7 +15,6 @@ class SquareActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySquareBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        overridePendingTransition(R.anim.top_in, R.anim.top_out)
         binding.RadioButton1.isChecked = true
         initPage()
         binding.Back.setOnClickListener {
@@ -29,11 +25,6 @@ class SquareActivity : AppCompatActivity() {
 
     private fun initPage() {
         val Fragments: MutableList<Fragment?> = ArrayList()
-//        Fragments.add(squareFragment1)
-//        Fragments.add(squareFragment2)
-//        Fragments.add(squareFragment3)
-//        Fragments.add(squareFragment4)
-//        Fragments.add(squareFragment5)
 
         binding.ViewPaper.setAdapter(FragmentAdapter(supportFragmentManager, lifecycle, Fragments))
         binding.ViewPaper.setCurrentItem(0)
@@ -66,8 +57,4 @@ class SquareActivity : AppCompatActivity() {
         })
     }
 
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.bottom_in, R.anim.bottom_out)
-    }
 }

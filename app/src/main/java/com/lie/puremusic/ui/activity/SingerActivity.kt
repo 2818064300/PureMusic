@@ -1,4 +1,4 @@
-package com.lie.puremusic.activity
+package com.lie.puremusic.ui.activity
 
 import android.view.View
 import android.view.View.OnLongClickListener
@@ -30,7 +30,6 @@ class SingerActivity : BaseActivity(){
         SingerData = StaticData.SingerData
     }
     override fun initView() {
-        overridePendingTransition(R.anim.top_in, R.anim.top_out)
         immersionBar {
             statusBarColor(R.color.nullcolor)
             statusBarDarkFont(true)
@@ -127,10 +126,5 @@ class SingerActivity : BaseActivity(){
                 }
             }
         })
-    }
-
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.bottom_in, R.anim.bottom_out)
     }
 }

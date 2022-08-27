@@ -1,4 +1,4 @@
-package com.lie.puremusic.activity
+package com.lie.puremusic.ui.activity
 
 import android.os.Bundle
 import android.view.KeyEvent
@@ -7,21 +7,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.lie.puremusic.adapter.FragmentAdapter
-import com.lie.puremusic.fragment.LrcFragment
 import com.lie.puremusic.utils.MediaPlayerHelper
 import com.lie.puremusic.R
 import com.lie.puremusic.databinding.ActivityPlayerBinding
-import com.lie.puremusic.fragment.PlayerFragment
-import com.lie.puremusic.fragment.TestFragment1
+import com.lie.puremusic.ui.fragment.LrcFragment
+import com.lie.puremusic.ui.fragment.PlayerFragment
+import com.lie.puremusic.ui.fragment.TestFragment1
 
 class PlayerActivity : AppCompatActivity(){
     companion object {
         var mediaPlayerHelper: MediaPlayerHelper? = null
         lateinit var fragmentManager : FragmentManager
     }
-    private val lrcFragment: LrcFragment = LrcFragment()
-    private val playerFragment: PlayerFragment = PlayerFragment()
-    private val testFragment1: TestFragment1 = TestFragment1()
     private lateinit var binding: ActivityPlayerBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +29,9 @@ class PlayerActivity : AppCompatActivity(){
         PlayerActivity.fragmentManager = supportFragmentManager
         mediaPlayerHelper = MediaPlayerHelper.getInstance(this)
         val Fragments: MutableList<Fragment?> = ArrayList()
-        Fragments.add(testFragment1)
-        Fragments.add(playerFragment)
-        Fragments.add(lrcFragment)
+        Fragments.add(TestFragment1())
+        Fragments.add(PlayerFragment())
+        Fragments.add(LrcFragment())
         binding.ViewPaper.setAdapter(FragmentAdapter(supportFragmentManager, lifecycle, Fragments))
         binding.ViewPaper.setCurrentItem(1)
     }

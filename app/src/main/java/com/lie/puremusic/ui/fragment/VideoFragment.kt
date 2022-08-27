@@ -1,4 +1,4 @@
-package com.lie.puremusic.fragment
+package com.lie.puremusic.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

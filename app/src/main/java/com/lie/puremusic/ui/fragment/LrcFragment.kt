@@ -1,4 +1,4 @@
-package com.lie.puremusic.fragment
+package com.lie.puremusic.ui.fragment
 
 import android.graphics.Color
 import android.os.Bundle
@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.dirror.lyricviewx.OnPlayClickListener
 import com.lie.puremusic.StaticData
-import com.lie.puremusic.activity.PlayerActivity
 import com.lie.puremusic.databinding.FragmentLrcBinding
+import com.lie.puremusic.ui.activity.PlayerActivity
 import com.lie.puremusic.utils.BurnUtil
 import java.util.*
 

@@ -21,13 +21,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
-import com.lie.puremusic.activity.LoadingActivity
-import com.lie.puremusic.activity.MainActivity
-import com.lie.puremusic.activity.PlayerActivity
 import com.lie.puremusic.pojo.Record
 import com.lie.puremusic.service.ServiceSongUrl
 import com.lie.puremusic.standard.data.StandardSongData
 import com.lie.puremusic.standard.data.StandardSongDataEx
+import com.lie.puremusic.ui.activity.LoadingActivity
+import com.lie.puremusic.ui.activity.MainActivity
+import com.lie.puremusic.ui.activity.PlayerActivity
 import com.lie.puremusic.utils.parse
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener

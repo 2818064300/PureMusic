@@ -1,4 +1,4 @@
-package com.lie.puremusic.activity
+package com.lie.puremusic.ui.activity
 
 import android.graphics.Typeface
 import android.os.Bundle
@@ -23,7 +23,6 @@ class RecommendActivity : BaseActivity() {
         miniPlayer = binding.miniPlayer
     }
     override fun initView(){
-        overridePendingTransition(R.anim.top_in, R.anim.top_out)
         val adapter = MyRecyclerAdapter(
             this,
             StaticData.DailyRecommendSongData?.data?.dailySongs?.toStandardSongDataArrayList(),
@@ -37,8 +36,4 @@ class RecommendActivity : BaseActivity() {
         binding.tvMonth.text = String.format("%02d", Calendar.getInstance().get(Calendar.MONTH) + 1)
     }
 
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.bottom_in, R.anim.bottom_out)
-    }
 }

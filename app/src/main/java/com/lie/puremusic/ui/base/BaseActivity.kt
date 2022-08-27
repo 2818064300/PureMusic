@@ -11,9 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
-import com.lie.puremusic.activity.PlayerActivity
 import com.lie.puremusic.databinding.MiniPlayerBinding
 import com.lie.puremusic.manager.ActivityCollector
+import com.lie.puremusic.ui.activity.PlayerActivity
 
 /**
  * 基类 Activity
@@ -44,7 +44,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 PlayBar.visibility = View.GONE
                 ivCover.visibility = View.GONE
                 root.setOnClickListener {
-                    startActivity(Intent(this@BaseActivity,PlayerActivity::class.java))
+                    startActivity(Intent(this@BaseActivity, PlayerActivity::class.java))
                 }
                 PlayButton.setOnClickListener {
                     if (PlayerActivity.mediaPlayerHelper?.isPlaying == true) {

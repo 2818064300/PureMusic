@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -21,102 +21,97 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PureMusic"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31" >
+        tools:targetApi="31">
         <activity
-            android:name=".activity.CommentActivity"
-            android:exported="false" >
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:name=".ui.activity.CommentActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="nosensor" />
         <activity
-            android:name=".activity.UserCloudActivity"
-            android:exported="false" >
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:name=".ui.activity.UserCloudActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="nosensor" />
         <activity
-            android:name=".activity.RecommendActivity"
-            android:exported="false" >
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:name=".ui.activity.RecommendActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="nosensor" />
         <activity
-            android:name=".activity.TestActivity"
+            android:name=".ui.activity.TestActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.SettingActivity"
-            android:exported="false"
-            android:launchMode="singleTask" />
-        <activity
-            android:name=".activity.InfoActivity"
+            android:name=".ui.activity.SettingActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".activity.PlayerActivity"
+            android:name=".ui.activity.InfoActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".activity.PreSearchActivity"
+            android:name=".ui.activity.PlayerActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".activity.LoadingActivity"
+            android:name=".ui.activity.PreSearchActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".activity.SquareActivity"
+            android:name=".ui.activity.LoadingActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".activity.SearchActivity"
+            android:name=".ui.activity.SquareActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".activity.ToplistActivity"
+            android:name=".ui.activity.SearchActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".activity.SingerActivity"
-            android:exported="false"
-            android:screenOrientation="nosensor" />
-        <activity
-            android:name=".activity.SongListActivity"
-            android:exported="false"
-            android:screenOrientation="nosensor" />
-        <activity
-            android:name=".activity.IntroActivity"
+            android:name=".ui.activity.ToplistActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".ui.activity.SingerActivity"
+            android:exported="false"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".ui.activity.SongListActivity"
+            android:exported="false"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".ui.activity.IntroActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".ui.activity.LoginActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".ui.activity.MainActivity"
             android:exported="false"
             android:label="MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
             android:theme="@style/Theme.PureMusic.NoActionBar" />
         <activity
-            android:name=".activity.SplashActivity"
+            android:name=".ui.activity.SplashActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
-            android:theme="@style/Theme.PureMusic" >
+            android:theme="@style/Theme.PureMusic">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

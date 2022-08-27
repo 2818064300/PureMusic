@@ -3,6 +3,9 @@ package com.lie.puremusic.listener
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 
+/**
+ * 监听AppBar状态
+ */
 abstract class AppBarStateChangeListener : OnOffsetChangedListener {
     enum class State {
         EXPANDED,

@@ -1,4 +1,4 @@
-package com.lie.puremusic.activity
+package com.lie.puremusic.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package com.lie.puremusic.fragment
+package com.lie.puremusic.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.lie.puremusic.R
 
-class TestFragment1 : Fragment() {
+class TestFragment2 : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -20,10 +20,11 @@ class TestFragment1 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_test1, container, false)
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_test2, container, false)
     }
 
     companion object {
-        fun newInstance() = TestFragment1()
+        fun newInstance() = TestFragment2()
     }
 }

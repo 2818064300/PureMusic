@@ -12,8 +12,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lie.puremusic.R
-import com.lie.puremusic.activity.LoadingActivity
 import com.lie.puremusic.music.netease.data.UserPlaylistData
+import com.lie.puremusic.ui.activity.LoadingActivity
 
 class MyRecyclerAdapter2(private val context: Context, private val List : ArrayList<UserPlaylistData.Playlist>?) :
     RecyclerView.Adapter<MyRecyclerAdapter2.InnerHolder>() {

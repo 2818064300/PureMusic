@@ -1,4 +1,4 @@
-package com.lie.puremusic.fragment
+package com.lie.puremusic.ui.fragment
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -11,7 +11,6 @@ import android.os.Environment
 import android.os.Vibrator
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
@@ -19,21 +18,19 @@ import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.viewModels
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
-import com.dirror.lyricviewx.OnPlayClickListener
 import com.king.view.arcseekbar.ArcSeekBar
 import com.lie.puremusic.*
-import com.lie.puremusic.activity.CommentActivity
-import com.lie.puremusic.activity.MainActivity
-import com.lie.puremusic.activity.PlayerActivity
 import com.lie.puremusic.databinding.FragmentPlayerBinding
 import com.lie.puremusic.music.netease.data.SongUrlData
 import com.lie.puremusic.music.netease.data.toStandard
 import com.lie.puremusic.music.netease.data.toStandardSongDataArrayList
 import com.lie.puremusic.service.ServiceSongUrl
 import com.lie.puremusic.standard.data.StandardSongDataEx
+import com.lie.puremusic.ui.activity.MainActivity
+import com.lie.puremusic.ui.activity.PlayerActivity
 import com.lie.puremusic.ui.dialog.PlaylistDialog
 import com.lie.puremusic.utils.*
 import com.lie.puremusic.utils.MagicHttp.runOnMainThread
@@ -52,6 +49,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
     private var animation: Animation? = null
     private var isSeekbarChaning = false
     private var CanPlay = true
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -202,7 +200,7 @@ class PlayerFragment : Fragment(), View.OnClickListener {
         }
         binding.ivComment.setOnClickListener {
             if(!StaticData.isCloud) {
-                startActivity(Intent(activity, CommentActivity::class.java))
+                startActivity(Intent(activity, com.lie.puremusic.ui.activity.CommentActivity::class.java))
                 activity?.overridePendingTransition(
                     R.anim.anim_slide_enter_bottom,
                     R.anim.anim_no_anim

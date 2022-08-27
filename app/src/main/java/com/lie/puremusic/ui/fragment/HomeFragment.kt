@@ -1,4 +1,4 @@
-package com.lie.puremusic.fragment
+package com.lie.puremusic.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lie.puremusic.*
-import com.lie.puremusic.activity.*
 import com.lie.puremusic.adapter.MyRecyclerGridAdapter
 import com.lie.puremusic.adapter.MyRecyclerGridAdapter2
 import com.lie.puremusic.databinding.FragmentHomeBinding
 import com.lie.puremusic.music.netease.*
 import com.lie.puremusic.music.netease.data.SongUrlData
 import com.lie.puremusic.standard.data.StandardPlaylistData
+import com.lie.puremusic.ui.activity.*
 import com.lie.puremusic.ui.base.BaseFragment
 import com.lie.puremusic.utils.MagicHttp.runOnMainThread
 import com.lie.puremusic.utils.SpacesItemDecoration

@@ -1,4 +1,4 @@
-package com.lie.puremusic.activity
+package com.lie.puremusic.ui.activity
 
 import android.content.Context
 import android.content.Intent
@@ -15,11 +15,11 @@ import com.lie.puremusic.adapter.FragmentViewPagerAdapter
 import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.databinding.ActivityMainBinding
-import com.lie.puremusic.fragment.HomeFragment
-import com.lie.puremusic.fragment.ToplistFragment
-import com.lie.puremusic.fragment.MusicFragment
-import com.lie.puremusic.fragment.VideoFragment
 import com.lie.puremusic.ui.base.BaseActivity
+import com.lie.puremusic.ui.fragment.HomeFragment
+import com.lie.puremusic.ui.fragment.MusicFragment
+import com.lie.puremusic.ui.fragment.ToplistFragment
+import com.lie.puremusic.ui.fragment.VideoFragment
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer
 import es.dmoral.toasty.Toasty
 
@@ -107,14 +107,10 @@ class MainActivity : BaseActivity() {
 
     fun initViewPage() {
         val Fragments: MutableList<Fragment> = ArrayList()
-        val musicFragment: MusicFragment = MusicFragment()
-        val homeFragment: HomeFragment = HomeFragment()
-        val leaderboardFragment: ToplistFragment = ToplistFragment()
-        val videoFragment: VideoFragment = VideoFragment()
-        Fragments.add(musicFragment)
-        Fragments.add(homeFragment)
-        Fragments.add(leaderboardFragment)
-        Fragments.add(videoFragment)
+        Fragments.add(MusicFragment())
+        Fragments.add(HomeFragment())
+        Fragments.add(ToplistFragment())
+        Fragments.add(VideoFragment())
         binding.ViewPaper.adapter =
             FragmentViewPagerAdapter(this.supportFragmentManager,
                 Fragments,

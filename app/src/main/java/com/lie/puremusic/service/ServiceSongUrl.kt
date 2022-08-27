@@ -10,15 +10,20 @@ import com.lie.puremusic.standard.SearchLyric
 import com.lie.puremusic.standard.data.SOURCE_NETEASE
 import com.lie.puremusic.standard.data.StandardSongData
 import com.lie.puremusic.utils.MagicHttp.runOnMainThread
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * 获取歌曲 URL
  */
 object ServiceSongUrl {
 
-    inline fun getUrl(song: StandardSongData?, crossinline success: (SongUrlData.UrlData?) -> Unit) {
+    inline fun getUrl(
+        song: StandardSongData?,
+        crossinline success: (SongUrlData.UrlData?) -> Unit
+    ) {
         when (song?.source) {
             SOURCE_NETEASE -> {
                 GlobalScope.launch {
@@ -28,7 +33,7 @@ object ServiceSongUrl {
                             SongUrl.getSongUrlCookie(song?.id ?: "") {
                                 success.invoke(it)
                             }
-                        } else{
+                        } else {
                             success.invoke(null)
                         }
                 }
@@ -42,12 +47,12 @@ object ServiceSongUrl {
         if (song.source == SOURCE_NETEASE) {
             SearchLyric.getLyricString(song) { it ->
                 runOnMainThread {
-                    if(it.lrc?.lyric != null) {
+                    if (it.lrc?.lyric != null) {
                         var secondLyric = ""
-                        if(!it.klyric?.lyric.equals("")){
+                        if (!it.klyric?.lyric.equals("")) {
                             secondLyric = it.klyric?.lyric.toString()
                         }
-                        if(!it.tlyric?.lyric.equals("")){
+                        if (!it.tlyric?.lyric.equals("")) {
                             secondLyric = it.tlyric?.lyric.toString()
                         }
                         val l = LyricViewData(it.lrc.lyric, secondLyric)

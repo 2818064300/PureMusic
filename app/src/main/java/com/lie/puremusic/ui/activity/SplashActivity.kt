@@ -1,4 +1,4 @@
-package com.lie.puremusic.activity
+package com.lie.puremusic.ui.activity
 
 import android.Manifest
 import android.content.Context
@@ -126,7 +126,6 @@ class SplashActivity : AppCompatActivity() {
                     } else {
                         startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                     }
-                    finish()
                 }
             }
             pools.submit{

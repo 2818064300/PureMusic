@@ -1,23 +1,32 @@
-package com.lie.puremusic.fragment
+package com.lie.puremusic.ui.fragment
 
+import android.R.attr.banner
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.RoundedCorner
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.lie.puremusic.activity.PreSearchActivity
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.lie.puremusic.StaticData
-import com.lie.puremusic.activity.LoadingActivity
 import com.lie.puremusic.adapter.MyRecyclerGridAdapter3
 import com.lie.puremusic.databinding.FragmentToplistBinding
+import com.lie.puremusic.music.netease.Banner
 import com.lie.puremusic.music.netease.NewSong
 import com.lie.puremusic.music.netease.TopList
+import com.lie.puremusic.music.netease.data.BannerData
 import com.lie.puremusic.standard.data.StandardSongData
+import com.lie.puremusic.ui.activity.LoadingActivity
+import com.lie.puremusic.ui.activity.PreSearchActivity
 import com.lie.puremusic.utils.MagicHttp
 import com.lie.puremusic.utils.SpacesItemDecoration2
+import com.youth.banner.adapter.BannerImageAdapter
+import com.youth.banner.holder.BannerImageHolder
+import com.youth.banner.indicator.CircleIndicator
 
 
 class ToplistFragment : Fragment() {
@@ -35,13 +44,34 @@ class ToplistFragment : Fragment() {
         return binding.root
 
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.searchLeaderboardIbtn.setOnClickListener(View.OnClickListener {
             val intent = Intent(activity, PreSearchActivity::class.java)
             startActivity(intent)
         })
-        if(StaticData.NewSong == null){
+
+        Banner.getBanner {
+            MagicHttp.runOnMainThread {
+                binding.banner.setAdapter(object :BannerImageAdapter<BannerData.Banner>(it.banners){
+                    override fun onBindView(
+                        holder: BannerImageHolder?,
+                        data: BannerData.Banner?,
+                        position: Int,
+                        size: Int
+                    ) {
+                        if (holder != null) {
+                            Glide.with(this@ToplistFragment)
+                                .load(data?.imageUrl)
+                                .into(holder.imageView)
+                        };
+                    }
+
+                })
+            }
+        }
+        if (StaticData.NewSong == null) {
             NewSong.getNewSong(requireContext()) {
                 MagicHttp.runOnMainThread {
                     val NewSongList: ArrayList<StandardSongData> = ArrayList()
@@ -56,7 +86,7 @@ class ToplistFragment : Fragment() {
                     binding.NewSongGroup.addItemDecoration(SpacesItemDecoration2())
                 }
             }
-        } else{
+        } else {
             val NewSongList: ArrayList<StandardSongData> = ArrayList()
             for (i in 0..5) {
                 NewSongList.add(StaticData.NewSong!!.get(i))
@@ -68,7 +98,7 @@ class ToplistFragment : Fragment() {
             binding.NewSongGroup.layoutManager = layoutManager
             binding.NewSongGroup.addItemDecoration(SpacesItemDecoration2())
         }
-        TopList.getTopList(requireContext()){
+        TopList.getTopList(requireContext()) {
             val TopList = it
             binding.toplistItem1.setOnClickListener {
                 val intent = Intent(context, LoadingActivity::class.java)

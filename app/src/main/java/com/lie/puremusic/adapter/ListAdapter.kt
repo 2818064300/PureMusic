@@ -9,10 +9,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.lie.puremusic.activity.LoadingActivity
 import com.lie.puremusic.R
 import com.lie.puremusic.pojo.Record
 import com.lie.puremusic.StaticData
+import com.lie.puremusic.ui.activity.LoadingActivity
 
 class ListAdapter(private val context: Context, List: MutableList<Record?>) :
     RecyclerView.Adapter<ListAdapter.ListInnerHolder>() {
@@ -43,7 +43,7 @@ class ListAdapter(private val context: Context, List: MutableList<Record?>) :
         holder.tv.setText(List[List.size - 1 - position]?.getKeyWord())
         holder.tv.setOnClickListener {
             val intent = Intent(context, LoadingActivity::class.java)
-            intent.putExtra("style","Search")
+            intent.putExtra("style", "Search")
             StaticData.SelectID = List[List.size - 1 - position]?.getStyle()!!
             StaticData.KeyWords = List[List.size - 1 - position]?.getKeyWord()
             if (List[List.size - 1 - position]?.getMusicStyle().equals("网易云音乐")) {

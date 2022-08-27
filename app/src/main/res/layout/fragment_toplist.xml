@@ -10,128 +10,209 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside"
-                    app:layout_constraintRight_toRightOf="parent"
+                    android:src="@drawable/title2"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:src="@drawable/title2"/>
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <ImageButton
                     android:id="@+id/search_leaderboard_ibtn"
                     android:layout_width="@dimen/x388"
                     android:layout_height="@dimen/x128"
                     android:layout_marginTop="@dimen/x190"
                     android:layout_marginRight="@dimen/x120"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerInside"
                     android:background="@drawable/search_btn"
-                    android:src="@drawable/button_add_pressed"/>
+                    android:scaleType="centerInside"
+                    android:src="@drawable/button_add_pressed"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:orientation="vertical">
+
+                <com.youth.banner.Banner
+                    android:id="@+id/banner"
+                    android:layout_width="@dimen/x1240"
+                    android:layout_height="@dimen/x460"
+                    android:layout_marginTop="@dimen/x10"
+                    android:layout_marginBottom="@dimen/x18"
+                    android:orientation="vertical"
+                    app:banner_radius="@dimen/x30" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="@dimen/x40"
-                    android:paddingBottom="@dimen/x40"
-                    android:gravity="center">
-                    <ImageButton
-                        android:id="@+id/Hot_Songs"
-                        android:layout_width="@dimen/x1233"
-                        android:layout_height="@dimen/x686"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerInside"
-                        android:background="@drawable/btn_pressed4"
-                        android:src="@drawable/button_add_pressed">
-                    </ImageButton>
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/x200"
+                        android:layout_height="@dimen/x200"
+                        android:src="#f4f4f4"
+                        app:civ_border_color="#FFFFFFFF"
+                        app:civ_border_width="2dp"/>
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/x200"
+                        android:layout_height="@dimen/x200"
+                        android:src="#f4f4f4"
+                        app:civ_border_color="#FFFFFFFF"
+                        app:civ_border_width="2dp"
+                        android:layout_marginStart="@dimen/x48" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/x200"
+                        android:layout_height="@dimen/x200"
+                        android:src="#f4f4f4"
+                        app:civ_border_color="#FFFFFFFF"
+                        app:civ_border_width="2dp"
+                        android:layout_marginTop="@dimen/x36"
+                        android:layout_marginBottom="@dimen/x36"
+                        android:layout_marginStart="@dimen/x48"
+                        android:layout_marginEnd="@dimen/x48" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/x200"
+                        android:layout_height="@dimen/x200"
+                        android:src="#f4f4f4"
+                        app:civ_border_color="#FFFFFFFF"
+                        app:civ_border_width="2dp"
+                        android:layout_marginEnd="@dimen/x48" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/x200"
+                        android:layout_height="@dimen/x200"
+                        android:src="#f4f4f4"
+                        app:civ_border_color="#FFFFFFFF"
+                        app:civ_border_width="2dp"/>
                 </LinearLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/divider" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/toplist_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x90"
+                        android:layout_marginTop="@dimen/x72"
+                        android:text="排行榜"
+                        android:textColor="#FF011148"
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:layout_width="@dimen/x310"
+                        android:layout_height="@dimen/x40"
+                        android:layout_marginEnd="@dimen/x90"
+                        android:background="@drawable/viewall"
+                        app:layout_constraintBottom_toBottomOf="@+id/toplist_item"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/toplist_item" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingTop="@dimen/x60"
-                    android:paddingBottom="@dimen/x88"
+                    android:gravity="center"
                     android:orientation="horizontal"
-                    android:gravity="center">
+                    android:paddingTop="@dimen/x48"
+                    android:paddingBottom="@dimen/x64">
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <ImageButton
                             android:id="@+id/toplist_item1"
                             android:layout_width="@dimen/x261"
                             android:layout_height="@dimen/x346"
                             android:layout_marginLeft="@dimen/x103"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
                             android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
                             android:background="@drawable/toplist_item1"
-                            android:src="@drawable/button_add_pressed"/>
+                            android:scaleType="centerInside"
+                            android:src="@drawable/button_add_pressed"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
                         <ImageButton
                             android:id="@+id/toplist_item2"
                             android:layout_width="@dimen/x261"
                             android:layout_height="@dimen/x346"
                             android:layout_marginLeft="@dimen/x64"
-                            app:layout_constraintLeft_toRightOf="@+id/toplist_item1"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
                             android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
                             android:background="@drawable/toplist_item2"
-                            android:src="@drawable/button_add_pressed"/>
+                            android:scaleType="centerInside"
+                            android:src="@drawable/button_add_pressed"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@+id/toplist_item1"
+                            app:layout_constraintTop_toTopOf="parent" />
+
                         <ImageButton
                             android:id="@+id/toplist_item3"
                             android:layout_width="@dimen/x261"
                             android:layout_height="@dimen/x346"
                             android:layout_marginLeft="@dimen/x64"
-                            app:layout_constraintLeft_toRightOf="@+id/toplist_item2"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
                             android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
                             android:background="@drawable/toplist_item3"
-                            android:src="@drawable/button_add_pressed"/>
+                            android:scaleType="centerInside"
+                            android:src="@drawable/button_add_pressed"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@+id/toplist_item2"
+                            app:layout_constraintTop_toTopOf="parent" />
+
                         <ImageButton
                             android:id="@+id/toplist_item4"
                             android:layout_width="@dimen/x261"
                             android:layout_height="@dimen/x346"
                             android:layout_marginLeft="@dimen/x64"
-                            app:layout_constraintLeft_toRightOf="@+id/toplist_item3"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
                             android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
                             android:background="@drawable/toplist_item4"
-                            android:src="@drawable/button_add_pressed"/>
+                            android:scaleType="centerInside"
+                            android:src="@drawable/button_add_pressed"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@+id/toplist_item3"
+                            app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/divider" />
-                </LinearLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/divider" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -172,10 +253,12 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/play_all1" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center">
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/NewSongGroup"
                         android:layout_width="wrap_content"
@@ -193,6 +276,7 @@
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside"
                     android:src="@drawable/divider" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -233,80 +317,87 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/play_all2" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingTop="@dimen/x40"
-                    android:paddingBottom="@dimen/x88"
+                    android:gravity="left"
                     android:orientation="vertical"
-                    android:gravity="left">
+                    android:paddingTop="@dimen/x40"
+                    android:paddingBottom="@dimen/x88">
+
                     <ImageButton
                         android:layout_width="@dimen/x1235"
                         android:layout_height="@dimen/x640"
                         android:layout_marginLeft="@dimen/x103"
                         android:adjustViewBounds="true"
-                        android:scaleType="centerInside"
                         android:background="@drawable/btn_pressed8"
-                        android:src="@drawable/button_add_pressed">
-                    </ImageButton>
+                        android:scaleType="centerInside"
+                        android:src="@drawable/button_add_pressed"></ImageButton>
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <ImageButton
                             android:id="@+id/ibtn1"
                             android:layout_width="@dimen/x175"
                             android:layout_height="@dimen/x60"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:layout_marginEnd="@dimen/x1100"
                             android:layout_marginTop="@dimen/x40"
-                            android:background="@drawable/ibtn" />
+                            android:layout_marginEnd="@dimen/x1100"
+                            android:background="@drawable/ibtn"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:layout_constraintLeft_toRightOf="@+id/ibtn1"
-                            app:layout_constraintBottom_toBottomOf="@+id/ibtn1"
-                            app:layout_constraintTop_toTopOf="@+id/ibtn1"
                             android:layout_marginStart="@dimen/x750"
                             android:text="2022.1.9"
                             android:textColor="#FF011148"
-                            android:textStyle="normal"/>
+                            android:textStyle="normal"
+                            app:layout_constraintBottom_toBottomOf="@+id/ibtn1"
+                            app:layout_constraintLeft_toRightOf="@+id/ibtn1"
+                            app:layout_constraintTop_toTopOf="@+id/ibtn1" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
                     <ImageButton
                         android:layout_width="@dimen/x1235"
                         android:layout_height="@dimen/x347"
-                        android:layout_marginTop="@dimen/x60"
                         android:layout_marginLeft="@dimen/x103"
+                        android:layout_marginTop="@dimen/x60"
                         android:adjustViewBounds="true"
-                        android:scaleType="centerInside"
                         android:background="@drawable/btn_pressed5"
-                        android:src="@drawable/button_add_pressed">
-                    </ImageButton>
+                        android:scaleType="centerInside"
+                        android:src="@drawable/button_add_pressed"></ImageButton>
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <ImageButton
                             android:id="@+id/ibtn2"
                             android:layout_width="@dimen/x175"
                             android:layout_height="@dimen/x60"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:layout_marginEnd="@dimen/x1100"
                             android:layout_marginTop="@dimen/x40"
+                            android:layout_marginEnd="@dimen/x1100"
+                            android:background="@drawable/ibtn"
                             android:textColor="#FF011148"
-                            android:background="@drawable/ibtn" />
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:layout_constraintLeft_toRightOf="@+id/ibtn2"
-                            app:layout_constraintBottom_toBottomOf="@+id/ibtn2"
-                            app:layout_constraintTop_toTopOf="@+id/ibtn2"
                             android:layout_marginStart="@dimen/x750"
                             android:text="2022.1.7"
                             android:textColor="#FF011148"
-                            android:textStyle="normal"/>
+                            android:textStyle="normal"
+                            app:layout_constraintBottom_toBottomOf="@+id/ibtn2"
+                            app:layout_constraintLeft_toRightOf="@+id/ibtn2"
+                            app:layout_constraintTop_toTopOf="@+id/ibtn2" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
             </LinearLayout>
