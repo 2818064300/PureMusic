@@ -21,6 +21,7 @@ import com.lie.puremusic.ui.fragment.MusicFragment
 import com.lie.puremusic.ui.fragment.ToplistFragment
 import com.lie.puremusic.ui.fragment.VideoFragment
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer
+import com.tencent.mmkv.MMKV
 import es.dmoral.toasty.Toasty
 
 

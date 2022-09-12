@@ -47,12 +47,14 @@ class HomeFragment : BaseFragment() {
     override fun initView() {
         FileDownloader.setup(context)
         update()
-        Thread {
-            while (true) {
-                count++
-                Thread.sleep(10)
-            }
-        }.start()
+        if (StaticData.mmkv.decodeBool("AutoRefresh")) {
+            Thread {
+                while (true) {
+                    count++
+                    Thread.sleep(10)
+                }
+            }.start()
+        }
         binding.Avatar.setOnClickListener {
             startActivity(Intent(activity, InfoActivity::class.java))
         }
@@ -69,7 +71,8 @@ class HomeFragment : BaseFragment() {
                 "http://puremusic.com.cn/Cloud/Music/music" + 1 + ".mp3",
                 -1,
                 -1,
-                "mp3"
+                "mp3",
+                "standard"
             )
             ClickLocalMusic()
         }
@@ -81,7 +84,8 @@ class HomeFragment : BaseFragment() {
                 "http://puremusic.com.cn/Cloud/Music/music" + 2 + ".mp3",
                 -1,
                 -1,
-                "mp3"
+                "mp3",
+                "standard"
             )
             ClickLocalMusic()
         }
@@ -93,7 +97,8 @@ class HomeFragment : BaseFragment() {
                 "http://puremusic.com.cn/Cloud/Music/music" + 3 + ".mp3",
                 -1,
                 -1,
-                "mp3"
+                "mp3",
+                "standard"
             )
             ClickLocalMusic()
         }
@@ -105,7 +110,8 @@ class HomeFragment : BaseFragment() {
                 "http://puremusic.com.cn/Cloud/Music/music" + 4 + ".mp3",
                 -1,
                 -1,
-                "mp3"
+                "mp3",
+                "standard"
             )
             ClickLocalMusic()
         }

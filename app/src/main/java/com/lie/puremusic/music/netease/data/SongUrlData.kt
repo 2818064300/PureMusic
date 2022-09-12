@@ -9,7 +9,8 @@ data class SongUrlData(
         val url: String?,
         val br: Int,
         val size: Long,
-        val type: String?
+        val type: String?,
+        val level:String
     )
 }
 

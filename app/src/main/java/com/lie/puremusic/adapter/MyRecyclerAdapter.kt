@@ -101,21 +101,23 @@ class MyRecyclerAdapter(
                 .load(song?.imageUrl)
                 .into(holder.ivCover)
             ivCover.setOnLongClickListener {
-                Toasty.info(
-                    MainActivity.context,
-                    "正在寻找类似歌曲  " + "\"" + song?.name + "\"",
-                    Toast.LENGTH_SHORT,
-                    true
-                ).show()
+                if(StaticData.mmkv.decodeBool("QuickSearch")) {
+                    Toasty.info(
+                        MainActivity.context,
+                        "正在寻找类似歌曲  " + "\"" + song?.name + "\"",
+                        Toast.LENGTH_SHORT,
+                        true
+                    ).show()
 
-                val intent = Intent(context, LoadingActivity::class.java)
-                intent.putExtra("style", "Search")
-                StaticData.KeyWords = song?.name
-                StaticData.Records.add(Record(StaticData.SelectID, song?.name))
-                StaticData.Root = "网易云音乐"
-                //震动
-                getSystemService(context, Vibrator::class.java)?.vibrate(100)
-                context.startActivity(intent)
+                    val intent = Intent(context, LoadingActivity::class.java)
+                    intent.putExtra("style", "Search")
+                    StaticData.KeyWords = song?.name
+                    StaticData.Records.add(Record(StaticData.SelectID, song?.name))
+                    StaticData.Root = "网易云音乐"
+                    //震动
+                    getSystemService(context, Vibrator::class.java)?.vibrate(100)
+                    context.startActivity(intent)
+                }
                 true
             }
             tvSub.text = song?.artists?.parse()
@@ -135,6 +137,8 @@ class MyRecyclerAdapter(
                             executorService.execute {
                                 ServiceSongUrl.getUrl(song) {
                                     StaticData.SongUrl = it
+                                    println("采样率 " + it?.br)
+                                    println("音质等级 " + it?.level)
                                     FileDownloader.getImpl().create(StaticData.SongUrl?.url)
                                         .setPath(path + "." + StaticData.SongUrl?.type)
                                         .setListener(object : FileDownloadListener() {

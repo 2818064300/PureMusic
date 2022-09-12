@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import androidx.core.content.ContextCompat
 import com.lie.puremusic.standard.data.StandardSongData
+import com.scwang.smart.refresh.layout.util.SmartUtil.dp2px
 import org.json.JSONObject
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -13,6 +14,12 @@ import java.io.StringWriter
  */
 
 
+/**
+ * dp
+ */
+fun Int.dp(): Int {
+    return dp2px(this.toFloat()).toInt()
+}
 
 /**
  * 判断是否是中文字符

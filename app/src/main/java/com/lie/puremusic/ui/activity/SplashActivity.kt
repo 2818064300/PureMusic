@@ -21,6 +21,7 @@ import com.lie.puremusic.pojo.*
 import com.lie.puremusic.standard.data.SOURCE_NETEASE
 import com.lie.puremusic.standard.data.StandardSongData
 import com.lie.puremusic.utils.*
+import com.tencent.mmkv.MMKV
 import es.dmoral.toasty.Toasty
 import java.text.SimpleDateFormat
 import java.util.*
@@ -42,7 +43,6 @@ class SplashActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
         if (Environment.isExternalStorageManager()) {
@@ -51,6 +51,8 @@ class SplashActivity : AppCompatActivity() {
             intent.data = Uri.parse("package:" + this@SplashActivity.packageName)
             startActivityForResult(intent, 1)
         }
+        //初始化MMKV
+        MMKV.initialize(this);
         //初始化权限
         initPermission()
     }
@@ -86,6 +88,7 @@ class SplashActivity : AppCompatActivity() {
                 init()
             } else {
                 startActivity(Intent(this@SplashActivity, TestActivity::class.java))
+                finish()
             }
         }
     }
@@ -123,8 +126,10 @@ class SplashActivity : AppCompatActivity() {
                         val intent = Intent(this@SplashActivity, LoadingActivity::class.java)
                         intent.putExtra("style", "UserInfo")
                         startActivity(intent)
+                        finish()
                     } else {
                         startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                        finish()
                     }
                 }
             }

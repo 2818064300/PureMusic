@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="text" format="string" />
+    <declare-styleable name="TitleBarLayout">
+        <attr name="text" />
+    </declare-styleable>
+    <declare-styleable name="ValueView">
+        <attr name="text" />
+        <attr name="value" format="string" />
+    </declare-styleable>
+    <declare-styleable name="ItemLayout">
+        <attr name="text" />
+        <attr name="itemType" format="integer">
+            <enum name="item_no" value="0" />
+            <enum name="item_goto" value="1" />
+            <enum name="item_menu" value="2" />
+        </attr>
+    </declare-styleable>
+</resources>

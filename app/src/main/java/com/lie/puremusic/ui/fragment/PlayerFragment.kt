@@ -199,8 +199,13 @@ class PlayerFragment : Fragment(), View.OnClickListener {
             }
         }
         binding.ivComment.setOnClickListener {
-            if(!StaticData.isCloud) {
-                startActivity(Intent(activity, com.lie.puremusic.ui.activity.CommentActivity::class.java))
+            if (!StaticData.isCloud) {
+                startActivity(
+                    Intent(
+                        activity,
+                        com.lie.puremusic.ui.activity.CommentActivity::class.java
+                    )
+                )
                 activity?.overridePendingTransition(
                     R.anim.anim_slide_enter_bottom,
                     R.anim.anim_no_anim
@@ -494,7 +499,6 @@ class PlayerFragment : Fragment(), View.OnClickListener {
 
     @SuppressLint("ResourceType")
     private fun initMediaPlayer(url: String, seek: Int) {
-        println(url)
         PlayerActivity.mediaPlayerHelper?.setPath(url)
         PlayerActivity.mediaPlayerHelper?.setOnMeidaPlayerHelperListener(object :
             MediaPlayerHelper.OnMeidaPlayerHelperListener {
@@ -901,7 +905,11 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                         VibrantDark,
                         Muted
                     )
-                    StaticData.SongUrl = SongUrlData.UrlData(-1, url, -1, -1, type)
+                    StaticData.SongUrl = if (type.equals("flac")){
+                        SongUrlData.UrlData(-1, url, -1, -1, type,"lossless")
+                    } else{
+                        SongUrlData.UrlData(-1, url, -1, -1, type,"standard")
+                    }
                     initMediaPlayer(url, Position)
                 } else {
                     CanPlay = true
@@ -914,7 +922,8 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                     "http://puremusic.com.cn/Cloud/Music/music" + (StaticData.Position + 1) + ".mp3",
                     -1,
                     -1,
-                    "mp3"
+                    "mp3",
+                    "standard"
                 )
                 initMediaPlayer(url, Position)
             }
@@ -953,7 +962,8 @@ class PlayerFragment : Fragment(), View.OnClickListener {
                             "http://puremusic.com.cn/Cloud/Music/music" + (index + 1) + ".mp3",
                             -1,
                             -1,
-                            "mp3"
+                            "mp3",
+                            "standard"
                         )
                     } else {
                         StaticData.SongUrl = it

@@ -2,6 +2,7 @@ package com.lie.puremusic.service
 
 import com.google.gson.Gson
 import com.lie.puremusic.StaticData
+import com.lie.puremusic.StaticData.Companion.mmkv
 import com.lie.puremusic.api.CloudMusicApi
 import com.lie.puremusic.data.LyricViewData
 import com.lie.puremusic.music.netease.SongUrl
@@ -30,7 +31,12 @@ object ServiceSongUrl {
                     var url = ""
                     if (url.isEmpty())
                         if (!StaticData.isCloud) {
-                            SongUrl.getSongUrlCookie(song?.id ?: "") {
+                            val level: String = if (mmkv.decodeBool("Hires")) {
+                                "hires"
+                            } else {
+                                "lossless"
+                            }
+                            SongUrl.getSongUrlCookie(song?.id ?: "", level) {
                                 success.invoke(it)
                             }
                         } else {

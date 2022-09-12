@@ -4,14 +4,603 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.SettingActivity">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="这里是设置界面"
-        android:textSize="36dp"
-        app:layout_constraintStart_toStartOf="parent"
+    android:fitsSystemWindows="true">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/style_settings_title"
+                android:text="账号" />
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:id="@+id/itemAccount"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="账号与安全" />
+
+            <TextView
+                style="@style/style_settings_title"
+                android:text="主题" />
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="强制深色背景">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherDarkTheme"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.lie.puremusic.widget.ItemLayout>
+
+            <TextView
+                style="@style/style_settings_title"
+                android:text="自定义背景" />
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:id="@+id/itemCustomBackground"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="自定义主页背景" />
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:id="@+id/itemCleanBackground"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="清除背景" />
+
+
+            <TextView
+                style="@style/style_settings_title"
+                android:text="音乐" />
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:id="@+id/itemAudioFocus"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherAudioFocus"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvAudioFocus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="音乐焦点"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvAudioFocusContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:text="开启后将不会与其他应用一起播放"
+                    android:textColor="#787878"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
+            </com.lie.puremusic.widget.ItemLayout>
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:id="@+id/itemHires"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherHires"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvHires"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Hires音质"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvHiresContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:text="开启后将默认缓存Hires音质播放音乐"
+                    android:textColor="#787878"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
+            </com.lie.puremusic.widget.ItemLayout>
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:id="@+id/itemPlayMode"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherPlayMode"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvPlayMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="缓存播放模式"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvPlayModeContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:text="先缓存音乐再进行播放"
+                    android:textColor="#787878"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
+            </com.lie.puremusic.widget.ItemLayout>
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:visibility="gone"
+                app:itemType="item_no"
+                app:text="拔出耳机后暂停播放">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherPauseSongAfterUnplugHeadset"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.lie.puremusic.widget.ItemLayout>
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="移动网络下播放歌曲">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherPlayOnMobile"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.lie.puremusic.widget.ItemLayout>
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="跳过播放错误歌曲">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherSkipErrorMusic"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </com.lie.puremusic.widget.ItemLayout>
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="自动换源播放">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcher_auto_change_resource"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </com.lie.puremusic.widget.ItemLayout>
+
+            <TextView
+                style="@style/style_settings_title"
+                android:text="本地" />
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="自动匹配网络歌词">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherLocalMusicParseLyric"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </com.lie.puremusic.widget.ItemLayout>
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherSmartFilter"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvFilterSmartFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="智能过滤"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvSmartFilterContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:text="智能过滤掉一些音频文件"
+                    android:textColor="#787878"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
+            </com.lie.puremusic.widget.ItemLayout>
+
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherFilterRecord"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvFilterRecord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="过滤录音文件"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvFilterRecordContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:text="暂仅支持 Flyme"
+                    android:textColor="#787878"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
+            </com.lie.puremusic.widget.ItemLayout>
+
+            <TextView
+                style="@style/style_settings_title"
+                android:text="用户界面" />
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="歌单歌曲滑动动画">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherPlaylistScrollAnimation"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.lie.puremusic.widget.ItemLayout>
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:visibility="gone"
+                app:itemType="item_no"
+                app:text="单列歌单">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherSingleColumnPlaylist"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.lie.puremusic.widget.ItemLayout>
+
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherStatusBarLyric"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvStatusBarLyric"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="状态栏歌词"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvStatusBarLyricContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:text="暂仅支持 Flyme"
+                    android:textColor="#787878"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
+            </com.lie.puremusic.widget.ItemLayout>
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherFineTuning"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvFineTuning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="精细调节"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvFineTuningContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:text="音乐界面音量控制的精细调节"
+                    android:textColor="#787878"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
+            </com.lie.puremusic.widget.ItemLayout>
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:id="@+id/itemLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="切换语言" />
+
+            <TextView
+                style="@style/style_settings_title"
+                android:text="缓存" />
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:id="@+id/itemDownloadManager"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="存储空间管理" />
+
+            <com.lie.puremusic.widget.ValueView
+                android:id="@+id/valueViewImageCache"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="图片缓存" />
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:id="@+id/itemClearImageCache"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="清除图片缓存" />
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:id="@+id/valueHttpCache"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="本地歌单缓存" />
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:id="@+id/itemClearHttpCache"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="清除本地歌单缓存" />
+
+            <TextView
+                style="@style/style_settings_title"
+                android:text="其他" />
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:id="@+id/itemAutoRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherAutoRefresh"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvAutoRefresh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="首页自动刷新"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvAutoRefreshContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:text="开启后首页歌单将每隔45秒进行自动刷新"
+                    android:textColor="#787878"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
+            </com.lie.puremusic.widget.ItemLayout>
+
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="歌曲快捷搜索">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherQuickSearch"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.lie.puremusic.widget.ItemLayout>
+
+            <TextView
+                style="@style/style_settings_title"
+                android:text="服务" />
+
+            <com.lie.puremusic.widget.ItemLayout
+                android:id="@+id/itemNeteaseCloudMusicApi"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                app:text="NeteaseCloudMusicApi" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.lie.puremusic.widget.TitleBarLayout
+        android:id="@+id/titleBar"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:text="设置">
+
+    </com.lie.puremusic.widget.TitleBarLayout>
+
+    <include
+        android:id="@+id/miniPlayer"
+        layout="@layout/mini_player"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/x80"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
