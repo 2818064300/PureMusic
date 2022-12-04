@@ -335,10 +335,12 @@ class PlayerFragment : Fragment(), View.OnClickListener {
             binding.TvEnd.text = calculateTime(0)
         }
         if (StaticData.SongUrl != null) {
-            StaticData.Songs?.let {
-                ServiceSongUrl.getLyric(it) {
-                    StaticData.SongLrc = it
-                    binding.LrcView.loadLyric(it.lyric, it.secondLyric)
+            if(!StaticData.isCloud){
+                StaticData.Songs?.let {
+                    ServiceSongUrl.getLyric(it) {
+                        StaticData.SongLrc = it
+                        binding.LrcView.loadLyric(it.lyric, it.secondLyric)
+                    }
                 }
             }
             if (StaticData.PlayDataEx?.VibrantLight != null && StaticData.PlayDataEx?.Vibrant != null) {

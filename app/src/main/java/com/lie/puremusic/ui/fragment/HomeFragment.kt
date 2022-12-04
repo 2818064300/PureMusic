@@ -169,6 +169,7 @@ class HomeFragment : BaseFragment() {
 
     private fun refreshSingerRecommend() {
         SingerRecommend.getSingerRecommend(requireContext()) {
+
             runOnMainThread {
                 val Singer: ArrayList<SingerRecommend.SingerRecommendDataResult> = ArrayList()
                 for (i in 0..4) {

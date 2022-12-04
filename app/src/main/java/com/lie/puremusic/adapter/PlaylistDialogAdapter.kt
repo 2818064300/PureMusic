@@ -11,6 +11,7 @@ import com.lie.puremusic.R
 import com.lie.puremusic.StaticData
 import com.lie.puremusic.standard.data.StandardSongData
 import com.lie.puremusic.utils.parse
+import com.lie.puremusic.utils.runOnMainThread
 
 /**
  * 播放列表适配器
@@ -38,6 +39,16 @@ class PlaylistDialogAdapter(private val list: ArrayList<StandardSongData>?): Rec
         } else {
             holder.tvName.setTextColor(ContextCompat.getColor(holder.tvName.context, R.color.colorTextForeground))
             holder.tvArtist.setTextColor(ContextCompat.getColor(holder.tvName.context, R.color.colorTextForeground))
+        }
+        holder.clSong.setOnClickListener {
+            StaticData.Songs = list?.get(position)
+            if (songData == StaticData.Songs) {
+                holder.tvName.setTextColor(ContextCompat.getColor(holder.tvName.context, R.color.blue))
+                holder.tvArtist.setTextColor(ContextCompat.getColor(holder.tvName.context, R.color.blue))
+            } else {
+                holder.tvName.setTextColor(ContextCompat.getColor(holder.tvName.context, R.color.colorTextForeground))
+                holder.tvArtist.setTextColor(ContextCompat.getColor(holder.tvName.context, R.color.colorTextForeground))
+            }
         }
 
         holder.tvName.text = songData?.name

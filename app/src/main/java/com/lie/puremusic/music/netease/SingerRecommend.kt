@@ -3,6 +3,7 @@ package com.lie.puremusic.music.netease
 import android.content.Context
 import com.google.gson.Gson
 import com.lie.puremusic.api.API_AUTU
+import com.lie.puremusic.api.API_DEFAULT
 import com.lie.puremusic.utils.MagicHttp
 
 /**
@@ -12,7 +13,7 @@ object SingerRecommend {
 
     fun getSingerRecommend(context: Context, success: (ArrayList<SingerRecommendDataResult>) -> Unit) {
 
-        val url = "${API_AUTU}/top/artists?limit=5"
+        val url = "${API_DEFAULT}/top/artists?limit=5"
 
         MagicHttp.OkHttpManager().getByCache(context, url, {
             try {

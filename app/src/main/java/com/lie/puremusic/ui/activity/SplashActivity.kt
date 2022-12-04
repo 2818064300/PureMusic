@@ -52,7 +52,7 @@ class SplashActivity : AppCompatActivity() {
             startActivityForResult(intent, 1)
         }
         //初始化MMKV
-        MMKV.initialize(this);
+        MMKV.initialize(this)
         //初始化权限
         initPermission()
     }
@@ -139,7 +139,7 @@ class SplashActivity : AppCompatActivity() {
                 }
             }
             pools.submit(Runnable {
-                for (i in 1..5) {
+                for (i in 1..8) {
                     var name: String? = null
                     val standardArtistDataList = ArrayList<StandardSongData.StandardArtistData>()
                     if (i == 1) {
@@ -179,6 +179,30 @@ class SplashActivity : AppCompatActivity() {
                         val standardArtistData = StandardSongData.StandardArtistData(
                             -1,
                             "等什么君"
+                        )
+                        standardArtistDataList.add(standardArtistData)
+                    }
+                    if (i == 6) {
+                        name = "七里香"
+                        val standardArtistData = StandardSongData.StandardArtistData(
+                            -1,
+                            "九三 (cover: 周杰伦)"
+                        )
+                        standardArtistDataList.add(standardArtistData)
+                    }
+                    if (i == 7) {
+                        name = "花海"
+                        val standardArtistData = StandardSongData.StandardArtistData(
+                            -1,
+                            "九三 (cover: 周杰伦)"
+                        )
+                        standardArtistDataList.add(standardArtistData)
+                    }
+                    if (i == 8) {
+                        name = "是心动呀"
+                        val standardArtistData = StandardSongData.StandardArtistData(
+                            -1,
+                            "原来是萝卜呀"
                         )
                         standardArtistDataList.add(standardArtistData)
                     }

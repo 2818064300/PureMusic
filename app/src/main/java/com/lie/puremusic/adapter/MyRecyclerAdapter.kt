@@ -91,11 +91,8 @@ class MyRecyclerAdapter(
             if (song?.neteaseInfo?.fee == 4) {
                 holder.tv3.text = "数字专辑"
             }
-            if (song?.neteaseInfo?.fee == 8) {
+            if (song?.neteaseInfo?.maxbr == 8) {
                 holder.tv3.text = "无损歌曲"
-            }
-            if (song?.neteaseInfo?.fee == 9) {
-                holder.tv3.text = "QQ 音乐"
             }
             Glide.with(context)
                 .load(song?.imageUrl)

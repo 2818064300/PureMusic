@@ -56,6 +56,8 @@
                 android:textColor="#FF171837"
                 android:textSize="10dp"
                 android:textStyle="bold"
+                android:singleLine="true"
+                android:maxWidth="@dimen/x360"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivCover" />
 
@@ -69,6 +71,8 @@
                 android:textColor="#FF8a8d9c"
                 android:textSize="8dp"
                 android:textStyle="normal"
+                android:singleLine="true"
+                android:maxWidth="@dimen/x360"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/Card_tv1" />
 
